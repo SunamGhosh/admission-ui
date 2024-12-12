@@ -1,0 +1,7 @@
+{
+  "name": "admission-ui",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
