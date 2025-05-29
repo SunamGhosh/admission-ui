@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+   
+    <ion-title style="text-align: center;">Course Structure</ion-title>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let item of structureList">
+      <ion-label>
+        <!-- <h3> {{ getSemesterName(item.semester_id) }}</h3>
+        <p>{{ item.file_name }}</p> -->
+
+        <ng-container *ngIf="isPDF(item.file_path)">
+          <iframe [src]="getSafeUrl(item.file_path)" width="100%" height="620px"></iframe>
+        </ng-container>
+
+        <ng-container *ngIf="isImage(item.file_path)">
+          <img [src]="getSafeUrl(item.file_path)" width="100%" />
+        </ng-container>
+
+        <ion-button expand="block" [href]="getSafeUrl(item.file_path)" download>
+          Download
+        </ion-button>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,910 @@
+<ion-header>
+  <!-- <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-label>Select University</ion-label>
+  <ion-select
+    placeholder="Choose University"
+    [(ngModel)]="selectedUniversity"
+    (ionChange)="onUniversityChange($event)">
+    <ion-select-option *ngFor="let university of universities" [value]="university">
+      {{ university.university_name }}
+    </ion-select-option>
+  </ion-select>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>Back
+    </ion-buttons>
+    <ion-title style="text-align: center; color: #fff;"><h2>Admission Details</h2></ion-title>
+  </ion-toolbar> -->
+  <ion-toolbar color="tertiary">
+  
+    <ion-title style="text-align: center;">Admission </ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+
+
+  <!-- <ion-card>
+    <ion-card-header>
+      <ion-card-title>Filter Criteria</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Session</ion-label>
+        <ion-select [(ngModel)]="filter.session_id" placeholder="Select Session">
+          <ion-select-option *ngFor="let session of st" [value]="session.id">
+            {{ session.session_name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Course</ion-label>
+        <ion-select [(ngModel)]="filter.course_id" placeholder="Select Course">
+          <ion-select-option *ngFor="let course of co" [value]="course.id">
+            {{ course.course_name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Search by Roll No.</ion-label>
+        <ion-input [(ngModel)]="searchTerm" placeholder="Enter Roll No"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" (click)="generateMISReport()">Generate MIS Report</ion-button>
+    </ion-card-content>
+  </ion-card> -->
+
+  <!-- Download Section -->
+  <!-- <ion-card *ngIf="misFilePath">
+    <ion-card-header>
+      <ion-card-title>Download MIS Report</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>File Ready:</ion-label>
+        <ion-text color="success">{{ misFilePath.split('/').pop() }}</ion-text>
+      </ion-item>
+      <ion-button expand="block" color="primary" (click)="downloadMISReport()">Download Report</ion-button>
+    </ion-card-content>
+  </ion-card> -->
+  <!-- Container for Left Side (Table) and Right Side (Button) -->
+  <div class="user-management-container" >
+    <div class="user-table-section">
+      <!-- Searchbar for filtering users -->
+     <!-- Searchbar for filtering users -->
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterUsers()" 
+  placeholder="Search Users and by ROLL NO." debounce="300" 
+  style="--background: #f1f1f1; margin-bottom: 10px;">
+</ion-searchbar>
+
+<!-- Course and Semester Selection Dropdowns -->
+<!-- Course, Semester, and Session Selection Dropdowns -->
+<div class="filter-section">
+  <div class="filter-row">
+    <!-- Session Selection -->
+    <div class="filter-group">
+      <label style="color: white;">Select Session</label>
+      <select class="w3-select w3-border" [(ngModel)]="selectedSession" (change)="filterUsers()">
+        <option value="">None (All Session)</option>
+        <option *ngFor="let s of st" [value]="s.id">{{ s.session_name }}</option>
+      </select>
+    </div>
+    <!-- Course Selection -->
+    <div class="filter-group">
+      <label style="color: white;">Select Course</label>
+      <select class="w3-select w3-border" [(ngModel)]="selectedCourse" (change)="filterUsers()" >
+        <option value="">None (All Courses)</option>
+        <option *ngFor="let c of co" [value]="c.id">{{ c.course_name }}</option>
+      </select>
+    </div>
+
+    <!-- Semester Selection -->
+    <div class="filter-group">
+      <label style="color: white;">Select Semester</label>
+      <select class="w3-select w3-border" [(ngModel)]="selectedSemester" (change)="filterUsers()">
+        <option value="">None (All Semesters)</option>
+        <option *ngFor="let se of sem" [value]="se.id">{{ se.semester_name }}</option>
+      </select>
+    </div>
+
+    
+  </div>
+</div>
+
+<!-- Download Excel Button -->
+<ion-button color="primary" (click)="downloadStudentExcel()" expand="block" style="margin-top: 10px;">
+  <ion-icon name="download-outline" slot="start"></ion-icon>
+  Download Student Excel
+</ion-button>
+
+
+      <!-- User List Table -->
+      <ion-card class="user-list-card">
+        <ion-card-header>
+        
+          <ion-card-title style="margin-bottom: -400px;">Student List</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-card-content>
+  <div >
+    <style>
+     
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 12% 17% 25% 20% 20% 8%;
+ 
+}
+
+.grid-header,
+.grid-row {
+  display: contents;
+}
+
+.grid-item {
+  padding: 8px;
+  border: 1px solid #ccc;
+  text-align: center;
+ 
+}
+
+.grid-header .grid-item {
+  background-color: purple;
+  font-weight: bold;
+  color: white;
+}
+
+
+
+    </style>
+    
+    <div >
+      <div class="grid-container">
+        <!-- Header Row -->
+        <div class="grid-header">
+          <div class="grid-item">Sl.No</div>
+          <div class="grid-item">Roll No.</div>
+          <div class="grid-item">Name</div>
+          <div class="grid-item">Course</div>
+          <div class="grid-item">Semester</div>
+          <div class="grid-item"></div>
+        </div>
+    
+        <!-- User Rows -->
+        <div *ngFor="let user of paginatedUsers; let i = index" class="grid-row">
+          <div class="grid-item">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</div>
+          <div class="grid-item">{{ user.roll_no }}</div>
+          <div class="grid-item">{{ user.first_name }} {{ user.last_name }}</div>
+          <div class="grid-item">{{ getCourseName(user.course_id) }}</div>
+          <div class="grid-item">{{ getsemesterName(user.semester_id) }}</div>
+          <div class="grid-item">
+            <ion-icon name="pencil-outline" color="danger" (click)="editUser(user)"></ion-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="pagination-controls" style="text-align: center; margin-top: 10px;">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+      
+        <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+          <button (click)="goToPage(i + 1)" [disabled]="currentPage === i + 1">
+            {{ i + 1 }}
+          </button>
+        </ng-container>
+      
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      </div>
+      
+    </div>
+    
+  </div>
+</ion-card-content>
+
+          
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Right Side: Add New User Button -->
+    <div class="add-user-section">
+      <ion-content class="ion-padding" >
+        <!-- Admission Details Section -->
+        <ion-card class="card-style admission-card" style="background-color: pink;color: black; ">
+          <div *ngIf="selectedUniversity" >
+         
+            
+            <ion-card-title style="color: black">{{ selectedUniversity.university_name }}</ion-card-title>
+        
+        
+      </div>
+          <ion-card-header>
+
+            <div style="text-align: center; margin-bottom: 10px; font-size: 1.2rem; color:black ;margin-bottom: -10px;" >
+              Form No.: {{ newUser.id || 'Loading...' }}
+            </div>
+          
+          </ion-card-header>
+          <style>
+            .w3-input, .w3-select {
+              border-radius: 0 !important;
+            }
+          </style>
+          
+          <div class="w3-container">
+            <table class="w3-table w3-white">
+              <tr>
+                <td class="w3-border w3-padding" style="margin-left: 10px;">
+                  <label>Roll No.</label>
+                  <input class="w3-input" type="text" pattern="[0-9]*" (input)="onroll_no()" maxlength="5"
+                    [(ngModel)]="newUser.roll_no" [(ngModel)]="selectedUser.roll_no" style="margin-left: -10px;">
+                </td>
+          
+                <td class="w3-border w3-padding">
+                  <label>Select Session</label>
+                  <select class="w3-select w3-border" [(ngModel)]="newUser.session_id" [(ngModel)]="selectedUser.session_id">
+                    <option value="" disabled selected>Select Session</option>
+                    <option *ngFor="let s of st" [value]="s.id">{{ s.session_name }}</option>
+                  </select>
+                </td>
+          
+                <td class="w3-border w3-padding">
+                  <label>Select Course</label>
+                  <select class="w3-select w3-border" [(ngModel)]="newUser.course_id" [(ngModel)]="selectedUser.course_id">
+                    <option value="" disabled selected>Select Course</option>
+                    <option *ngFor="let c of co" [value]="c.id">{{ c.course_name }}</option>
+                  </select>
+                </td>
+          
+                <td class="w3-border w3-padding">
+                  <label>Select Semester</label>
+                  <select class="w3-select w3-border" [(ngModel)]="newUser.semester_id" [(ngModel)]="selectedUser.semester_id">
+                    <option value="" disabled selected>Select Semester</option>
+                    <option *ngFor="let se of sem" [value]="se.id">{{ se.semester_name }}</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+          </div>
+          
+                
+      
+        </ion-card>
+  
+        <!-- Personal Details Section -->
+        <ion-card class="w3-card w3-padding" style="background-color:#AFEEEE; color: black;">
+          <ion-card-header>
+            <ion-card-title class="w3-center w3-large">Personal Details</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+        
+            <div class="w3-row">
+              <!-- First Name -->
+              <div class="w3-col l3 w3-padding">
+                <label>First Name</label>
+                <input class="w3-input w3-border" type="text" placeholder="First Name" [(ngModel)]="newUser.first_name" 
+                [(ngModel)]="selectedUser.first_name"  (keypress)="allowOnlyLetters($event)">
+              </div>
+        
+              <!-- Last Name -->
+              <div class="w3-col l3 w3-padding">
+                <label>Last Name</label>
+                <input class="w3-input w3-border" type="text" placeholder="Last Name" [(ngModel)]="newUser.last_name" [(ngModel)]="selectedUser.last_name"
+                (keypress)="allowOnlyLetters($event)">
+              </div>
+        
+              <!-- Father’s Name -->
+              <div class="w3-col l3 w3-padding">
+                <label>Father Name</label>
+                <input class="w3-input w3-border" type="text" placeholder="Father's Name"
+                  [(ngModel)]="newUser.father_name"
+                  name="fatherName"
+                  #fatherName="ngModel"
+                  required
+                  (keypress)="allowOnlyLetters($event)">
+              </div>
+            </div>
+        
+            <div class="w3-row">
+              <!-- Mother's Name -->
+              <div class="w3-col l3 w3-padding">
+                <label>Mother Name</label>
+                <input class="w3-input w3-border" type="text" placeholder="Mother's Name"
+                  [(ngModel)]="newUser.mother_name"
+                  (keypress)="allowOnlyLetters($event)">
+              </div>
+              <!-- Date of Birth -->
+              <div class="w3-col l3 w3-padding">
+                <label>Date of Birth</label>
+                <input class="w3-input w3-border" type="date" [(ngModel)]="newUser.DOB" [(ngModel)]="selectedUser.DOB">
+              </div>
+        
+              <!-- Gender -->
+              <div class="w3-col l3 w3-padding">
+                <label>Gender</label>
+                <select class="w3-select w3-border" [(ngModel)]="newUser.gender" [(ngModel)]="selectedUser.gender">
+                  <option value="" disabled selected>Select Gender</option>
+                  <option value="MALE">Male</option>
+                  <option value="FEMALE">Female</option>
+                  <option value="OTHERS">Others</option>
+                </select>
+              </div>
+            </div>
+        
+            <div class="w3-row">
+              <!-- Blood Group -->
+              <div class="w3-col l3 w3-padding">
+                <label>Blood Group</label>
+                <select class="w3-select w3-border" [(ngModel)]="newUser.blood_group" [(ngModel)]="selectedUser.blood_group">
+                  <option value="" disabled selected>Select Blood Group</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+              </div>
+        
+              <!-- Identification Mark -->
+              <div class="w3-col l3 w3-padding">
+                <label>Identification Marks</label>
+                <input class="w3-input w3-border" type="text" placeholder="Identification Mark" [(ngModel)]="newUser.identification_mark" [(ngModel)]="selectedUser.identification_mark">
+              </div>
+        
+              <!-- Caste Category -->
+              <div class="w3-col l3 w3-padding">
+                <label>Caste Categopry</label>
+                <select class="w3-select w3-border" [(ngModel)]="newUser.caste_category" [(ngModel)]="selectedUser.caste_category">
+                  <option value="" disabled selected>Caste Category</option>
+                  <option value="Genral">General</option>
+                  <option value="OBC">OBC</option>
+                  <option value="SC">SC</option>
+                  <option value="ST">ST</option>
+                  <option value="PWD">PWD</option>
+                </select>
+              </div>
+            </div>
+        
+            <div class="w3-row">
+              <!-- Marital Status -->
+              <div class="w3-col l3 w3-padding">
+                <label>Martial Status</label>
+                <select class="w3-select w3-border" [(ngModel)]="newUser.martial_status" [(ngModel)]="selectedUser.martial_status">
+                  <option value="" disabled selected>Marital Status</option>
+                  <option value="Single">Single</option>
+                  <option value="Married">Married</option>
+                </select>
+              </div>
+        
+              <!-- Aadhar Number -->
+              <div class="w3-col l3 w3-padding">
+                <label>Aadhar No.</label>
+                <input class="w3-input w3-border" type="text" maxlength="12" placeholder="Aadhar No." [(ngModel)]="newUser.aadhar_card" 
+                [(ngModel)]="selectedUser.aadhar_card">
+              </div>
+            </div>
+        
+          </ion-card-content>
+        </ion-card>
+        
+        
+  
+        <!-- Contact Details Section -->
+        <ion-card class="w3-card w3-padding " style="background-color: lightyellow">
+          <ion-card-header>
+            <ion-card-title class="w3-center w3-large">Contact Details</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+        
+            <div class="w3-row">
+              <!-- Phone (Sim1) -->
+              <div class="w3-col l3 w3-padding">
+                <label>Phone (Sim1)</label>
+                <ion-input class="w3-input w3-border" type="text" pattern="[0-9]*" maxlength="10" 
+                  placeholder="Phone (Sim1)" (input)="onnumber()" [(ngModel)]="newUser.mobile" [(ngModel)]="selectedUser.mobile"></ion-input>
+              </div>
+        
+              <!-- Phone (Sim2) -->
+              <div class="w3-col l3 w3-padding">
+                <label>Phone (Sim2)</label>
+                <ion-input class="w3-input w3-border" type="text" pattern="[0-9]*" maxlength="10" 
+                  placeholder="Phone (Sim2)" (input)="onnumber1()" [(ngModel)]="newUser.mobile_two" [(ngModel)]="selectedUser.mobile_two">
+                </ion-input></div>
+        
+              <!-- WhatsApp Number -->
+              <div class="w3-col l3 w3-padding">
+                <label>WhatsApp No.</label>
+                <ion-input class="w3-input w3-border" type="text" pattern="[0-9]*" maxlength="10" 
+                  placeholder="WhatsApp No." (input)="onnumberwhatsapp()" [(ngModel)]="newUser.mobile_whatsapp" [(ngModel)]="selectedUser.mobile_whatsapp">
+                </ion-input>  </div>
+            </div>
+        
+            <div class="w3-row">
+              <!-- Father's Phone -->
+              <div class="w3-col l3 w3-padding">
+                <label>Phone (Father)</label>
+                <ion-input class="w3-input w3-border" type="text" pattern="[0-9]*" maxlength="10" 
+                  placeholder="Father's Phone" (input)="onnumberfatherandmother()" [(ngModel)]="newUser.father_phone" [(ngModel)]="selectedUser.father_phone">
+                </ion-input> </div>
+        
+              <!-- Mother's Phone -->
+              <div class="w3-col l3 w3-padding">
+                <label>Phone (Mother)</label>
+                <ion-input class="w3-input w3-border" type="text" pattern="[0-9]*" maxlength="10" 
+                  placeholder="Mother's Phone" (input)="onnumberfatherandmother()" [(ngModel)]="newUser.mother_phone" [(ngModel)]="selectedUser.mother_phone">
+                </ion-input></div>
+        
+              <!-- Email ID -->
+              <div class="w3-col l3 w3-padding">
+                <label>Email ID</label>
+                <ion-input class="w3-input w3-border" type="email" placeholder="Email ID" 
+                  (ionInput)="validateEmail()" [(ngModel)]="newUser.email" [(ngModel)]="selectedUser.email">
+                <p style="color: red;background-color: white;" *ngIf="emailError">{{ emailError }}</p>
+                </ion-input></div>
+            </div>
+        
+            <div class="w3-row">
+              <!-- Password -->
+              <div class="w3-col l3 w3-padding">
+                <label>Password</label>
+                <input class="w3-input w3-border" type="password" placeholder="Password" [(ngModel)]="newUser.password">
+              </div>
+            </div>
+        
+          </ion-card-content>
+        </ion-card>
+        
+
+       
+        
+        <div class="w3-container w3-pale-red w3-card">
+          <ion-card-title class="w3-center w3-large" style="margin: 10px 0 10px 0;">Address Details</ion-card-title>
+        
+          <div class="w3-card w3-white w3-border w3-padding">
+            <div class="w3-row w3-padding w3-center">
+              <div class="w3-col l5 m6 s12">
+                <h3 class="w3-pale-red w3-padding">Temporary Address</h3>
+              </div>
+              <div class="w3-col l5 m6 s12">
+                <h3 class="w3-pale-red w3-padding">Permanent Address</h3>
+              </div>
+            </div>
+        
+            <div class="w3-row">
+              <!-- Temporary Address -->
+              <div class="w3-col l5 m6 s12 w3-padding">
+                <div class="w3-row">
+                  <div class="w3-col l5 s12">
+                    <div class="form-group">
+                      <label>House No.</label>
+                      <input class=" w3-border" type="text" [(ngModel)]="temporaryAddress.house_no">
+                    </div>
+                  </div>
+                  <div class="w3-col l4 s12">
+                    <div class="form-group">
+                      <label>Pincode</label>
+                      <input class="w3-border" type="text" [(ngModel)]="pincode" (ngModelChange)="onPincodeChange()">
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="w3-row">
+                  <div class="w3-col l4 s12">
+                    <div class="form-group">
+                      <label>Locality</label>
+                      <select class="w3-input w3-border" [(ngModel)]="temporaryAddress.locality">
+                        <option *ngFor="let loc of localityList" [value]="loc">{{ loc }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="w3-col l4 s12">
+                    <div class="form-group">
+                      <label>Area</label>
+                      <select class=" w3-input w3-border" [(ngModel)]="temporaryAddress.area">
+                        <option *ngFor="let area of areaList" [value]="area">{{ area }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="w3-row">
+                  <div class="w3-col l6">
+                    <div class="form-group">
+                      <label>State</label>
+                      <input class="w3-border" type="text" [(ngModel)]="temporaryAddress.state">
+                      {{getStateName(temporaryAddress.state)}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+              <!-- Permanent Address -->
+              <div class="w3-col l5 m6 s12 w3-padding">
+                <div class="w3-row">
+                  <div class="w3-col l5 s12">
+                    <div class="form-group">
+                      <label>House No.</label>
+                      <input class=" w3-border" type="text" [(ngModel)]="permanentAddress.house_no">
+                    </div>
+                  </div>
+                  <div class="w3-col l4 s12">
+                    <div class="form-group">
+                      <label>Pincode</label>
+                      <input class="w3-border" type="text" [(ngModel)]="permanentAddress.pin">
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="w3-row">
+                  <div class="w3-col l4 s12">
+                    <div class="form-group">
+                      <label>Locality</label>
+                      <input class=" w3-input w3-border" type="text" [(ngModel)]="permanentAddress.locality">
+                    </div>
+                  </div>
+                  <div class="w3-col l4 s12">
+                    <div class="form-group">
+                      <label>Area</label>
+                      <input class=" w3-input w3-border" type="text" [(ngModel)]="permanentAddress.area">
+                    </div>
+                  </div>
+                </div>
+        
+               <div class="w3-row">
+                <div class="w3-col l6">
+                  <div class="form-group">
+                    <label>State</label>
+                    <input class="w3-border" type="text" [(ngModel)]="permanentAddress.state">
+                    {{getStateName(permanentAddress.state)}}
+                  </div>
+                </div>
+
+               </div>
+              </div>
+            </div>
+        
+            <!-- Checkbox for Same Address -->
+            <div class="w3-row w3-padding w3-center">
+              <label>
+                <input class="w3-check" type="checkbox" [(ngModel)]="sameAsTemporary" (change)="copyAddress()"> Same as Temporary
+              </label>
+            </div>
+          </div>
+        </div>
+        
+
+        <ion-card class=" address-card" style="background-color: #eaf4f4; padding: 0; margin: 0;">
+          <ion-card-header>
+            <ion-card-title class="card-title">Academics Qualification</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            <ion-grid style="padding: 0; margin: 0;">
+              <!-- Inputs Section -->
+              <div class="w3-row w3-center  w3-bold">
+                <!-- Qualification -->
+                <div class="w3-col m4 w3-white">
+                  <label> Select Qualification</label>
+                  <select class="w3-select"  [(ngModel)]="newUser.qualification" [(ngModel)]="selectedUser.qualification">
+                    <option value="" disabled selected>Select Qualification</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                    <option value="Graduate">Graduate</option>
+                    <option value="Diploma">Diploma</option>
+                  </select>
+                </div>
+              
+                <div class="w3-col m3 w3-white w3-border">
+                  <label>Last Registration No</label>
+                 
+                    <input class=" w3-border" type="text" [(ngModel)]="newUser.registration_no" [(ngModel)]="selectedUser.registration_no">
+                   </div>
+              
+                <div class="w3-col m4 w3-white w3-border">
+                  <label >Subject</label>
+                  <select class="w3-select" [(ngModel)]="newUser.subject_in_10_2" [(ngModel)]="selectedUser.subject_in_10_2">
+                    <option value="" disabled selected>Select Subject</option>
+                    <option value="Physics Chemistry Math">Physics Chemistry Math</option>
+                    <option value="Physics Chemistry Biology">Physics Chemistry Biology</option>
+                    <option value="Commerce with Maths">Commerce with Math</option>
+                    <option value="Commerce with Hindi">Commerce with Hindi</option>
+                  </select>
+                </div>
+              </div>
+              
+        
+            
+              <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: center;">
+                  <thead>
+                    <tr style="font-weight: bold; color: black;">
+                      <th style="border: 1px solid black;">Exam</th>
+                      <th style="border: 1px solid black; width: 10%;">Passing Year</th>
+                      <th style="border: 1px solid black; width: 25%;">Board</th>
+                      <th style="border: 1px solid black; width: 10%;">Marks/Total</th>
+                      <th style="border: 1px solid black; width: 25%;">Division</th>
+                      <th style="border: 1px solid black; width: 10%;">Percentage</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- 10th Row -->
+                    <tr  *ngIf="newUser.qualification == '10' || newUser.qualification == '12'">
+                      <td style="border: 1px solid grey;">10<sup>th</sup></td>
+                      <td style="border: 1px solid grey;">
+                        <ion-input type="date" [(ngModel)]="newUser.passing_year_ten"></ion-input>
+                      </td>
+                      <td style="border: 1px solid grey;">
+                        <ion-select [(ngModel)]="newUser.board" interface="popover">
+                          <ion-select-option value="ICSE">ICSE</ion-select-option>
+                          <ion-select-option value="CBSE">CBSE</ion-select-option>
+                          <ion-select-option value="JAC">JAC</ion-select-option>
+                        </ion-select>
+                      </td>
+                      <td style="border: 1px solid grey;">
+                        <ion-input type="text" [(ngModel)]="newUser.marks_ten"></ion-input>
+                      </td>
+                      <td style="border: 1px solid grey;">
+                        <ion-select [(ngModel)]="newUser.division" interface="popover">
+                          <ion-select-option value="First">First</ion-select-option>
+                          <ion-select-option value="Second">Second</ion-select-option>
+                          <ion-select-option value="Third">Third</ion-select-option>
+                        </ion-select>
+                      </td>
+                      <td style="border: 1px solid grey;">
+                        <ion-input type="text" [(ngModel)]="newUser.marks_ten"></ion-input>
+                      </td>
+                    </tr>
+              
+                    <!-- 12th Row -->
+                    <tr *ngIf="newUser.qualification == '12'">
+                      <td style="border: 1px solid grey;">12<sup>th</sup></td>
+                      <td style="border: 1px solid grey;">
+                        <ion-input type="date" [(ngModel)]="newUser.passing_year_twelve"></ion-input>
+                      </td>
+                      <td style="border: 1px solid grey;">
+                        <ion-select [(ngModel)]="newUser.board" interface="popover">
+                          <ion-select-option value="ICSE">ICSE</ion-select-option>
+                          <ion-select-option value="CBSE">CBSE</ion-select-option>
+                          <ion-select-option value="JAC">JAC</ion-select-option>
+                        </ion-select>
+                      </td>
+                      <td style="border: 1px solid grey;">
+                        <ion-input type="text" [(ngModel)]="newUser.marks_twelve"></ion-input>
+                      </td>
+                      <td style="border: 1px solid grey;">
+                        <ion-select [(ngModel)]="newUser.division" interface="popover">
+                          <ion-select-option value="First">First</ion-select-option>
+                          <ion-select-option value="Second">Second</ion-select-option>
+                          <ion-select-option value="Third">Third</ion-select-option>
+                        </ion-select>
+                      </td>
+                      <td style="border: 1px solid grey;">
+                        <ion-input type="text" [(ngModel)]="newUser.percentage_in_10_2"></ion-input>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+        
+        
+                <!-- <ion-card class="card-style address-card" style="margin-left: 160px;">
+                  <ion-card-header>
+                    <ion-card-title class="card-title">Upload your Profile Pic</ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content>
+                  </ion-card-content> -->
+                  
+               <!-- <ion-col size="12" size-md="4">
+                <ion-item>
+                  <ion-label >Form No:
+                    <ion-input [(ngModel)]="userId" type="text" [value]="newUser.id || 'Loading...'"></ion-input>
+                </ion-label>
+                </ion-item>
+               </ion-col> -->
+              
+                <!-- File Input -->
+               <!-- <ion-col size="12" size-md="4">
+                <ion-item>
+                  <ion-label>Upload File
+                  <input type="file" (change)="onFileSelected($event)" />
+                </ion-label>
+                </ion-item>
+               </ion-col> -->
+
+               <!-- Image Preview -->
+<!-- <div *ngIf="imagePreview" class="image-preview-container">
+  <h3>Image Preview:</h3>
+  <img [src]="imagePreview" alt="Selected Image" class="image-preview" />
+</div> -->
+
+              
+                <!-- Upload Button -->
+                <!-- <ion-button expand="block" color="primary" (click)="uploadFile()">Upload File</ion-button>
+     
+                </ion-card> -->
+              
+
+          
+              <!-- </ion-row>
+          </ion-grid> -->
+          <div class="w3-card w3-white w3-margin">
+            <div class="w3-container w3-padding w3-blue">
+              <h3>Upload Your Documents</h3>
+            </div>
+            <div class="w3-container ">
+              <div class="w3-row w3-border-bottom w3-padding">
+                <div class="w3-col s4"><strong>Document Type</strong></div>
+                <div class="w3-col s1"><strong>Form No.</strong></div>
+                <div class="w3-col s3"><strong>Upload File</strong></div>
+                <div class="w3-col s1"><strong>Action</strong></div>
+              </div>
+          
+              <!-- 12th Marksheet -->
+              <div class="w3-row w3-padding w3-border-bottom">
+                <div class="w3-col s4">12th Marksheet</div>
+                <div class="w3-col s1">
+                  <input class="w3-input w3-border" type="text" [(ngModel)]="userId" readonly>
+                </div>
+                <div class="w3-col s4">
+                  <input class="w3-input w3-border" type="file" (change)="onPdfSelect($event)" accept="application/pdf">
+                </div>
+                <div class="w3-col s1">
+                  <button class="w3-button w3-green w3-block" (click)="uploadPdf()">Upload</button>
+                </div>
+              </div>
+          
+              <!-- 10th Marksheet -->
+              <div class="w3-row w3-padding w3-border-bottom">
+                <div class="w3-col s4">10th Marksheet</div>
+                <div class="w3-col s1">
+                  <input class="w3-input w3-border" type="text" [(ngModel)]="userId" readonly>
+                </div>
+                <div class="w3-col s4">
+                  <input class="w3-input w3-border" type="file" (change)="onPdfSelect($event)" accept="application/pdf">
+                </div>
+                <div class="w3-col s1">
+                  <button class="w3-button w3-green w3-block" (click)="uploadPdf()">Upload</button>
+                </div>
+              </div>
+          
+              <!-- AADHAR -->
+              <div class="w3-row w3-padding w3-border-bottom">
+                <div class="w3-col s4">AADHAR</div>
+                <div class="w3-col s1">
+                  <input class="w3-input w3-border" type="text" [(ngModel)]="userId" readonly>
+                </div>
+                <div class="w3-col s4">
+                  <input class="w3-input w3-border" type="file" (change)="onPdfSelect($event)" accept="application/pdf">
+                </div>
+                <div class="w3-col s1">
+                  <button class="w3-button w3-green w3-block" (click)="uploadPdf()">Upload</button>
+                </div>
+              </div>
+          
+              <!-- PAN Card -->
+              <div class="w3-row w3-padding">
+                <div class="w3-col s4">PAN Card</div>
+                <div class="w3-col s1">
+                  <input class="w3-input w3-border" type="text" [(ngModel)]="userId" readonly>
+                </div>
+                <div class="w3-col s4">
+                  <input class="w3-input w3-border" type="file" (change)="onPdfSelect($event)" accept="application/pdf">
+                </div>
+                <div class="w3-col s1">
+                  <button class="w3-button w3-green w3-block" (click)="uploadPdf()">Upload</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+          <style>
+            .w3-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.w3-row > .w3-col {
+  padding: 8px; /* Adds spacing between elements */
+}
+
+.w3-col input[type="text"], 
+.w3-col input[type="file"] {
+  width: 100%; /* Ensures full-width inputs */
+  box-sizing: border-box; /* Prevents overflow issues */
+}
+
+.w3-button {
+  white-space: nowrap; /* Prevents button text from wrapping */
+}
+
+
+
+.w3-card {
+  max-width: 900px; /* Prevents excessive stretching */
+  margin: auto; /* Centers the card */
+}
+
+          </style>            
+
+
+  
+         <!-- Save Button -->
+         <ion-button expand="block" color="success" (click)="addUser()" (click)="updateUser()"  class="ion-margin-top save-button">
+          Save Student
+        </ion-button>
+      
+      </ion-content>
+    </div>
+  </div>
+
+
+  <!-- Add New User Modal -->
+  <!-- <ion-modal [isOpen]="is_open" (didDismiss)="is_open=false" class="large-modal" >
+    <ng-template >
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title class="modal-title" style="text-align: center;color: yellow;">Add Student</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="is_open=false">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+  
+      
+    </ng-template>
+  </ion-modal>
+   -->
+
+  <!-- Edit User Modal -->
+  
+  
+</ion-content>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

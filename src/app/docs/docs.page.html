@@ -1,0 +1,149 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+  
+    <ion-title style="text-align: center;">View Documents</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- User List -->
+
+ <ion-row>
+  <ion-col size="4">
+    <ion-searchbar  [(ngModel)]="searchTermRollNo"  (ionInput)="filterUsers()" placeholder="Search RollnO." debounce="300" style="--background: #f1f1f1;"></ion-searchbar>
+  </ion-col>
+
+  <ion-col size="4">
+    <ion-searchbar [(ngModel)]="searchTermName"  (ionInput)="filterUsers()" placeholder="Search by Name" debounce="300" style="--background: #f1f1f1;"></ion-searchbar>
+  </ion-col>
+  <ion-col size="3">
+    <ion-searchbar  [(ngModel)]="searchTermEmail"  (ionInput)="filterUsers()" placeholder="Search Email" debounce="300" style="--background: #f1f1f1;"></ion-searchbar>
+  </ion-col>
+ </ion-row>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title style="text-align: center;">Students</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content class="background">
+      <ion-grid class="custom-table">
+        <!-- Table headers -->
+        <ion-row class="header-row">
+          <ion-col size="1" class="table-cell header w3-purple" >Sl No</ion-col>
+          <ion-col size="1" class="table-cell header w3-purple">Name</ion-col>
+          <ion-col size="1" class="table-cell header w3-purple">Email</ion-col>
+          <ion-col size="2" class="table-cell header w3-purple">Father Name</ion-col>
+          <ion-col size="2" class="table-cell header w3-purple">Mother Name</ion-col>
+
+
+          <ion-col size="1" class="table-cell header w3-purple">Phone</ion-col>
+
+          <ion-col size="2" class="table-cell header w3-purple">Actions</ion-col>
+        </ion-row>
+
+        <!-- User Rows -->
+        <ion-row *ngFor="let user of users of paginatedUsers; let i = index" class="user-row">
+          <ion-col size="1" class="table-cell">
+            {{ (currentPage - 1) * itemsPerPage + i + 1 }}
+          </ion-col>
+          <ion-col size="1" class="table-cell">{{ user.first_name }} {{ user.last_name }}</ion-col>
+          <ion-col size="1" class="table-cell">{{ user.email }}</ion-col>
+          <ion-col size="2" class="table-cell">{{ user.father_name }}</ion-col>
+          <ion-col size="2" class="table-cell">{{ user.mother_name }}</ion-col>
+
+
+          <ion-col size="1" class="table-cell">{{ user.mobile }}</ion-col>
+
+          <ion-col size="2" class="table-cell">
+            <ion-button (click)="loadDocuments(user.id)" color="primary" fill="solid">
+              View Docs
+            </ion-button>
+          </ion-col>
+         
+        </ion-row>
+        <ion-row class="ion-justify-content-center" style="margin-top: 10px;">
+          <ion-button (click)="prevPage()" [disabled]="currentPage === 1">
+            Previous
+          </ion-button>
+        
+          <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+            <ion-button
+              [color]="currentPage === i + 1 ? 'primary' : 'medium'"
+              (click)="goToPage(i + 1)">
+              {{ i + 1 }}
+            </ion-button>
+          </ng-container>
+        
+          <ion-button (click)="nextPage()" [disabled]="currentPage === totalPages">
+            Next
+          </ion-button>
+        </ion-row>
+        
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Documents List -->
+  <ion-card *ngIf="documents.length > 0">
+    <ion-card-header>
+      <ion-card-title>Documents for User {{ selectedUserId }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let doc of documents">
+          <ion-label>{{ doc.file_name }}</ion-label>
+          <ion-label>{{ doc.updated_at }}</ion-label>
+
+          <a [href]="'http://localhost:3000/' + doc.file_path" download target="_blank">
+          <ion-button  color="success">
+            Download
+          </ion-button>
+          </a>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  
+  <!-- Show message if no documents are found -->
+  <div *ngIf="documents.length === 0 && selectedUserId !== null">
+    <ion-text color="medium">
+      <p>No documents found for this user.</p>
+    </ion-text>
+  </div>
+  
+</ion-content>
+
+<style>
+  /* Table Styling */
+  .custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #f9f9f9;
+  }
+
+  .table-cell {
+    border: 1px solid #ccc; /* Border for cells */
+    padding: 8px;
+    text-align: center;
+  }
+
+  .header {
+    background-color: #007BFF; /* Header background */
+    color: white; /* Header text color */
+    font-weight: bold;
+  }
+
+  .user-row:nth-child(even) {
+    background-color: #f2f2f2; /* Alternating row background */
+  }
+
+  .user-row:hover {
+    background-color: #e0e0e0; /* Hover effect */
+  }
+
+  .no-docs {
+    text-align: center;
+    margin-top: 20px;
+  }
+</style>

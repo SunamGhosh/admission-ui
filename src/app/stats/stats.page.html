@@ -1,0 +1,275 @@
+
+  <style>
+    /* Styling for Cards */
+    .w3-card {
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .stats-card {
+      background: linear-gradient(135deg, #1976d2, #42a5f5);
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    /* Styling for Student Table */
+    .student-table-container {
+      width: 100%;
+      margin: auto;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .student-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+      background: white;
+      border-radius: 10px;
+    }
+
+    .student-table th {
+      background-color: #1976d2;
+      color: white;
+      padding: 8px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .student-table td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* Office Staff Table - No Changes */
+    .office-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .office-table th {
+      background: #1976d2;
+      color: white;
+      padding: 8px;
+      text-transform: uppercase;
+    }
+
+    .office-table td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    /* Chart Styling */
+    .chart-card {
+      max-width: 400px;
+      margin: auto;
+      padding: 10px;
+      text-align: center;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .chart-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 90%;
+      height: 200px;
+      margin: auto;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 200px !important;
+    }
+
+    /* Responsive Layout */
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: flex-start;
+      padding: 20px;
+      flex-wrap: wrap;
+    }
+
+    .chart-container {
+      width: 50%;
+    }
+
+    .table-container {
+      width: 40%;
+    }
+
+
+
+
+    /* to color table data of graph same as graph */
+    /* Course Name and Count Styling */
+/* Course Name and Count Styling */
+.student-table td.course-name {
+  font-weight: bold;
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 12px; /* Increased font size */
+}
+
+
+/* Colors from the Chart */
+.course-0 { background-color: #FF6384; } /* Red */
+.course-1 { background-color: #36A2EB; } /* Blue */
+.course-2 { background-color: #FFCE56; } /* Yellow */
+.course-3 { background-color: #4BC0C0; } /* Teal */
+
+
+
+
+
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #1976d2;
+  color: white;
+  border-radius: 8px;
+}
+
+.search-box {
+  width: 150px;
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+ion-content {
+  --overflow: auto;
+}
+.w3-container, .w3-row {
+  overflow: auto;
+  max-height: 100vh;
+}
+
+
+
+  </style>
+<ion-content [fullscreen]="true" scroll-y="true">
+  <body>
+
+    <ion-toolbar color="tertiary">
+  
+      <ion-title style="text-align: center;">College Stats</ion-title>
+  
+    </ion-toolbar>
+
+    <div class="w3-container w3-padding">
+      <div class="w3-row">
+        <!-- Active Students -->
+        <div class="w3-col m5 w3-padding ">
+          <div class="w3-card w3-padding stats-card">
+            <h3>Active Students</h3>
+            <p>{{ activeStudents }}</p>
+          </div>
+        </div>
+
+        <!-- Total Staff -->
+        <div class="w3-col m5 w3-padding">
+          <div class="w3-card w3-padding stats-card">
+            <h3>Total Staff</h3>
+            <p>{{ totalStaff }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Table -->
+      <div class="w3-col m5 w3-padding">
+        <div class="w3-card">
+          <h3 class="w3-padding">Student</h3>
+          <!-- <ion-item>
+            <ion-label>Session</ion-label>
+            <ion-select [(ngModel)]="selectedSessionId" (ionChange)="filterCoursesBySession()">
+              <ion-select-option *ngFor="let session of st" [value]="session.id">
+                {{ session.session_name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item> -->
+
+          <div class="header-container">
+            <h3>Admission Total</h3>
+            <ion-select class="search-box" [(ngModel)]="selectedSessionId" (ionChange)="filterCoursesBySession()" placeholder="Search.....">
+              <ion-select-option *ngFor="let session of st" [value]="session.id">
+                {{ session.session_name }}
+              </ion-select-option>
+            </ion-select>
+          </div>
+          
+          <div class="student-table-container">
+            <table class="student-table">
+              <thead>
+                <tr>
+                  <th>Course</th>
+                  <th>Student Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let course of filteredCourses;let i = index" >
+                  <td class="course-name course-{{i % 4}}">{{ course.name }}</td>
+                  <td class="course-name course-{{i % 4}}">>{{ course.count }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <ion-row>
+          <div class="w3-col m12 w3-padding">
+            <ion-card class="chart-card">
+              <ion-card-header>
+                <ion-card-title>Student Statistics</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="chart-wrapper">
+                  <canvas #studentChart></canvas>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </ion-row>
+      </div>
+     
+
+      <!-- Office Staff Table (No Styling Change) -->
+      <div class="w3-col m5 w3-padding">
+        <div class="w3-card">
+          <h3 class="w3-padding">Office Staff</h3>
+          <table class="office-table w3-table w3-bordered">
+            <tr class="table-header">
+              <th>Sl.No</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Phone</th>
+            </tr>
+            <tr *ngFor="let staff of officeStaffList; index as idx">
+              <td>{{ idx + 1 }}</td>
+              <td>{{ staff.first_name }}</td>
+              <td>{{ staff.last_name }}</td>
+              <td>{{ staff.mobile_no }}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="w3-row">
+         
+        </div>
+      </div>
+    </div>
+
+  </body>
+</ion-content>

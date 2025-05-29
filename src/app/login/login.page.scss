@@ -1,0 +1,83 @@
+.login-content {
+    --background: #f3f4f6;
+    position: relative;
+  }
+  
+  .full-height {
+    height: 100vh;
+  }
+  
+  .background-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #6366f1 30%, #4f46e5 70%);
+    clip-path: circle(80% at center);
+    z-index: -1;
+  }
+  
+  .login-card {
+    border-radius: 16px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    background: #ffffff;
+  }
+  
+  .login-card ion-card-header {
+    padding: 24px;
+    background-color: #4f46e5;
+    color: white;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .login-title {
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .login-subtitle {
+    font-size: 16px;
+    margin-top: 4px;
+  }
+  
+  .input-item {
+    margin: 16px 0;
+    border-radius: 8px;
+    --background: #f9fafb;
+    --highlight-color-focused: #6366f1;
+  }
+  
+  .login-button {
+    margin-top: 20px;
+    background: #6366f1;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .google-button {
+    margin-top: 12px;
+    --border-color: #6366f1;
+    --background-hover: rgba(99, 102, 241, 0.1);
+  }
+  
+  .forgot-password-link {
+    font-size: 14px;
+    color: #6b7280;
+    margin-top: 12px;
+  }
+  
+  .register-link p {
+    font-size: 14px;
+    margin-top: 20px;
+  }
+  
+  .register-link ion-button {
+    color: #4f46e5;
+  }
+  
+  .header-title {
+    font-weight: bold;
+  }
+  

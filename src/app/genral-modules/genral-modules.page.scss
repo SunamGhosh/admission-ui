@@ -1,0 +1,269 @@
+.background {
+  --background: #e9eaf7; /* Matches bg-[#e9eaf7] */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 8px; /* Matches p-2 (8px) */
+  height: 100%; /* Ensure full height */
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Matches gap-2 (8px) */
+}
+
+.filter-section {
+  .filter-form {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 4px; /* Matches gap-1 (4px) */
+    border: 1px solid #000;
+    font-size: 13px; /* Increased from 11px */
+  }
+  .filter-label {
+    grid-column: span 2;
+    border: 1px solid #000;
+    background-color: #fcdcdc; /* Matches bg-[#fcdcdc] */
+    padding: 4px 6px; /* Slightly increased padding to accommodate larger text */
+    font-weight: 600;
+    &.short-label {
+      grid-column: span 1;
+    }
+  }
+  .filter-input {
+    grid-column: span 3;
+    border: 1px solid #000;
+    padding: 4px 6px; /* Slightly increased padding */
+    background-color: #fff;
+    font-size: 13px; /* Increased from 11px */
+    &.short-input {
+      grid-column: span 2;
+    }
+  }
+}
+
+.content-row {
+  display: flex;
+  gap: 8px; /* Matches gap-2 (8px) */
+  flex-wrap: nowrap;
+  flex: 1;
+  overflow: hidden;
+}
+
+.table-section {
+  flex: 1;
+  background-color: #fcdcdc; /* Matches bg-[#fcdcdc] */
+  padding: 4px; /* Matches p-1 (4px) */
+  overflow: auto;
+  min-width: 320px;
+  max-width: 100%;
+  .table-header {
+    margin-top: 8px; /* Matches mt-2 (8px) */
+    border: 1px solid #000;
+    background-color: #fcdcdc;
+    padding: 4px;
+  }
+  .table-title {
+    font-size: 13px; /* Increased from 11px */
+    font-weight: 600;
+  }
+  .table-container {
+    overflow: auto;
+    max-height: 350px; /* Matches max-h-[350px] */
+  }
+  .student-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+    font-size: 12px; /* Increased from 10px */
+    thead {
+      tr {
+        th {
+          border: 1px solid #000;
+          background-color: #fcdcdc;
+          padding: 4px 6px; /* Slightly increased padding */
+          text-align: left;
+          &.sno-column {
+            width: 30px; /* Matches w-[30px] */
+            text-align: center;
+          }
+          &.roll-column {
+            width: 70px; /* Matches w-[70px] */
+            text-align: center;
+          }
+          &.course-column {
+            width: 90px; /* Matches w-[90px] */
+            text-align: center;
+          }
+          &.session-column {
+            width: 70px; /* Matches w-[70px] */
+            text-align: center;
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          border: 1px solid #000;
+          padding: 4px 6px; /* Slightly increased padding */
+          &.text-center {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+  .pagination-controls {
+    text-align: center;
+    margin-top: 5px;
+    button {
+      margin: 0 3px;
+      padding: 3px 8px;
+      font-size: 14px; /* Keeping this as is since it’s already larger */
+      &[disabled] {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+.template-section {
+  flex: 1;
+  background-color: #fcdcdc;
+  padding: 4px;
+  overflow: auto;
+  min-width: 320px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Matches gap-2 (8px) */
+  .contact-form {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 4px;
+    border: 1px solid #000;
+    font-size: 13px; /* Increased from 11px */
+    .contact-label {
+      grid-column: span 2;
+      border: 1px solid #000;
+      background-color: #fcdcdc;
+      padding: 4px 6px; /* Slightly increased padding */
+      font-weight: 600;
+    }
+    .contact-checkboxes {
+      grid-column: span 10;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      border: 1px solid #000;
+      background-color: #fff;
+      padding: 4px 6px; /* Slightly increased padding */
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+    }
+  }
+  .template-form {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 4px;
+    border: 1px solid #000;
+    font-size: 13px; /* Increased from 11px */
+    .template-label {
+      grid-column: span 2;
+      border: 1px solid #000;
+      background-color: #fcdcdc;
+      padding: 4px 6px; /* Slightly increased padding */
+      font-weight: 600;
+    }
+    .template-sub-label {
+      border: 1px solid #000;
+      background-color: #fcdcdc;
+      padding: 4px 6px; /* Slightly increased padding */
+      font-weight: 600;
+      font-size: 12px; /* Increased from 10px */
+      &.module-label {
+        grid-column: span 2;
+      }
+      &.category-label {
+        grid-column: span 3;
+      }
+      &.subcategory-label {
+        grid-column: span 3;
+      }
+      &.template-label {
+        grid-column: span 2;
+      }
+    }
+    .template-placeholder {
+      grid-column: span 2;
+    }
+    .template-input {
+      border: 1px solid #000;
+      padding: 4px 6px; /* Slightly increased padding */
+      background-color: #fff;
+      font-size: 13px; /* Increased from 11px */
+      &.module-input {
+        grid-column: span 2;
+      }
+      &.category-input {
+        grid-column: span 3;
+      }
+      &.subcategory-input {
+        grid-column: span 3;
+      }
+      &.template-input {
+        grid-column: span 2;
+      }
+    }
+  }
+  .template-details-row {
+    display: flex;
+    gap: 8px;
+    overflow: auto;
+    flex: 1;
+    .template-details {
+      flex: 1;
+      border: 1px solid #000;
+      background-color: #fff;
+      padding: 4px;
+      font-size: 12px; /* Increased from 10px */
+      line-height: 1.2;
+      overflow: auto;
+      min-width: 250px;
+      .template-details-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .template-content {
+        white-space: pre-wrap;
+        margin-bottom: 8px; /* Add spacing between multiple previews */
+      }
+    }
+    .info-boxes {
+      width: 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px; /* Increased from 10px */
+      .info-box {
+        border: 1px solid #000;
+        background-color: #fcdcdc;
+        padding: 4px 6px; /* Slightly increased padding */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &.alt {
+          background-color: #fff;
+        }
+      }
+    }
+  }
+}

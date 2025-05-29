@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-title class="ion-text-center">University Questions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Semester Buttons -->
+  <ion-segment [(ngModel)]="selectedSemesterId" color="secondary">
+    <ion-segment-button *ngFor="let sem of semesters" [value]="sem.id">
+      {{ sem.semester_name }}
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="getQuestionsBySemester(selectedSemesterId).length > 0" class="ion-margin-top">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">
+          {{ getSemesterName(selectedSemesterId) }}
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <table class="w3-table-all w3-card-4 w3-striped w3-hoverable bordered-table">
+          <thead>
+            <tr class="w3-purple">
+              <th>Sl. No.</th>
+              <th>University Question Name</th>
+              <th>Semester</th>
+              <th>Subject</th>
+              <th>File Name</th>
+              <th>Uploaded On</th>
+              <th>Download</th>
+            </tr>
+          </thead>
+          <tbody style="color: black; font-size: 14px;">
+            <tr *ngFor="let uq of getQuestionsBySemester(selectedSemesterId); let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{uq.name}}</td>
+           
+              <td>{{ getSemesterName(uq.semester_id) }}</td>
+              <td>{{ getSubjectName(uq.subject_id) }}</td>
+              <td>{{ uq.file_name }}</td>
+              <td>{{ uq.updated_at | date: 'short' }}</td>
+              <td>
+                <a [href]="'http://localhost:3000/' + uq.file_path" download target="_blank">
+                  <ion-button size="small" color="success" fill="outline">Download</ion-button>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-card>
+    <div *ngIf="getQuestionsBySemester(selectedSemesterId).length === 0" class="ion-text-center ion-padding">
+      <ion-text color="medium">
+        <h4>University Question Bank will be uploaded soon</h4>
+      </ion-text>
+    </div>
+    
+  </ion-card>
+
+</ion-content>

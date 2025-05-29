@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-button slot="end" color="danger" >
+      logout
+    </ion-button>
+    <ion-title>
+      <ion-card *ngIf="user" class="admin-card">
+        <ion-card-header>
+          <ion-card-title><h1>Welcome <b> {{ user.first_name }}</b></h1></ion-card-title>
+        </ion-card-header>
+       
+      </ion-card>
+    </ion-title>
+    <ion-row>
+      <!-- <ion-col size="12">
+        <ion-button expand="block" (click)="toggleForm()">Add University</ion-button>
+      </ion-col> -->
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <!-- Form to Add University -->
+    <ion-row *ngIf="showForm">
+      <ion-col size="12" size-md="6" offset-md="3">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Add University</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="stacked">University Name</ion-label>
+              <ion-input
+                [(ngModel)]="newUniversity.university_name"
+                placeholder="Enter university name"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Short Name</ion-label>
+              <ion-input
+                [(ngModel)]="newUniversity.short_name"
+                placeholder="Enter short name"
+              ></ion-input>
+            </ion-item>
+            <ion-button expand="block" (click)="addUniversity()">Add University</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <!-- Display Universities -->
+    <ion-row>
+      <ion-col size="12" size-md="2" *ngFor="let university of universities">
+        <ion-card class="university-card" [routerLink]="university.link">
+          <ion-card-header>
+            <ion-card-title>{{ university.university_name }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <img [src]="university.image" [alt]="university.university_name" class="university-image" />
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    
+  </ion-grid>
+</ion-content>

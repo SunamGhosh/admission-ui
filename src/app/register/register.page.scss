@@ -1,0 +1,159 @@
+ion-content.background{
+  --background:linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 7%, rgba(0,212,255,1) 64%);
+  --background-size: cover
+
+ }
+
+ion-card.color{
+  background: #d3c90f;
+  background: linear-gradient(90deg, rgb(202, 199, 13) 0%, rgb(255,244,0,1) 3%, rgba(255,244,0,1) 5%);}
+
+
+  .testimonial-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: bold;
+      //background-color: #00a0ff; /* Background color similar to the image */
+      padding: 20px;
+    }
+    
+    .student {
+      color: #ff7e00; /* Gradient color start */
+      background: -webkit-linear-gradient(left, #ff7e00, #ffdb00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .testimonial {
+      color: #2c2c74; /* Dark purple color */
+      margin-left: 10px;
+    }
+
+
+
+
+
+
+
+
+/* Next Step Button */
+.next-step-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns button to the right */
+  padding: 20px;
+  margin-right: 200px;
+}
+
+.next-step {
+  background: #007bff;
+  color: white;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 30px; /* Rounded button */
+  cursor: pointer;
+  border: none;
+}
+
+
+    .steps-container {
+      display: flex;
+      justify-content: flex-end; /* Aligns to the right */
+      padding: 20px;
+      margin-right: 100px;
+      
+    }
+    
+    .steps-wrapper {
+      display: flex;
+      gap: 10px;
+      background: white;
+      padding: 10px;
+      border-radius: 50px; /* Rounded container */
+      background-color: #007bff;
+    }
+    
+    .step {
+      padding: 10px 15px;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+      border-radius: 50%;
+      background: white;
+      color: black;
+      cursor: pointer;
+    }
+    
+    .step.active {
+      background: #007bff; /* Blue color for active step */
+      color: white;
+    }
+    
+    
+    // .form-container {
+    //   display: flex;
+    //   justify-content: center;
+    // }
+    
+    .form-box {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+     
+    }
+    
+    .form-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    
+    .custom-input {
+      background: #f5f5f5;
+      border-radius: 10px;
+      padding: 5px;
+      border: black solid 1px;
+    }
+    // .upload-container {
+    //   width: 90%;
+    //   margin: auto;
+    //   background: white;
+    //   padding: 20px;
+    //   border-radius: 10px;
+    //   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    // }
+    
+    .upload-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .table-header {
+      background-color: #f8f9fa;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px;
+    }
+    
+    .upload-row {
+      align-items: center;
+      padding: 8px 0;
+      // border-bottom: 1px solid #ddd;
+    }
+    
+    .custom-input {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 5px;
+    }
+    
+    input[type="file"] {
+      border: none;
+      width: 100%;
+    }
+    

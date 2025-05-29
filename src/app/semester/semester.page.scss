@@ -1,0 +1,105 @@
+/* Main container styling */
+.semesters-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Card styling for semester list */
+.semesters-list-card {
+  width: 100%;
+  max-width: 850px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Add hover effect on card */
+.semesters-list-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Semester List Title */
+.semesters-list-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #3f51b5; /* Deep Blue */
+  padding: 15px;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Table header styling */
+.table-header {
+  background-color: #ff5722; /* Deep Orange */
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px 0;
+  border-radius: 8px;
+}
+
+/* Table row styling */
+.table-row {
+  background-color: #ffffff;
+  margin: 8px 0;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect for rows */
+.table-row:hover {
+  background-color: #e8f5e9; /* Light Green */
+  transform: scale(1.02);
+}
+
+ion-col {
+  text-align: center;
+  font-size: 15px;
+  color: #333;
+}
+
+/* Search bar styling */
+ion-searchbar {
+  border-radius: 8px;
+  background-color: #f1f8e9; /* Light Green background */
+  padding: 8px;
+  font-size: 16px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Footer styling when no semesters found */
+ion-footer {
+  background-color: #f9f9f9;
+  padding: 15px;
+}
+
+ion-footer p {
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+}
+
+/* Subtle shadow for elements */
+ion-card, ion-searchbar, ion-row {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer text customization */
+ion-footer p {
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+ion-content.background{
+  --background:linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 7%, rgba(0,212,255,1) 64%);
+  --background-size: cover
+
+ }

@@ -1,0 +1,361 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center; color: #fff;">Elective Management</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <!-- Container for Table and Button -->
+  <div class="elective-management-container">
+    <!-- Table Section -->
+    <div class="elective-table-section">
+      <!-- Searchbar for filtering electives -->
+      <ion-grid>
+        <ion-row class="filter-row">
+          
+          <!-- Search Elective -->
+          <ion-col size="3">
+            <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterElectives()" 
+                           placeholder="Search Electives" debounce="300" style="--background: #f1f1f1;" fill="outline">
+            </ion-searchbar>
+          </ion-col>
+
+          <!-- Select Course -->
+          <ion-col size="3">
+            <ion-select [(ngModel)]="selectedCourse" (ionChange)="filterElectives()" placeholder="Select Course" style="--background: #f1f1f1" fill="outline">
+              <ion-select-option *ngFor="let c of co" [value]="c.id">{{ c.course_name }}</ion-select-option>
+            </ion-select>
+          </ion-col>
+
+          <!-- Select Semester -->
+          <ion-col size="3">
+            <ion-select [(ngModel)]="selectedSemester" (ionChange)="filterElectives()" placeholder="Select Semester" style="--background: #f1f1f1" fill="outline">
+              <ion-select-option *ngFor="let s of sem" [value]="s.id">{{ s.semester_name }}</ion-select-option>
+            </ion-select>
+          </ion-col>
+
+          <!-- Select Session -->
+         
+
+        </ion-row>
+      </ion-grid>
+
+      <!-- Elective List Table -->
+      <ion-card class="elective-list-card">
+        <ion-card-header>
+          <ion-card-title>Elective List</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-grid>
+            <!-- Table headers -->
+            <ion-row class="header-row w3-purple">
+              <ion-col size="2">
+                <ion-text color="white">Sl. No</ion-text>
+              </ion-col>
+              <ion-col size="3">
+                <ion-text color="white">Elective Paper Name</ion-text>
+              </ion-col>
+
+
+              <ion-col size="2">
+                <ion-text color="white">Course Name</ion-text>
+              </ion-col>
+
+              <ion-col size="2">
+                <ion-text color="white">Semester Name</ion-text>
+              </ion-col>
+            </ion-row>
+
+            <!-- Elective Rows -->
+            <ion-row *ngFor="let elective of filteredElective; let i = index" class="elective-row">
+              <ion-col size="2">{{ i + 1 }}</ion-col>
+              <ion-col size="3">{{ elective.elective_paper }}</ion-col>
+              <ion-col size="2" >
+                {{ getCourseName(elective.course_id) }}  <!-- Show course name -->
+              </ion-col>
+              <ion-col size="2" >
+                {{ getsemesterName(elective.semester_id) }}  <!-- Show course name -->
+              </ion-col>
+
+
+              <ion-col size="2" class="icon-column">
+                <ion-icon name="pencil-outline" color="danger" (click)="openUpdateModal(elective)" style="font-size: 20px;"></ion-icon>
+              </ion-col>
+
+            
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Add New Elective Section -->
+    <div class="add-elective-section">
+      <!-- <ion-button color="success" expand="full" (click)="is_modal_add_open()">
+        <ion-icon name="add-circle" slot="start"></ion-icon>
+        Add New Elective
+      </ion-button> -->
+
+
+
+      <ion-content class="ion-padding">
+        <ion-card >
+          <ion-card-header color="primary">
+          
+            <ion-card-title>Add Elective Details</ion-card-title>
+            <ion-card-subtitle>Provide details for the new elective paper</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item lines="inset">
+                    <ion-label position="floating">Select Course</ion-label>
+                    <ion-select [(ngModel)]="newpaper.course_id" required >
+                      <ion-select-option [value]="0" disabled>Select Course</ion-select-option>
+                      <ion-select-option *ngFor="let c of co" [value]="c.id">
+                        {{ c.course_name }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+  
+              <!-- Semester Dropdown -->
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item lines="inset">
+                    <ion-label position="floating">Select Semester</ion-label>
+                    <ion-select [(ngModel)]="newpaper.semester_id" required >
+                      <ion-select-option [value]="0" disabled >Select Semester</ion-select-option>
+                      <ion-select-option *ngFor="let se of sem" [value]="se.id">
+                        {{ se.semester_name }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+      
+              <!-- Elective Paper Input -->
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item lines="inset">
+                    <ion-label position="floating">Elective Paper</ion-label>
+                    <ion-input
+                      [(ngModel)]="newpaper.elective_paper"
+                    
+                      required
+                    ></ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+  
+              <!-- Course Dropdown -->
+             
+  
+              <!-- Save Button -->
+              <ion-row class="ion-margin-top">
+                <ion-col size="12">
+                  <ion-button expand="block" color="primary" shape="round" (click)="addelective()">
+                    Save Elective
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-content>
+    </div>
+  </div>
+
+  <!-- Add New Elective Modal -->
+  <ion-modal [isOpen]="is_open" (didDismiss)="is_open = false">
+    <ng-template>
+      <!-- Modal Header -->
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Add New Elective</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="is_open = false" color="light">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+  
+      <!-- Modal Content -->
+     
+    </ng-template>
+  </ion-modal>
+
+<!-- edit modal -->
+
+
+<ion-modal [isOpen]="is_open_edit" (didDismiss)="closeUpdateModal()" class="custom-modal">
+  <ng-template>
+    <!-- Header with Close Button -->
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Edit Elective</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeUpdateModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <!-- Stylish Content -->
+    <ion-content class="ion-padding">
+      <ion-card class="edit-card">
+        <ion-card-content>
+
+          <!-- Elective Name Input -->
+          <ion-item class="custom-input">
+            <ion-label position="floating">Elective Name</ion-label>
+            <ion-input [(ngModel)]="selectedElective.elective_paper"></ion-input>
+          </ion-item>
+
+          <!-- Course Selection -->
+          <ion-item class="custom-input">
+            <ion-label position="floating">Select Course</ion-label>
+            <ion-select [(ngModel)]="selectedElective.course_id">
+              <ion-select-option disabled value="0">Select Course</ion-select-option>
+              <ion-select-option *ngFor="let c of co" [value]="c.id">
+                {{ c.course_name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- Semester Selection -->
+          <ion-item class="custom-input">
+            <ion-label position="floating">Select Semester</ion-label>
+            <ion-select [(ngModel)]="selectedElective.semester_id">
+              <ion-select-option *ngFor="let se of sem" [value]="se.id">{{ se.semester_name }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- Save Button -->
+          <ion-button expand="block" color="success" shape="round" (click)="updateElective()">
+            <ion-icon name="save-outline" slot="start"></ion-icon>
+            Save Changes
+          </ion-button>
+
+        </ion-card-content>
+      </ion-card>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+  
+  
+<style>
+  /* Container Layout */
+  .elective-management-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    flex-wrap: wrap;
+    background: linear-gradient(45deg, #f8c2c0, #ffe2e1);
+    border-radius: 10px;
+  }
+
+  .elective-table-section {
+    width: 70%;
+    margin-right: 20px;
+  }
+
+  .add-elective-section {
+    width: 26%;
+    display: flex;
+    height: 500px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .elective-list-card {
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 20px;
+    background-color: #ffffff;
+  }
+
+  ion-card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3f51b5;
+    text-align: center;
+  }
+
+  .header-row {
+    background-color: #f1f1f1;
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  .elective-row {
+    margin: 10px 0;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .elective-row:hover {
+    background-color: #e3f2fd;
+    transform: scale(1.02);
+  }
+
+  ion-button {
+    width: 100%;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  ion-content.background {
+    --background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 7%, rgba(0, 212, 255, 1) 64%);
+    --background-size: cover;
+  }
+
+
+
+
+  /* edit modal */
+  ion-modal::part(content) {
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+ion-card.edit-card {
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+ion-item.custom-input {
+  --border-radius: 10px;
+  --box-shadow: none;
+  margin-bottom: 10px;
+}
+
+ion-button {
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+  
+</style>

@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>Back
+    </ion-buttons>
+    <ion-title style="text-align: center; color: #fff;">Semester</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <!-- Main container for layout -->
+  <div class="semesters-container">
+    <!-- Search Bar with elegant styling -->
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterSemesters()"
+      placeholder="Search Semesters"
+      debounce="500"
+      showClearButton="focus"
+      style="margin-bottom: 20px; width: 100%;"
+    ></ion-searchbar>
+
+    <!-- Semester List Table -->
+    <ion-card class="semesters-list-card">
+      <ion-card-header>
+        <ion-card-title class="semesters-list-title">Semesters List</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+          <!-- Table headers -->
+          <ion-row class="table-header">
+            <ion-col size="4">
+              <strong>Sl No.</strong>
+            </ion-col>
+            <ion-col size="6">
+              <strong>Semester Name</strong>
+            </ion-col>
+          </ion-row>
+
+          <!-- Display list of semesters -->
+          <ion-row *ngFor="let semester of filteredSemesters" class="table-row">
+            <ion-col size="4">{{ semester.id }}</ion-col>
+            <ion-col size="6">{{ semester.semester_name }}</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Footer message when no semesters found -->
+    <ion-footer *ngIf="filteredSemesters.length === 0">
+      <p class="ion-text-center">No semesters found.</p>
+    </ion-footer>
+  </div>
+</ion-content>

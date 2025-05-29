@@ -1,0 +1,247 @@
+<ion-header [translucent]="true">
+
+    <ion-toolbar color="tertiary">
+  
+      <ion-title style="text-align: center;">Agents</ion-title>
+  
+
+
+      <!-- Button at the End -->
+      <ion-button color="success"  (click)="downloadAgentExcel()" slot="end">
+        <ion-icon name="download-outline" slot="start"></ion-icon>
+        Download Excel
+      </ion-button>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+  
+    <ion-row>
+      <!-- Left Side: Add Agent Form -->
+      <ion-col size="4">
+        <ion-card class="add-agent-card">
+          <ion-toolbar color=" w3-purple">
+            <div style="text-align: center; margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; color:white;">
+             Form No.: {{ agent.id || 'Loading...' }}
+            </div>
+            <ion-title class="header-title">Add Agents</ion-title>
+          </ion-toolbar>
+          <ion-card-content>
+            <ion-grid>
+              <h2 style="color: black;text-align: center;"><b><u>Personal Details</u></b></h2>
+              <ion-row>
+              
+                <ion-col size="4">
+                  <ion-item>
+                    <ion-label position="stacked">Agent Name</ion-label>
+                    <ion-input [(ngModel)]="agent.agent_name" placeholder="Enter Name"></ion-input>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="3">
+                  <ion-item>
+                    <ion-label position="stacked">Email</ion-label>
+                    <ion-input type="email" [(ngModel)]="agent.email" placeholder="Enter Email"></ion-input>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="4">
+                  <ion-item>
+                    <ion-label position="stacked">Mobile</ion-label>
+                    <ion-input type="tel" [(ngModel)]="agent.mobile" placeholder="Enter Mobile"></ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col size="4">
+                  <ion-item>
+                    <ion-label position="stacked">Mobile Two</ion-label>
+                    <ion-input type="tel" [(ngModel)]="agent.mobile_two" placeholder="Mobile no.2"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="3">
+                  <ion-item>
+                    <ion-label position="stacked">Whatsapp</ion-label>
+                    <ion-input type="tel" [(ngModel)]="agent.mobile_whatsapp" placeholder="Whatsapp No."></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-item>
+                    <ion-label position="stacked">Aadhar No.</ion-label>
+                    <ion-input type="text" [(ngModel)]="agent.aadhar_card" placeholder="Enter Aadhar No."></ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+              
+
+                <ion-col size="3">
+                  <ion-item>
+                    <ion-label position="stacked">PAN Card</ion-label>
+                    <ion-input type="text" [(ngModel)]="agent.pan_card" placeholder="Enter PAN Card"></ion-input>
+                  </ion-item>
+                </ion-col>
+       
+
+           
+                <ion-col size="4">
+                  <ion-item>
+                    <ion-label position="stacked">Organisation</ion-label>
+                    <ion-input type="text" [(ngModel)]="agent.organisation" placeholder="Enter Organisation"></ion-input>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="3">
+                  <ion-item>
+                    <ion-label position="stacked">Password</ion-label>
+                    <ion-input type="password" [(ngModel)]="agent.password" placeholder="Enter Password"></ion-input>
+                  </ion-item>
+                </ion-col>
+
+                
+                <ion-col size="3">
+                  <ion-item>
+                    <ion-label position="stacked">Address</ion-label>
+                    <ion-input type="text" [(ngModel)]="agent.office_address" placeholder="Aadress"></ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+             
+
+
+
+
+              <h2 style="color: black;text-align: center;"><b><u>Bank Details</u></b></h2>
+              <ion-row>
+              
+                <ion-col size="5">
+                  <ion-item>
+                    <ion-label position="stacked">Bank Name</ion-label>
+                    <ion-input type="text" [(ngModel)]="agent.bank_name" placeholder="Enter Bank Name"></ion-input>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="5">
+                  <ion-item>
+                    <ion-label position="stacked">Account Name</ion-label>
+                    <ion-input type="text" [(ngModel)]="agent.account_name" placeholder=" Account Name"></ion-input>
+                  </ion-item>
+                </ion-col>
+
+              </ion-row>
+
+              <ion-row>
+                
+                <ion-col size="5">
+                  <ion-item>
+                    <ion-label position="stacked">Account No.</ion-label>
+                    <ion-input type="text" [(ngModel)]="agent.account_no" placeholder="Enter Account No."></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-item>
+                    <ion-label position="stacked">IFSC CODE</ion-label>
+                    <ion-input type="tel" [(ngModel)]="agent.IFSC_code" placeholder="Enter IFSC Code"></ion-input>
+                  </ion-item>
+                </ion-col>
+
+                
+              </ion-row>
+
+          
+              <ion-row>
+                <ion-col size="12">
+                  <ion-button expand="full" color="success" (click)="addAgent()">Add Agent</ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+
+     
+
+        
+      </ion-col>
+
+      <!-- Right Side: Agents List Table -->
+       
+      <ion-col size="7">
+        <ion-row>
+          <!-- <ion-col size="12">
+            <ion-item>
+              <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterAgents()">
+              
+              </ion-searchbar>
+              
+<ion-button slot="end" color="primary" (click)="downloadAgentExcel()" expand="block" style="margin-top: 10px;">
+  <ion-icon name="download-outline" slot="start"></ion-icon>
+  Download agent Excel
+</ion-button>
+
+            </ion-item>
+          </ion-col> -->
+
+          <!-- Search by Name -->
+    <ion-col size="4">
+      <ion-searchbar [(ngModel)]="searchName" (ionInput)="filterAgents()" placeholder=" Search by Name"></ion-searchbar>
+    </ion-col>
+
+    <!-- Search by Email -->
+    <ion-col size="4">
+      <ion-searchbar [(ngModel)]="searchEmail" (ionInput)="filterAgents()" placeholder="Search by Email"></ion-searchbar>
+    </ion-col>
+
+    <!-- Search by Mobile -->
+    <ion-col size="3">
+      <ion-searchbar [(ngModel)]="searchMobile" (ionInput)="filterAgents()" placeholder="Search Mobile"></ion-searchbar>
+             
+<ion-button slot="end" color="primary" (click)="downloadAgentExcel()" expand="block" style="margin-top: 10px;">
+  <ion-icon name="download-outline" slot="start"></ion-icon>
+  Download agent Excel
+</ion-button>
+    </ion-col>
+    
+        </ion-row>
+        <ion-card class="agent-list-card">
+          <ion-card-header>
+            <ion-card-title class="card-title w3-center"> Agents List</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <table class="agent-table">
+              <thead >
+                <tr class="w3-purple">
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Mobile</th>
+                  <th>Aadhar</th>
+                  <th>Bank</th>
+                  <th>PAN</th>
+                  <th>Organisation</th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ag of filteredAgents">
+                  <td>{{ ag.agent_name }}</td>
+                  <td>{{ ag.email }}</td>
+                  <td>{{ ag.mobile }}</td>
+                  <td>{{ ag.aadhar_card }}</td>
+                  <td>{{ ag.bank_name }}</td>
+                  <td>{{ ag.pan_card }}</td>
+                  <td>{{ ag.organisation }}</td>
+                  
+                </tr>
+              </tbody>
+            </table>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

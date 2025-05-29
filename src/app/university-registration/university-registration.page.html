@@ -1,0 +1,303 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="tertiary">
+  
+    <ion-title style="text-align: center;">University Registration</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="background">
+  <ion-card-content>
+   
+ <ion-row>
+  <ion-col size="4">
+    <ion-searchbar  [(ngModel)]=" searchRoll"  (ionInput)="filterUsers()" placeholder="Search RollnO." debounce="300" style="--background: #f1f1f1;"></ion-searchbar>
+  </ion-col>
+
+  <ion-col size="4">
+    <ion-searchbar [(ngModel)]="searchName"  (ionInput)="filterUsers()" placeholder="Search by Name" debounce="300" style="--background: #f1f1f1;"></ion-searchbar>
+  </ion-col>
+  <ion-col size="3">
+    <ion-searchbar  [(ngModel)]="searchEmail"  (ionInput)="filterUsers()" placeholder="Search Email" debounce="300" style="--background: #f1f1f1;"></ion-searchbar>
+  </ion-col>
+ </ion-row>
+      <ion-grid class="custom-table">
+        <!-- Table headers -->
+
+        <ion-row class="header-row">
+          <ion-col size="1" class="table-cell header w3-purple">Sl No</ion-col>
+          <ion-col size="1" class="table-cell header w3-purple">Roll No.</ion-col>
+          <ion-col size="1" class="table-cell header w3-purple">Name</ion-col>
+          <ion-col size="1.6" class="table-cell header w3-purple">Email</ion-col>
+          <ion-col size="2" class="table-cell header w3-purple">Father Name</ion-col>
+          <ion-col size="2" class="table-cell header w3-purple">Mother Name</ion-col>
+          <ion-col size="2" class="table-cell header w3-purple">University Details</ion-col>
+        </ion-row>
+
+        <!-- User Rows -->
+        <ion-row *ngFor="let user of filteredUsers; index as idx" class="user-row">
+          <ion-col size="1" class="table-cell">{{ idx + 1 }}</ion-col>
+          <ion-col size="1" class="table-cell">{{ user.roll_no }}</ion-col>
+          <ion-col size="1" class="table-cell">{{ user.first_name }} {{ user.last_name }}</ion-col>
+          <ion-col size="1.6" class="table-cell">{{ user.email }}</ion-col>
+          <ion-col size="2" class="table-cell">{{ user.father_name }}</ion-col>
+          <ion-col size="2" class="table-cell">{{ user.mother_name }}</ion-col>
+          <ion-col size="2" class="table-cell">
+           
+           <ion-buttons (click)="editUser(user)">Click to Add University Registration and Roll NO.</ion-buttons>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+    
+
+
+
+<style>
+  /* Table Styling */
+  .custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #f9f9f9;
+  }
+  
+  .table-cell {
+    border: 1px solid #ccc; /* Border for cells */
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .header {
+    background-color: #007BFF; /* Header background */
+    color: white; /* Header text color */
+    font-weight: bold;
+  }
+
+ 
+  
+  .user-row:hover {
+    background-color: #e0e0e0; /* Hover effect */
+  }ion-content.background{
+    --background:linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 7%, rgba(0,212,255,1) 64%);
+    --background-size: cover
+  
+   }
+
+</style>
+
+
+<ion-modal [isOpen]="is_open_edit" (didDismiss)="is_open_edit=false" class="large-modal">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>University Details</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="is_open_edit=false">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding modal-content">
+      <!-- Grid Layout for Editing User -->
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" size-md="3">
+            <ion-input
+              fill="outline"
+              label="First Name"
+              labelPlacement="floating"
+              [(ngModel)]="selectedUser.first_name"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="12" size-md="3">
+            <ion-input
+              fill="outline"
+              label="Last Name"
+              labelPlacement="floating"
+              [(ngModel)]="selectedUser.last_name"
+            ></ion-input>
+          </ion-col>
+
+
+          <ion-col size="12" size-md="3">
+            <ion-input
+              fill="outline"
+              label="Email"
+              labelPlacement="floating"
+              [(ngModel)]="selectedUser.email"
+              type="email"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="12" size-md="2">
+            <ion-input
+              fill="outline"
+              label="Mobile"
+              labelPlacement="floating"
+              [(ngModel)]="selectedUser.mobile"
+            ></ion-input>
+          </ion-col>
+
+      
+        </ion-row>
+
+        <ion-row>
+         
+         
+          <ion-col size="12" size-md="3">
+            <ion-input
+              fill="outline"
+              label="Date of Birth"
+              labelPlacement="floating"
+              [(ngModel)]="selectedUser.DOB"
+              type="date"
+            ></ion-input>
+          </ion-col>
+
+
+
+          <ion-col size="12" size-md="3">
+            <ion-input
+              fill="outline"
+              label="Father's Name"
+              labelPlacement="floating"
+              [(ngModel)]="selectedUser.father_name"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="12" size-md="3">
+            <ion-input
+              fill="outline"
+              label="Mother's Name"
+              labelPlacement="floating"
+              [(ngModel)]="selectedUser.mother_name"
+            ></ion-input>
+          </ion-col>
+
+          <ion-col size="12" size-md="2">
+            <ion-input
+              fill="outline"
+              label="Self phone"
+              labelPlacement="floating"
+              [(ngModel)]="selectedUser.mobile"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+
+       
+     
+
+  
+        
+  
+          
+
+
+          <ion-row>
+        
+
+            <ion-col size="12" size-md="3">
+              <ion-input
+                fill="outline"
+                label="Father phone"
+                labelPlacement="floating"
+                [(ngModel)]="selectedUser.father_phone"
+              ></ion-input>
+            </ion-col>
+            <ion-col size="12" size-md="3">
+              <ion-input
+                fill="outline"
+                label="Mother phone"
+                labelPlacement="floating"
+                [(ngModel)]="selectedUser.mother_phone"
+              ></ion-input>
+            </ion-col>
+            <ion-col size="12" size-md="3">
+              <ion-input
+                fill="outline"
+                label="Qualification"
+                labelPlacement="floating"
+                [(ngModel)]="selectedUser.qualification"
+              ></ion-input>
+            </ion-col>
+            
+            <ion-col size="12" size-md="2">
+              <ion-input
+                fill="outline"
+                label="Division"
+                labelPlacement="floating"
+                [(ngModel)]="selectedUser.division"
+              ></ion-input>
+            </ion-col>
+          </ion-row>
+
+        
+
+       
+
+
+
+           <ion-row>
+            <ion-col size="12" size-md="2">
+              <ion-input
+                fill="outline"
+                label="Area"
+                labelPlacement="floating"
+                [(ngModel)]="selectedUser.area"
+              ></ion-input>
+            </ion-col>
+
+
+            <ion-col size="12" size-md="2">
+              <ion-input
+                fill="outline"
+                label="Pincode"
+                labelPlacement="floating"
+                [(ngModel)]="selectedUser.pin"
+              ></ion-input>
+            </ion-col>
+            <ion-col size="12" size-md="3">
+              <ion-input
+                fill="outline"
+                label="University Registration No"
+                labelPlacement="floating"
+                [(ngModel)]="selectedUser.university_registration_no"
+              ></ion-input>
+
+            </ion-col>
+
+              <ion-col size="12" size-md="3">
+                <ion-input
+                  fill="outline"
+                  label="University Roll No."
+                  labelPlacement="floating"
+                  [(ngModel)]="selectedUser.university_roll_no"
+                ></ion-input>
+              </ion-col>
+           </ion-row>
+
+            <ion-row>
+             
+              
+
+
+            
+          </ion-row>
+
+
+     
+        
+        </ion-grid>
+      </ion-content>
+  
+      <ion-footer>
+        <ion-toolbar color="primary">
+          <ion-buttons slot="end">
+            <ion-button expand="full" (click)="updateUser()" >Save Changes</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

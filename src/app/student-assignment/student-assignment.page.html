@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-title class="ion-text-center">Assignment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Semester Filter Tabs -->
+  <ion-segment [(ngModel)]="selectedSemesterId" color="secondary">
+    <ion-segment-button *ngFor="let sem of semesters" [value]="sem.id">
+      {{ sem.semester_name }}
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Display Assignments List for Selected Semester -->
+  <ion-card *ngIf="getFilteredAssignments().length > 0">
+    <ion-card-content>
+      <table class="w3-table-all w3-card-4 w3-striped w3-hoverable">
+        <thead>
+          <tr class="w3-purple">
+            <th>Sl. No.</th>
+            <td>Assignment Name</td>
+            <th>File Name</th>
+            <th>Subject</th>
+            <th>Download</th>
+          </tr>
+        </thead>
+        <tbody style="color: black; font-size: 14px;">
+          <tr *ngFor="let a of getFilteredAssignments(); let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{a.name}}</td>
+            <td>{{ a.file_name }}</td>
+            <td>{{ getSubjectName(a.subject_id) }}</td>
+            <td>
+              <a [href]="'http://localhost:3000/' + a.file_path" download target="_blank">
+                <ion-button fill="outline" size="small" color="success">
+                  Download
+                </ion-button>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Empty State Message -->
+  <ion-card *ngIf="getFilteredAssignments().length === 0">
+    <ion-card-content class="ion-text-center">
+      <p>No assignments available for this semester.</p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

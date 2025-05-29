@@ -1,0 +1,115 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .left-side {
+    flex: 1;
+    min-width: 400px;
+  }
+  
+  .right-side {
+    flex: 2;
+    min-width: 500px;
+  }
+  
+  /* Styled Form Card */
+  .form-card {
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    background: white;
+  }
+  
+  .form-title {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+  }
+  
+  .input-item {
+    margin-bottom: 12px;
+  }
+  
+  .add-button {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+  }
+ /* Table Styles */
+.table-container {
+  display: grid;
+  grid-template-columns: 8% 12% 16% 10% 16% 20% 20%; /* ✅ Updated to match headers */
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.table-header, .table-row {
+  display: contents;
+}
+
+.table-cell {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.table-header .table-cell {
+  background-color: #2D8CFF;
+  font-weight: bold;
+  color: white;
+  border: 1px solid #2D8CFF;
+}
+
+.table-row:nth-child(even) .table-cell {
+  background-color: #f9f9f9;
+}
+
+/* Action Icons */
+.action-icons {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Space between icons */
+}
+
+.edit-icon, .delete-icon {
+  cursor: pointer;
+  font-size: 22px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.edit-icon {
+  color: #2196F3;
+}
+
+.delete-icon {
+  color: red;
+}
+
+.edit-icon:hover, .delete-icon:hover {
+  transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .table-container {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .table-cell {
+    display: inline-block;
+    width: auto;
+    min-width: 100px;
+  }
+
+  .action-icons {
+    flex-direction: column;
+  }
+}

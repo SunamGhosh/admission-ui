@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Manage Tables</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="w3-row-padding">
+
+    <!-- Table List Card -->
+    <div class="w3-col l6 m12 s12 w3-padding-small">
+      <div class="w3-card w3-white w3-round-large w3-padding">
+        <h4 class="w3-text-purple">Table List</h4>
+
+        <!-- Search Bar -->
+        <ion-searchbar
+          [(ngModel)]="searchTerm"
+          (ionInput)="filterTables()"
+          placeholder="Search tables">
+        </ion-searchbar>
+
+        <!-- List of Tables -->
+        <div class="w3-responsive w3-margin-top">
+          <table class="w3-table-all w3-hoverable w3-small">
+            <thead>
+              <tr class="w3-purple">
+                <th>#</th>
+                <th>Table Name</th>
+                <th>Module</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tbl of filteredTables; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ tbl.table }}</td>
+                <td>{{ getModuleName(tbl.module_id) }}</td>
+                <td>
+                  <button class="w3-button w3-blue w3-round w3-small" (click)="updateTable(tbl)">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </button>
+                  <button class="w3-button w3-red w3-round w3-small" (click)="deleteTable(tbl.id)">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="filteredTables.length === 0">
+                <td colspan="4" class="w3-center">No tables found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add / Update Form Card -->
+    <div class="w3-col l5 m12 s12 w3-padding-small">
+      <div class="w3-card w3-white w3-round-large w3-padding">
+        <h4 class="w3-text-purple">Create / Edit Table</h4>
+
+        <label class="w3-text-grey">Table Name</label>
+        <input type="text" [(ngModel)]="newTable.table" class="w3-input w3-border w3-margin-bottom" placeholder="Enter table name" />
+
+        <label class="w3-text-grey">Module</label>
+        <select class="w3-select w3-border w3-margin-bottom" [(ngModel)]="newTable.module_id">
+          <option value="" disabled selected>Select module</option>
+          <option *ngFor="let module of modules" [value]="module.id">{{ module.module_name }}</option>
+        </select>
+
+        <button class="w3-button w3-purple w3-round-large w3-block" (click)="addTable()">
+          {{ newTable.id ? 'Update Table' : 'Add Table' }}
+        </button>
+
+        <button class="w3-button w3-border w3-round-large w3-block w3-margin-top"
+                (click)="newTable = { id: null, table: '', module_id: null }">
+          Reset
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</ion-content>

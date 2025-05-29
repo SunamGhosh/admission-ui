@@ -1,0 +1,47 @@
+<ion-split-pane contentId="main-content">
+  <!-- Side Menu -->
+  <ion-menu contentId="main-content" type="overlay">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>General Module</ion-label>
+        </ion-item>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/states" routerDirection="forward">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-label>Genral Module</ion-label>
+          </ion-item>
+
+          <ion-item routerLink="/reminders" routerDirection="forward">
+            <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+            <ion-label>Sub Categary</ion-label>
+          </ion-item>
+
+          <ion-item routerLink="/notifications" routerDirection="forward">
+            <ion-icon name="notifications-outline" slot="start"></ion-icon>
+            <ion-label>Notifications</ion-label>
+          </ion-item>
+
+          <ion-item routerLink="/settings" routerDirection="forward">
+            <ion-icon name="settings-outline" slot="start"></ion-icon>
+            <ion-label>Settings</ion-label>
+          </ion-item>
+
+          <ion-item routerLink="/whatsapp" routerDirection="forward">
+            <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+            <ion-label>WhatsApp Reminder</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <!-- Main Page Content -->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-split-pane>

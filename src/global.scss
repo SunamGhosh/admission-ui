@@ -35,3 +35,14 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+split-pane-visible >.split-pane-side {
+    flex-grow: 20 !important;
+}
+.split-pane-visible >.split-pane-main {
+    flex-grow: 80 !important;
+}
+.split-pane-visible >.split-pane-side {
+    min-width: 120px; /* Default: 270px */
+    max-width: 250px; /* Same as when menu opens in mobile mode */
+  }
+

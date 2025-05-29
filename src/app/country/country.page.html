@@ -1,0 +1,137 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="tertiary" style="--background: linear-gradient(135deg, #ff9800, #f57c00);">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center; font-size: 1.6rem; font-weight: bold; color: #fff;">Country Management</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content class="background">
+   Search Bar for filtering countries -->
+  <!-- <ion-searchbar
+    [(ngModel)]="searchTerm"
+    (ionInput)="filterCountries()"
+    placeholder="Search Countries"
+    debounce="300"
+    style="background-color: #f1f1f1; border-radius: 8px; padding: 8px; font-size: 16px; width: 100%; margin-bottom: 20px;"
+  ></ion-searchbar> --> 
+
+  <!-- Country List Table -->
+  <ion-content class="background">
+    <ion-grid>
+      <ion-row>
+        <!-- Add Country Form (Left Side) -->
+        <ion-col size-md="4" size="12"> <!-- Increased size for larger form -->
+          <ion-card class="add-country-card">
+            <ion-card-header color="primary" >
+              <ion-card-title style="text-align: center; font-size: 22px; font-weight: bold; color: white; padding: 12px; border-radius: 8px;">
+                <div style="text-align: center; margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; color:white;">
+                  Country No.: {{ newCountry.id || 'Loading...' }}
+                </div>
+                Add New Country
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content style="padding: 20px;"> <!-- Added extra padding -->
+              <ion-item style="margin-bottom: 15px;"> <!-- Added margin for better spacing -->
+                <ion-label position="floating">Country Name</ion-label>
+                <ion-input [(ngModel)]="newCountry.country_name"></ion-input>
+              </ion-item>
+        
+              <ion-item style="margin-bottom: 15px;">
+                <ion-label position="floating">Short Name</ion-label>
+                <ion-input [(ngModel)]="newCountry.country_shortname"></ion-input>
+              </ion-item>
+        
+              <ion-button expand="full" color="primary" (click)="addCountry()" style="padding: 12px; font-size: 18px;">
+                Add Country
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        
+  
+        <!-- Country List Table (Right Side) -->
+        <ion-col size-md="7" size="12">
+          <ion-searchbar
+            [(ngModel)]="searchTerm"
+            (ionInput)="filterCountries()"
+            placeholder="Search Countries"
+            debounce="300"
+            style="background-color: #f1f1f1; border-radius: 8px; padding: 8px; font-size: 16px; width: 100%; margin-bottom: 20px;"
+          ></ion-searchbar>
+  
+          <ion-card class="country-list-card">
+            <ion-card-header>
+              <ion-card-title style="text-align: center; font-size: 24px; font-weight: bold; padding: 15px; border-radius: 10px 10px 0 0;">Country List</ion-card-title>
+            </ion-card-header>
+  
+            <ion-card-content>
+              <ion-grid>
+                <ion-row class="w3-purple" style=" color: white; font-weight: bold; text-align: center; padding: 12px 0; border-radius: 8px;margin-top: -20px;">
+                  <ion-col size="2">
+                    <ion-text color="white">Sl.no</ion-text>
+                  </ion-col>
+                  <ion-col size="5">
+                    <ion-text color="white">Country Name</ion-text>
+                  </ion-col>
+                  <ion-col size="4">
+                    <ion-text color="white">Country Short Name</ion-text>
+                  </ion-col>
+                </ion-row>
+  
+                <ion-row *ngFor="let country of countryData; let i = index" style="background-color: #ffffff; margin: 8px 0; border-radius: 8px; transition: background-color 0.3s ease, transform 0.3s ease;">
+                  <ion-col size="2" style="text-align: center; font-size: 15px; color: #333;">{{ (page - 1) * pageSize + i + 1 }}</ion-col>
+
+                  <ion-col size="5" style="text-align: center; font-size: 15px; color: #333;">{{ country.country_name }}</ion-col>
+                  <ion-col size="4" style="text-align: center; font-size: 15px; color: #333;">{{ country.country_shortname || 'N/A' }}</ion-col>
+
+                  
+                </ion-row>
+           
+              </ion-grid>
+              <div style="text-align: center; margin-top: 10px;">
+               
+
+                <div style="display: flex; align-items: center; justify-content: center; gap: 15px; padding: 15px;">
+                  <ion-icon 
+                    (click)="prevPage()" 
+                    name="arrow-back-circle-outline" 
+                    style="font-size: 32px; color: #4caf50; cursor: pointer;">
+                  </ion-icon>
+                
+                  <ion-text style="font-size: 18px; font-weight: bold; color: #333;">
+                    Page {{ page }} of {{ totalPages }}
+                  </ion-text>
+                
+                  <ion-icon 
+                    (click)="nextPage()" 
+                    name="arrow-forward-circle-outline" 
+                    style="font-size: 32px; color: #4caf50; cursor: pointer;">
+                  </ion-icon>
+                </div>
+                
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+       
+      </ion-row>
+    </ion-grid>
+
+  </ion-content>
+  
+
+<!-- Add Animations -->
+<style>
+  /* Add hover effect on rows */
+  ion-row:hover {
+    background-color: #e8f5e9; /* Light Green */
+    transform: scale(1.02);
+  }
+
+  /* Add subtle shadow effect on cards and rows */
+  ion-card, ion-searchbar, ion-row {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+</style>

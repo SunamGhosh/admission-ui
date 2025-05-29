@@ -1,0 +1,62 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Syllabus</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Semester Selection Buttons -->
+  <ion-segment [(ngModel)]="selectedSemesterId" color="secondary">
+    <ion-segment-button *ngFor="let sem of semesters" [value]="sem.id">
+      {{ sem.semester_name }}
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-card *ngFor="let syllabus of getSyllabusBySemester(selectedSemesterId)">
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">
+        {{ getSemesterName(syllabus.semester_id) }}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <!-- PDF Preview -->
+      <iframe
+        *ngIf="isPDF(syllabus.file_path)"
+        [src]="getSafeUrl(syllabus.file_path)"
+        width="100%"
+        height="500px"
+        frameborder="0">
+      </iframe>
+
+      <!-- Image Preview -->
+      <ion-img
+        *ngIf="isImage(syllabus.file_path)"
+        [src]="'http://localhost:3000/' + syllabus.file_path"
+        alt="Syllabus"
+        class="ion-margin-vertical">
+      </ion-img>
+
+      <!-- Download Button -->
+      <ion-button
+        expand="block"
+        fill="outline"
+        color="success"
+        [href]="'http://localhost:3000/' + syllabus.file_path"
+        download>
+        Download File
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+<ion-card>
+  <div *ngIf="getSyllabusBySemester(selectedSemesterId).length === 0" class="ion-text-center ion-padding">
+    <ion-text color="medium">
+      <h4>Syllabus will be uploaded soon</h4>
+    </ion-text>
+  </div>
+  
+</ion-card>
+</ion-content>

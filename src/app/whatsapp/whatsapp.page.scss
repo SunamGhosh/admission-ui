@@ -1,0 +1,30 @@
+ion-badge[color="warning"] {
+  font-size: 10px;
+  margin-left: 5px;
+  vertical-align: top;
+}
+ion-item:hover {
+  background-color: #f2f2f2;
+  --ion-item-background: #f2f2f2;
+  cursor: pointer;
+}
+ion-item.activated {
+  --background: #ffe6e6;
+  --color: purple
+}
+ion-item:hover {
+  background-color: #e0e0e0; /* Light gray background on hover */
+  cursor: pointer;          /* Pointer cursor for better UX */
+}
+
+/* Active state styling */
+.active-item {
+  background-color: #d4f1f9; /* Light blue for active items */
+  color: #0078d4;           /* Text color for active items */
+  font-weight: bold;        /* Bold text for active items */
+}
+
+/* Adjust icons in active state */
+.active-item ion-icon {
+  color: #0078d4; /* Match icon color to text */
+}

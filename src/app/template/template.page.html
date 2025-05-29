@@ -1,0 +1,87 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Add Templates</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="w3-container" style="background-color: #f2f2f2;">
+  <div class="w3-row-padding">
+
+    <!-- Left Panel: Template Table -->
+    <div class="w3-col l6 m12 s12 w3-card w3-white w3-padding" style="max-height: 80vh; overflow-y: auto;">
+      <h4 class="w3-text-purple"><b>All Templates</b></h4>
+      <table class="w3-table-all w3-hoverable w3-small">
+        <thead>
+          <tr class="w3-light-grey w3-text-black">
+            <th>#</th>
+            <th>Module</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Short Name</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tr *ngFor="let t of templates; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ getModuleName(t.module_id) }}</td>
+          <td>{{ getCategoryName(t.category_id) }}</td>
+          <td>{{ getSubcategoryName(t.subcategory_id) }}</td>
+          <td>{{ t.template_shortname }}</td>
+          <td>{{ t.template_name }}</td>
+          <td>{{ t.created_at | date:'yyyy-MM-dd hh:mm a' }}</td>
+          <td>
+            <button class="w3-button w3-blue w3-small">✎</button>
+            <button class="w3-button w3-red w3-small">🗑</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Right Panel: Template Form -->
+    <div class="w3-col l5 m12 s12 w3-card w3-padding w3-margin-left w3-white">
+      <h4 class="w3-text-purple"><b>Create your template</b></h4>
+
+      <form (ngSubmit)="addTemplate()" #templateForm="ngForm">
+        <label class="w3-text-grey">Module Name</label>
+        <select [(ngModel)]="template.module_id" name="module_id" class="w3-select w3-border" required>
+          <option *ngFor="let mod of modules" [value]="mod.id">{{ mod.module_name }}</option>
+        </select>
+
+        <label class="w3-text-grey">Category Name</label>
+        <select [(ngModel)]="template.category_id" name="category_id" class="w3-select w3-border" required>
+          <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.category_name }}</option>
+        </select>
+
+        <label class="w3-text-grey">Sub Category Name</label>
+        <select [(ngModel)]="template.subcategory_id" name="subcategory_id" class="w3-select w3-border" required>
+          <option *ngFor="let sub of subcategories" [value]="sub.id">{{ sub.subcategory_name }}</option>
+        </select>
+
+        <label class="w3-text-grey">Template Short Name</label>
+        <input type="text" [(ngModel)]="template.template_shortname" name="template_shortname" class="w3-input w3-border" required>
+
+        <label class="w3-text-grey">Select Variable</label>
+        <select class="w3-select w3-border" [(ngModel)]="template.variables" name="variables" required>
+          <option *ngFor="let variable of variableList" [value]="variable">{{ variable }}</option>
+        </select>
+
+        <button type="button" class="w3-button w3-blue w3-small w3-margin-top" (click)="addVariable()">Show Variables</button>
+
+        <label class="w3-text-grey">Select URL</label>
+        <select class="w3-select w3-border" [(ngModel)]="selectedLink" name="selectedLink" required>
+          <option *ngFor="let link of linkList" [value]="link">{{ link }}</option>
+        </select>
+
+        <button type="button" class="w3-button w3-blue w3-small w3-margin-top" (click)="addLink()">Add URL</button>
+
+        <label class="w3-text-grey">Template Name</label>
+        <textarea [(ngModel)]="template.template_name" name="template_name" class="w3-input w3-border w3-margin-top" rows="5" required></textarea>
+
+        <button type="submit" class="w3-button w3-purple w3-margin-top w3-right">Update</button>
+      </form>
+    </div>
+
+  </div>
+</ion-content>

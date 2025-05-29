@@ -1,0 +1,80 @@
+<ion-header translucent="true">
+  <ion-toolbar color="tertiary">
+    <ion-title class="ion-text-center">Course Structure</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <div class="w3-container w3-purple">
+    
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="3" >
+          <ion-item class="ion-margin-top">
+            <!-- <ion-label position="floating">Select Course</ion-label> -->
+            <ion-select [(ngModel)]="selectedCourse" interface="popover" placeholder="Select Course">
+              <ion-select-option *ngFor="let course of courses" [value]="course.id">
+                {{ course.course_name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12" size-md="3" >
+          <ion-item class="ion-margin-top">
+            <!-- <ion-label position="floating">Select Semester</ion-label> -->
+            <ion-select [(ngModel)]="selectedSemester" interface="popover" placeholder="Select Semester">
+              <ion-select-option *ngFor="let s of semesters" [value]="s.id">
+                {{ s.semester_name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12" size-md="4" >
+          <ion-item class="ion-margin-top">
+            <ion-label>Choose File</ion-label>
+            <input type="file" (change)="onFileSelect($event)" />
+          </ion-item>
+          
+          
+        </ion-col>
+     <ion-col>
+         <ion-button expand="block" color="primary" class="ion-margin-top" (click)="uploadCourseStructure()">
+          Upload Structure
+        </ion-button>
+     </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <hr />
+
+  <div class="ion-padding">
+    <h3 class="w3-center w3-text-white">Uploaded Course Structures</h3>
+    <table class="w3-table-all w3-card-4 w3-striped w3-hoverable">
+      <thead>
+        <tr class="w3-purple">
+          <th>Sl. No</th>
+          <th>Course</th>
+          <th>Semester</th>
+          <th>File Name</th>
+          <th>Download</th>
+        </tr>
+      </thead>
+      <tbody style="color: black; font-size: 14px;">
+        <tr *ngFor="let cs of courseStructure; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ getCourseName(cs.course_id) }}</td>
+          <td>{{ getSemesterName(cs.semester_id) }}</td>
+          <td>{{ cs.file_name }}</td>
+          <td>
+            <a [href]="'http://localhost:3000/' + cs.file_path" download target="_blank">
+              <ion-button color="success" size="small">Download</ion-button>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+</ion-content>

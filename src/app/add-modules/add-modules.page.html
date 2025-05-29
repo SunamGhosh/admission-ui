@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Modules</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- W3.CSS container -->
+  <div class="w3-row-padding">
+    <!-- Left Panel - Module Table -->
+    <div class="w3-col l6 m12 s12">
+      <div class="w3-card-4 w3-white w3-padding">
+        <h3 class="w3-center">Modules List</h3>
+
+        <div class="w3-row w3-margin-bottom">
+          <div class="w3-col m6">
+            <input class="w3-input w3-border" placeholder="Search Module..." [(ngModel)]="searchTerm" (input)="filterModules()" />
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="w3-table w3-bordered w3-striped w3-small">
+            <tr class="w3-blue">
+              <th>Sl. No</th>
+              <th>Module Name</th>
+              <th>Action</th>
+            </tr>
+            <tr *ngFor="let mod of filteredModules; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ mod.module_name }}</td>
+              <td>
+                <ion-button (click)="editModule(mod)">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
+                <ion-button (click)="deleteModule(mod.id)">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </ion-button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel - Form -->
+    <div class="w3-col l5 m12 s12">
+      <div class="w3-card-4 w3-light-blue w3-padding">
+        <h3 class="w3-center">{{ editMode ? 'Edit' : 'Add' }} Module</h3>
+
+        <label class="w3-text-white">Module Name</label>
+        <input class="w3-input w3-border w3-margin-bottom" [(ngModel)]="module_name" placeholder="Enter module name" />
+
+        <button class="w3-button w3-white w3-text-blue w3-margin-top" (click)="saveModule()" style="width: 100%;">
+          {{ editMode ? 'Update' : 'Add' }} Module
+        </button>
+
+        <button *ngIf="editMode" class="w3-button w3-red w3-margin-top" (click)="resetForm()" style="width: 100%;">
+          Cancel Edit
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content>

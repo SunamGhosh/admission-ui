@@ -1,0 +1,155 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="tertiary">
+  
+    <ion-title style="text-align: center;">Calculator</ion-title>
+
+  </ion-toolbar>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card class="calculator-card">
+    <ion-card-header>
+      <ion-card-title class="calculator-title">Calculator</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid class="calculator-grid">
+        <!-- Display -->
+        <ion-row>
+          <ion-col size="12">
+            <ion-input
+              [(ngModel)]="display"
+              class="calculator-display"
+              readonly
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <!-- Number Buttons -->
+        <ion-row>
+          <ion-col *ngFor="let num of [7, 8, 9]">
+            <ion-button
+              expand="block"
+              color="tertiary"
+              class="calc-button"
+              (click)="addToDisplay(num)"
+            >
+              {{ num }}
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button
+              expand="block"
+              color="danger"
+              class="calc-button clear-button"
+              (click)="clear()"
+            >
+              C
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col *ngFor="let num of [4, 5, 6]">
+            <ion-button
+              expand="block"
+              color="tertiary"
+              class="calc-button"
+              (click)="addToDisplay(num)"
+            >
+              {{ num }}
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button
+              expand="block"
+              color="secondary"
+              class="calc-button"
+              (click)="addToDisplay('+')"
+            >
+              +
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col *ngFor="let num of [1, 2, 3]">
+            <ion-button
+              expand="block"
+              color="tertiary"
+              class="calc-button"
+              (click)="addToDisplay(num)"
+            >
+              {{ num }}
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button
+              expand="block"
+              color="secondary"
+              class="calc-button"
+              (click)="addToDisplay('-')"
+            >
+              -
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-button
+              expand="block"
+              color="tertiary"
+              class="calc-button"
+              (click)="addToDisplay(0)"
+            >
+              0
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button
+              expand="block"
+              color="tertiary"
+              class="calc-button"
+              (click)="addToDisplay('.')"
+            >
+              .
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button
+              expand="block"
+              color="secondary"
+              class="calc-button"
+              (click)="addToDisplay('*')"
+            >
+              *
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button
+              expand="block"
+              color="secondary"
+              class="calc-button"
+              (click)="addToDisplay('/')"
+            >
+              /
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        <!-- Equals Button -->
+        <ion-row>
+          <ion-col size="12">
+            <ion-button
+              expand="block"
+              color="success"
+              class="calc-button equals-button"
+              (click)="calculate()"
+            >
+              =
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

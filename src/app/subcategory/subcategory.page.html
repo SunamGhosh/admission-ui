@@ -1,0 +1,83 @@
+<!-- Header -->
+<header class="w3-container w3-purple w3-padding-16">
+  <h2 class="w3-center">Manage Subcategories</h2>
+</header>
+<ion-content>
+  
+<!-- Main Content -->
+<div class="w3-row-padding">
+
+  <!-- Subcategory List (50%) -->
+  <div class="w3-card w3-white w3-padding" style="width: 50%; float: left;">
+    <h3 class="w3-text-purple">Subcategories</h3>
+
+    <div class="w3-responsive">
+      <table class="w3-table-all w3-hoverable">
+        <thead>
+          <tr class="w3-purple">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sc of subcategories">
+            <td>{{ sc.id }}</td>
+            <td>{{ sc.subcategory_name }}</td>
+            <td>{{ getCategoryName(sc.category_id) }}</td>
+            <td>
+              <button class="w3-button w3-blue w3-small" (click)="editSubcategory(sc)">Edit</button>
+              <button class="w3-button w3-red w3-small" (click)="deleteSubcategory(sc.id)">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="subcategories.length === 0">
+            <td colspan="4" class="w3-center">No subcategories found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Add/Edit Subcategory Form (40%) -->
+  <div class="w3-card w3-white w3-padding" style="width: 40%; float: left; margin-left: 5%;">
+    <h3 class="w3-text-purple">{{ subcategory.id ? 'Edit' : 'Add' }} Subcategory</h3>
+
+    <form (submit)="addOrUpdateSubcategory(); $event.preventDefault()">
+
+      <!-- Category Select -->
+      <label class="w3-text-purple"><b>Category</b></label>
+      <select class="w3-select w3-border w3-margin-bottom"
+              [(ngModel)]="selectedCategoryId"
+              (change)="loadSubcategoriesByCategory(selectedCategoryId!)"
+              name="categorySelect">
+        <option value="" disabled selected>Select category</option>
+        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.category_name }}</option>
+      </select>
+
+      <!-- Subcategory Name Input -->
+      <label class="w3-text-purple"><b>Subcategory Name</b></label>
+      <input class="w3-input w3-border w3-margin-bottom"
+             type="text"
+             [(ngModel)]="subcategory.subcategory_name"
+             name="subcategory_name"
+             required>
+
+      <!-- Submit Button -->
+      <button class="w3-button w3-purple w3-block w3-margin-top" type="submit">
+        {{ subcategory.id ? 'Update' : 'Add' }} Subcategory
+      </button>
+
+      <!-- Reset Button -->
+      <button class="w3-button w3-border w3-block w3-margin-top"
+              type="button"
+              (click)="subcategory = { id: null, category_id: selectedCategoryId ?? 0, subcategory_name: '' }">
+        Reset
+      </button>
+
+    </form>
+  </div>
+
+</div>
+
+</ion-content>

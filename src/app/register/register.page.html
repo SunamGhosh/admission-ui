@@ -1,0 +1,355 @@
+<ion-header>
+  <ion-toolbar color="primary" style="text-align: center;">
+    <ion-title>     Welcome to Registeration </ion-title>
+    <h4>{{ user?.first_name }} {{ user?.last_name }}</h4>
+    <input type="hidden" [(ngModel)]="newUser.agent_name">
+    
+    <ion-button slot="end" routerLink="/student-login">
+      login
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+
+  
+
+  
+  <ion-content class="background" style="background-color: #090979;">
+    <img src="../../assets/man2.jpg" alt="" style="margin-top: 50px; height: 65%; border-radius: 70px; ">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-md="10" offset-md="3" style="margin-top: -500px; background-color: rgb(255, 255, 255); border-radius: 20%; height: 700px;" >
+          <!-- <ion-card class="color" style="border-radius: 50px;"> -->
+            <!-- <ion-card-header color="primary">
+              <ion-card-title>
+                Register
+              </ion-card-title>
+            </ion-card-header>-->
+            
+
+            <div class="testimonial-title">
+             <u> <span class="student">APPLY</span>
+              <span class="testimonial">Online</span></u>
+            </div>
+            <ion-card-content > 
+           
+              
+              <div class="steps-container" style="margin-bottom: -50px;">
+                <div class="steps-wrapper">
+                  <button class="step" [class.active]="currentStep === 1" (click)="goToStep(1)">Step 1</button>
+                  <button class="step" [class.active]="currentStep === 2" (click)="goToStep(2)">Step 2</button>
+                  <button class="step" [class.active]="currentStep === 3" (click)="goToStep(3)">Step 3</button>
+                  <!-- <button class="step" [class.active]="currentStep === 4" (click)="goToStep(4)">Step 4</button> -->
+                </div>
+              </div>
+
+
+              <div *ngIf="currentStep === 1">
+                <ion-grid class="form-container">
+                  <ion-row>
+                    <ion-col size-md="10" offset-md="1">
+                      <h2 class="w3-center form-title">Fill up details</h2>
+      
+                      <!-- Registration Form -->
+                      <ion-grid>
+                        <!-- First Row -->
+                        <ion-row>
+                          <ion-col size="4">
+                            <ion-item class="custom-input">
+                              <ion-icon name="id-card-outline" slot="start"></ion-icon>
+                              <ion-input [(ngModel)]="newUser.application_no" ></ion-input>
+                            </ion-item>
+                          </ion-col>
+                          <ion-col size="5">
+                            <ion-item class="custom-input">
+                              <ion-icon name="school-outline" slot="start"></ion-icon>
+                              <ion-select [(ngModel)]="newUser.course_id" placeholder="Select Course Interested">
+                                <ion-select-option *ngFor="let course of courses" [value]="course.id">
+                                  {{ course.course_name }}
+                                </ion-select-option>
+                              </ion-select>
+                            </ion-item>
+                          </ion-col>
+                        </ion-row>
+      
+                        <!-- Second Row -->
+                        <ion-row>
+                          <ion-col size="5">
+                            <ion-item class="custom-input">
+                              <ion-icon name="person-outline" slot="start"></ion-icon>
+                              <ion-input placeholder="Full Name" [(ngModel)]="newUser.full_name"></ion-input>
+                            </ion-item>
+                          </ion-col>
+
+                       
+                          <ion-col size="4">
+                            <ion-item class="custom-input">
+                              <ion-icon name="calendar-outline" slot="start"></ion-icon>
+                              <ion-input type="date" [(ngModel)]="newUser.DOB"></ion-input>
+                              <ion-label>D.O.B</ion-label>
+                            </ion-item>
+                          </ion-col>
+                        </ion-row>
+      
+                        <!-- Third Row -->
+                        <ion-row>
+                          <ion-col size="4">
+                            <ion-item class="custom-input">
+                              <ion-icon name="call-outline" slot="start"></ion-icon>
+                              <ion-input type="tel" placeholder="Self phone number" [(ngModel)]="newUser.mobile"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                          <ion-col size="5">
+                            <ion-item class="custom-input">
+                              <ion-icon name="mail-outline" slot="start"></ion-icon>
+                              <ion-input type="email" placeholder="Email address" [(ngModel)]="newUser.email"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                        </ion-row>
+      
+                        <!-- Fourth Row: 10th & 12th Year & Percentage -->
+                        <ion-row>
+                          <ion-col size="3">
+                            <ion-item class="custom-input">
+                              <ion-label>10<sup>th</sup></ion-label>
+                            </ion-item>
+                          </ion-col>
+                          <ion-col size="3">
+                            <ion-item class="custom-input">
+                              <ion-input placeholder="Year of Passing" [(ngModel)]="newUser.ten_passing_year"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                          <ion-col size="3">
+                            <ion-item class="custom-input">
+                              <ion-input placeholder="Percentage" [(ngModel)]="newUser.ten_marks"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                        </ion-row>
+      
+                        <ion-row>
+                          <ion-col size="3">
+                            <ion-item class="custom-input">
+                              <ion-label>12<sup>th</sup></ion-label>
+                            </ion-item>
+                          </ion-col>
+                          <ion-col size="3">
+                            <ion-item class="custom-input">
+                              <ion-input placeholder="Year of Passing"  [(ngModel)]="newUser.twelve_passing_year"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                          <ion-col size="3">
+                            <ion-item class="custom-input">
+                              <ion-input placeholder="Percentage" [(ngModel)]="newUser.twelve_marks"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                        </ion-row>
+      
+                        <!-- Next Step Button -->
+                        <ion-row>
+                         
+               </ion-row>
+                      </ion-grid>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+
+              </div>
+
+              <!-- Step 2: Upload Documents -->
+              <div *ngIf="currentStep === 2">
+                <ion-grid class="form-container">
+                  <ion-row>
+                    <ion-col size-md="10" offset-md="1">
+                      <h2 class="w3-center form-title">Admission Form</h2>
+      
+                      <!-- Registration Form -->
+                      <ion-grid>
+                        <!-- First Row -->
+                    
+           
+                        <ion-row>
+                          <ion-col size="5">
+                            <ion-item class="custom-input">
+                              <ion-icon name="person-outline" slot="start"></ion-icon>
+                              <ion-input placeholder="First Name" [(ngModel)]="newUser.first_name"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                          <ion-col size="5">
+                            <ion-item class="custom-input">
+                              <ion-icon name="person-outline" slot="start"></ion-icon>
+                              <ion-input placeholder="Last Name" [(ngModel)]="newUser.last_name"></ion-input>
+                            </ion-item>
+                          </ion-col>
+
+                       
+                        
+                        </ion-row>
+      
+                        <!-- Third Row -->
+                         
+                        <ion-row>
+                          <ion-col size="3">
+                            <ion-item class="custom-input">
+                              <ion-icon name="person-outline" slot="start"></ion-icon>
+                              <ion-input placeholder="Email" [(ngModel)]="newUser.email"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                          <ion-col size="3">
+                            <ion-item class="custom-input">
+                              <ion-icon name="person-outline" slot="start"></ion-icon>
+                              <ion-input placeholder="Whatsapps No." [(ngModel)]="newUser.mobile_whatsapp"></ion-input>
+                            </ion-item>
+                          </ion-col>
+
+                       
+                          <ion-col size="4">
+                            <ion-item class="custom-input">
+                              <ion-icon name="calendar-outline" slot="start"></ion-icon>
+                              <ion-select [(ngModel)]="newUser.gender"  style="color: black; border-radius: 8px;"interface="popover"
+                              class="custom-select" placeholder="Select Gender">
+                                <ion-select-option value="MALE">MALE</ion-select-option>
+                                <ion-select-option value="FEMALE">FEMALE</ion-select-option>
+                                <ion-select-option value="OTHERS">OTHERS</ion-select-option>
+                             
+                              </ion-select>
+                            </ion-item>
+                          </ion-col>
+                        </ion-row>
+      
+                        <ion-row>
+                          <ion-col size="4">
+                            <ion-item class="custom-input">
+                              <ion-icon name="call-outline" slot="start"></ion-icon>
+                              <ion-input type="tel" placeholder="Father" [(ngModel)]="newUser.father_name"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                          <ion-col size="5">
+                            <ion-item class="custom-input">
+                              <ion-icon name="mail-outline" slot="start"></ion-icon>
+                              <ion-input type="email" placeholder="Phone" [(ngModel)]="newUser.father_phone"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                        </ion-row>
+      
+                        <!-- Fourth Row: 10th & 12th Year & Percentage -->
+                        <ion-row>
+                          <ion-col size="4">
+                            <ion-item class="custom-input">
+                              <ion-icon name="call-outline" slot="start"></ion-icon>
+                              <ion-input  placeholder="Mother Name" [(ngModel)]="newUser.mother_name"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                          <ion-col size="5">
+                            <ion-item class="custom-input">
+                              <ion-icon name="mail-outline" slot="start"></ion-icon>
+                              <ion-input type="tel" placeholder="Mother Phone" [(ngModel)]="newUser.mother_phone"></ion-input>
+                            </ion-item>
+                          </ion-col>
+                        </ion-row>
+      
+                        <ion-row>
+                          <ion-col size="4">
+                            <ion-item class="custom-input">
+                              <ion-icon name="call-outline" slot="start"></ion-icon>
+                              <ion-select [(ngModel)]="newUser.blood_group"  style="color: black; border-radius: 8px;"interface="popover"
+                          class="custom-select" placeholder="Select Blood Group">
+                            <ion-select-option value="A+">A+</ion-select-option>
+                            <ion-select-option value="A-">A-</ion-select-option>
+                            <ion-select-option value="B+">B+</ion-select-option>
+                            <ion-select-option value="B-">B-</ion-select-option>
+                            <ion-select-option value="O-">O-</ion-select-option>
+                            <ion-select-option value="O+">O+</ion-select-option>
+              
+              
+                         
+                          </ion-select>           
+                            </ion-item>
+                          </ion-col>
+                                 </ion-row>
+      
+                        <!-- Next Step Button -->
+                        <ion-row>
+                         
+               </ion-row>
+                      </ion-grid>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+
+              </div>
+
+        <div *ngIf="currentStep === 3" >
+          <ion-grid>
+            <ion-row>
+              <ion-col size-md="10" style="margin-top: -50px;">
+
+                
+                 
+                    <ion-card-header>
+                      <h2 class="upload-title">Upload Your Documents</h2>
+                    </ion-card-header>
+                  
+                  
+                      <ion-grid>
+                        <ion-row class="table-header">
+                          <ion-col size="3"><strong>Document Type</strong></ion-col>
+                          <ion-col size="2"><strong>Form No.</strong></ion-col>
+                          <ion-col size="4"><strong>Upload File</strong></ion-col>
+                          <ion-col size="2"><strong>Action</strong></ion-col>
+                        </ion-row>
+                  
+                        <ng-container *ngFor="let document of [
+                          { name: '12th Marksheet' }, 
+                          { name: '10th Marksheet' }, 
+                          { name: 'AADHAR' }, 
+                          { name: 'PAN Card' }
+                        ]">
+                          <ion-row class="upload-row">
+                            <ion-col size="3">{{ document.name }}</ion-col>
+                            <ion-col size="2">
+                              <ion-item class="custom-input">
+                                <ion-input type="text" [(ngModel)]="userId" readonly></ion-input>
+                              </ion-item>
+                            </ion-col>
+                            <ion-col size="4">
+                              <ion-item class="custom-input">
+                                <input type="file" (change)="onPdfSelect($event)" accept="application/pdf">
+                              </ion-item>
+                            </ion-col>
+                            <ion-col size="2">
+                              <ion-button color="success" expand="full" (click)="uploadPdf()">Upload</ion-button>
+                            </ion-col>
+                          </ion-row>
+                        </ng-container>
+                      </ion-grid>
+                  
+                     
+               
+             
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+          
+
+        <div class="next-step-container">
+          <ion-button expand="full" color="secondary" *ngIf="currentStep > 1" (click)="prevStep()">Previous</ion-button>
+          <ion-button expand="full" color="primary" *ngIf="currentStep < 3" (click)="nextStep()">Next Step</ion-button>
+          <ion-button *ngIf="currentStep === 2" type="submit" (click)="submitApplication()">Submit</ion-button>
+        </div>
+              
+            </ion-card-content>
+          
+              
+
+              
+             
+            
+           
+        <!-- </ion-card> -->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+  
+  

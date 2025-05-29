@@ -1,0 +1,287 @@
+<!-- 
+<ion-item>
+  <ion-label>Select University</ion-label>
+  <ion-select
+    placeholder="Choose University"
+    [(ngModel)]="selectedUniversity"
+    (ionChange)="onUniversityChange($event)">
+    <ion-select-option *ngFor="let university of universities" [value]="university.id">
+      {{ university.university_name }}
+    </ion-select-option>
+    
+  </ion-select>
+</ion-item> -->
+<ion-toolbar color="tertiary">
+  <!-- <ion-buttons slot="start">
+    <ion-back-button defaultHref="/home/kolhan-university"></ion-back-button>Back
+  </ion-buttons> -->
+  <ion-title style="text-align: center;">Quick Admission</ion-title>
+ 
+</ion-toolbar>
+
+<ion-content class="ion-padding" color="light">
+  <ion-grid>
+    <ion-row>
+      <!-- Left Column for Selected University Details -->
+      <ion-col size="12" size-md="4" offset="3">
+       
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-card class="form-card">
+    
+    <ion-card-header class="card-header w3-purple">
+
+
+
+
+      
+      <div style="text-align: center; margin-bottom: -5px; font-size: 1.2rem; color:white; margin-top: -10px;">
+        
+        <ion-buttons slot="start">
+
+        </ion-buttons>
+      </div>
+
+
+      <div *ngIf="selectedUniversity" >
+         
+            
+        <ion-card-title style="color: white;">
+          {{ selectedUniversity.university_name || 'Select a university' }}
+        </ion-card-title>
+        
+      
+     
+      <ion-card-content>
+        <!-- <img [src]="selectedUniversity.image" alt="University Image" style="width: 100%; height: auto; border-radius: 8px;" /> -->
+        <!-- <p><strong>University Link:</strong> <a [routerLink]="selectedUniversity.link">View Courses</a></p> -->
+      </ion-card-content>
+    
+  </div>
+     
+      <ion-card-title class="title"><span style="font-size: 20px; margin-right: 50px;">  Form No.: {{ newUser.id || 'Loading...' }}</span>
+        Quick Admission
+
+
+     
+      </ion-card-title>
+
+      
+    </ion-card-header>
+
+    <ion-card-content class="background">
+      <div class="form-grid">
+        <!-- Left Column -->
+        <div class="form-column">
+          <ion-item class="input-item">
+
+              <ion-label position="floating">Roll No.</ion-label>
+              <ion-input  [(ngModel)]="newUser.roll_no"></ion-input>
+          </ion-item>
+           
+            <ion-item class="input-item" style="padding-top: 20px;">
+              <ion-label>Course</ion-label>
+              <ion-select [(ngModel)]="newUser.course_id" placeholder="Select Course">
+                <ion-select-option *ngFor="let c of co" [value]="c.id">{{ c.course_name }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          <ion-item>
+            <ion-label position="floating">First Name</ion-label>
+            <ion-input [(ngModel)]="newUser.first_name"></ion-input>
+          </ion-item>
+
+          <ion-item  lines="none"  class="input-item" style="padding-top: 20px;">
+            <ion-label  >Select Gender</ion-label>
+            <ion-select [(ngModel)]="newUser.gender"                 [(ngModel)]="newUser.gender" style="color: black; border-radius: 8px;"interface="popover"
+            class="custom-select" placeholder="Select Gender">
+              <ion-select-option value="MALE">MALE</ion-select-option>
+              <ion-select-option value="FEMALE">FEMALE</ion-select-option>
+              <ion-select-option value="OTHERS">OTHERS</ion-select-option>
+           
+            </ion-select>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-label position="floating">Email</ion-label>
+            <ion-input [(ngModel)]="newUser.email" type="email"></ion-input>
+            <ion-text color="danger" *ngIf="emailError">
+              {{ emailError }}
+            </ion-text>
+          </ion-item>
+
+          
+          <ion-item class="input-item">
+            <ion-label position="floating">Father Name</ion-label>
+            <ion-input [(ngModel)]="newUser.father_name"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-label position="floating">Mother Name</ion-label>
+            <ion-input [(ngModel)]="newUser.mother_name"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <!-- <ion-label position="floating">Date of Birth</ion-label> -->
+            <ion-input [(ngModel)]="newUser.DOB" type="date" label="Date of Birth"></ion-input>
+          </ion-item>
+        </div>
+
+        <!-- Right Column -->
+        <div class="form-column">
+          <ion-item class="input-item" style="padding-top: 20px;">
+            <ion-label>Session</ion-label>
+            <ion-select [(ngModel)]="newUser.session_id" placeholder="Select Session">
+              <ion-select-option *ngFor="let s of st" [value]="s.id">{{ s.session_name }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="input-item" style="padding-top: 20px;">
+            <ion-label>Semester</ion-label>
+            <ion-select [(ngModel)]="newUser.semester_id" placeholder="Select Semester">
+              <ion-select-option *ngFor="let se of sem" [value]="se.id">{{ se.semester_name }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="input-item">
+            <ion-label position="floating">Last Name</ion-label>
+            <ion-input [(ngModel)]="newUser.last_name"></ion-input>
+          </ion-item>
+
+          <ion-item  lines="none"  class="input-item" style="padding-top: 20px;">
+            <ion-label  >Blood Group</ion-label>
+            <ion-select [(ngModel)]="newUser.blood_group"                 [(ngModel)]="newUser.blood_group" style="color: black; border-radius: 8px;"interface="popover"
+            class="custom-select" placeholder="Select Blood Group">
+              <ion-select-option value="A+">A+</ion-select-option>
+              <ion-select-option value="A-">A-</ion-select-option>
+              <ion-select-option value="B+">B+</ion-select-option>
+              <ion-select-option value="B-">B-</ion-select-option>
+              <ion-select-option value="O-">O-</ion-select-option>
+              <ion-select-option value="O+">O+</ion-select-option>
+
+
+           
+            </ion-select>
+          </ion-item>
+
+
+          <!-- <ion-item class="input-item">
+            <ion-label position="floating">Password</ion-label>
+            <ion-input [(ngModel)]="newUser.password" maxlength="10"></ion-input>
+          </ion-item> -->
+          <ion-item class="input-item">
+            <ion-label position="floating">Mobile(Self)</ion-label>
+            <ion-input [(ngModel)]="newUser.mobile" maxlength="10"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-label position="floating">Father Phone</ion-label>
+            <ion-input [(ngModel)]="newUser.father_phone"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-label position="floating">Mother Phone</ion-label>
+            <ion-input [(ngModel)]="newUser.mother_phone"></ion-input>
+          </ion-item>
+
+        
+          <ion-item class="input-item">
+            <ion-label position="floating">Password</ion-label>
+            <ion-input [(ngModel)]="newUser.password" maxlength="10"></ion-input>
+          </ion-item>
+         
+
+          
+        </div>
+      </div>
+
+      <!-- Save Button -->
+      <div class="button-container">
+        <ion-button expand="block" color="success" (click)="addUser()">Save</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<style>
+  .form-card {
+    width: 90%;
+    max-width: 960px;
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(145deg, #ffffff, #f4f4f4);
+  }
+
+  .card-header {
+  
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+  }
+
+  .form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 5px;
+}
+
+.form-column {
+  flex: 1;
+  min-width: 48%; /* Ensure two columns */
+}
+
+.input-item {
+  margin: 5px 0;
+}
+
+ion-item {
+  --background: #f9f9f9;
+  --border-radius: 10px;
+  --padding-start: 8px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+}
+
+ion-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+ion-input,
+ion-select {
+  font-size: 0.9rem;
+  height: 36px;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+ion-button {
+  font-size: 1rem;
+  padding: 8px 16px;
+}
+
+  ion-button {
+    --background: linear-gradient(135deg, #43e97b, #38f9d7);
+    --border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  ion-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  }
+</style>

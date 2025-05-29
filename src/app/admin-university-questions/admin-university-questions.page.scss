@@ -1,0 +1,26 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .upload-button {
+    margin-top: 10px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  .small-data-font {
+    font-size: 12px; // or 11px if you want it even smaller
+  }
+  

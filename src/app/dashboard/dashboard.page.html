@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <!-- <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/kolhan-university"></ion-back-button>Back
+    </ion-buttons> -->
+    <ion-title style="text-align: center;">Dashboard</ion-title>
+    <ion-button (click)="logout()" slot="end" color="danger">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Logout
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <ion-grid>
+    <ion-row>
+      <!-- User Info Card for Regular User -->
+      <ion-col size-md="4" *ngIf="!isAdminLoggedIn" style="margin-left: 370px;">
+        <ion-card *ngIf="user" style="margin: 20px;">
+          <ion-card-header style="background-image: url(../../assets/1.jpg);">
+            <ion-card-title style="text-align: center;">
+              <h1>Welcome User!</h1>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center" style="color: black; background-color: white;">
+            <img src="./../../../assets/user.jpg" alt="" style="border-radius: 50px;height: 80px;">
+            <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+            <p>Date Of Birth: {{ user.DOB }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Admin Info Card for Admin -->
+      <ion-col size-md="4" *ngIf="isAdminLoggedIn" style="margin-left: 370px;">
+        <ion-card *ngIf="user" style="margin: 20px;">
+          <ion-card-header style="background-image: url(../../assets/1.jpg);">
+            <ion-card-title style="text-align: center;">
+              <h1>Welcome Admin!</h1>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center" style="color: black; background-color: white;">
+            <img src="./../../../assets/admin.png" alt="" style="border-radius: 50px;height: 80px;">
+            <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+            <p>Date Of Birth: {{ user.DOB }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <!-- Common Info Cards for Both User and Admin -->
+    <ion-row>
+      <ion-col size-md="3">
+        <ion-card *ngIf="user" style="margin: 20px; color: black; background-color: white;">
+          <ion-card-header style="background-color: yellow;">
+            <ion-card-title><h1 style="color: rgb(33, 30, 34);">Mail</h1></ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="mail-outline" style="font-size: 50px; color: blue;"></ion-icon>
+            <h2>Email: {{ user.email }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-md="4">
+        <ion-card *ngIf="user" style="margin: 20px; color: black; background-color: white;">
+          <ion-card-header style="background-color: blue;">
+            <ion-card-title><h1 style="color: white;">Parents Details</h1></ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="people-outline" style="font-size: 50px; color: blue;"></ion-icon>
+            <h2>Father Name: {{ user.father_name }}</h2>
+            <h2>Mother Name: {{ user.mother_name }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-md="4">
+        <ion-card *ngIf="user" style="margin: 20px; color: black; background-color: white;">
+          <ion-card-header style="background-color: green;">
+            <ion-card-title><h1 style="color: white;">Phone No.</h1></ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="call-outline" style="font-size: 50px; color: blue;"></ion-icon>
+            <h2>Mobile: {{ user.mobile }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

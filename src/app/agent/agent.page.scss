@@ -1,0 +1,52 @@
+/* Header Styling */
+.header-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  /* Card Styling */
+  .add-agent-card, .agent-list-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: transform 0.2s;
+  }
+  
+  .add-agent-card:hover, .agent-list-card:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Table Styling */
+  .agent-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .agent-table th, .agent-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .agent-table th {
+   
+    color: white;
+    font-weight: bold;
+  }
+  
+  .agent-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .agent-table tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+  
+  /* Button Enhancements */
+  ion-button {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  

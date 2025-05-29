@@ -1,0 +1,106 @@
+/* Main container styling */
+.sessions-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Card styling for session list */
+.sessions-list-card {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Add subtle hover effect on card */
+.sessions-list-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Session List Title */
+.sessions-list-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #009688; /* Vibrant teal */
+  padding: 15px;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Table header styling */
+.table-header {
+ 
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px 0;
+  border-radius: 8px;
+}
+
+/* Table row styling */
+.table-row {
+  background-color: #ffffff;
+  margin: 8px 0;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.table-row:hover {
+  background-color: #fce4ec; /* Light pink on hover */
+  transform: scale(1.02);
+}
+
+ion-col {
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Dynamic Session Name and Short Name */
+.session-name {
+  color: #3f51b5; /* Indigo */
+  font-weight: bold;
+}
+
+.session-short-name {
+  color: #ff5722; /* Deep Orange */
+}
+
+/* Search bar styling */
+ion-searchbar {
+  border-radius: 8px;
+  background-color: #e0f7fa; /* Light cyan background */
+  padding: 8px;
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Footer message when no sessions found */
+ion-footer {
+  background-color: #f9f9f9;
+  padding: 15px;
+}
+
+ion-footer p {
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+}
+ion-content.background{
+  --background:linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 7%, rgba(0,212,255,1) 64%);
+  --background-size: cover
+
+ }
+ ion-modal::part(content) {
+  background: white;
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}

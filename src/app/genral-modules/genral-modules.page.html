@@ -1,0 +1,262 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <!-- WhatsApp Button -->
+    <ion-buttons slot="start">
+      <a href="https://web.whatsapp.com/" target="_blank">
+        <ion-button color="success" style="background-color: white;">
+          <ion-icon name="logo-whatsapp"></ion-icon>
+          Send WhatsApp
+        </ion-button>
+      </a>
+    </ion-buttons>
+
+    <!-- Page Title -->
+    <ion-title style="text-align: center;">General Module Dashboard</ion-title>
+
+    <!-- Navigation Buttons -->
+    <ion-buttons slot="end">
+      <ion-button routerLink="/home/dashboard">Back</ion-button>
+      <ion-button (click)="logout()">Logout</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <div class="container">
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <!-- Filter Section -->
+      <div class="filter-section">
+        <form class="filter-form">
+          <label class="filter-label" for="session">Session</label>
+          <select
+            id="session"
+            class="filter-input"
+            [(ngModel)]="selectedSession"
+            (change)="filterUsers()"
+            [ngModelOptions]="{standalone: true}"
+          >
+            <option value="">-- Select Session --</option>
+            <option *ngFor="let s of st" [value]="s.id">
+              {{ s.session_name }}
+            </option>
+          </select>
+
+          <label class="filter-label" for="course">Course</label>
+          <select
+            id="course"
+            class="filter-input"
+            [(ngModel)]="selectedCourse"
+            (change)="filterUsers()"
+            [ngModelOptions]="{standalone: true}"
+          >
+            <option value="">-- Select Course --</option>
+            <option *ngFor="let c of co" [value]="c.id">
+              {{ c.course_name }}
+            </option>
+          </select>
+
+          <label class="filter-label short-label" for="semyear">Sem/Year</label>
+          <select
+            id="semyear"
+            class="filter-input short-input"
+            [(ngModel)]="selectedSemester"
+            (change)="filterUsers()"
+            [ngModelOptions]="{standalone: true}"
+          >
+            <option value="">-- Select Semester --</option>
+            <option *ngFor="let se of sem" [value]="se.id">
+              {{ se.semester_name }}
+            </option>
+          </select>
+
+          <label class="filter-label short-label" for="roll">Roll</label>
+          <input
+            id="roll"
+            type="text"
+            class="filter-input"
+            [(ngModel)]="searchTerm"
+            (input)="filterUsers()"
+            placeholder="Enter Roll"
+            [ngModelOptions]="{standalone: true}"
+          />
+        </form>
+      </div>
+
+      <!-- Side-by-Side Layout for Table and Template -->
+      <div class="content-row">
+        <!-- Left Side: Table Section -->
+        <div class="table-section">
+          <div class="table-header">
+            <div class="table-title">Select Student</div>
+          </div>
+          <div class="table-container">
+            <table class="student-table">
+              <thead>
+                <tr>
+                  <th class="sno-column">
+                    <input
+                      type="checkbox"
+                      [(ngModel)]="selectAll"
+                      (change)="toggleSelectAll()"
+                    />
+                    S.No
+                  </th>
+                  <th>Name</th>
+                  <th class="roll-column">Roll</th>
+                  <th class="course-column">Course</th>
+                  <th class="session-column">Session</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of paginatedUsers; let i = index">
+                  <td class="sno-column text-center">
+                    <input
+                      type="checkbox"
+                      [(ngModel)]="user.selected"
+                      (change)="updatePreview()"
+                    />
+                    {{ (currentPage - 1) * itemsPerPage + i + 1 }}
+                  </td>
+                  <td>{{ user.first_name }} {{ user.last_name }}</td>
+                  <td class="text-center">{{ user.roll_no }}</td>
+                  <td class="text-center">{{ getCourseName(user.course_id) }}</td>
+                  <td class="text-center">{{ user.session_id }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination Controls -->
+          <div class="pagination-controls">
+            <button (click)="prevPage()" [disabled]="currentPage === 1">
+              Previous
+            </button>
+            <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+              <button
+                (click)="goToPage(i + 1)"
+                [disabled]="currentPage === i + 1"
+              >
+                {{ i + 1 }}
+              </button>
+            </ng-container>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+              Next
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Side: Contact, Template Selection, and Template Details -->
+        <div class="template-section">
+          <!-- Contact Checkboxes -->
+          <form class="contact-form">
+            <label class="contact-label" for="select-contact">Select Contact</label>
+            <div class="contact-checkboxes">
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="contactMother" [ngModelOptions]="{standalone: true}" />
+                Mother
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="contactStudent" [ngModelOptions]="{standalone: true}" />
+                Student
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="contactFather" [ngModelOptions]="{standalone: true}" />
+                Father
+              </label>
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="contactAll"
+                  (change)="toggleAllContacts()"
+                  [ngModelOptions]="{standalone: true}"
+                />
+                All
+              </label>
+            </div>
+          </form>
+
+          <!-- Template Selection -->
+          <form class="template-form">
+            <label class="template-label" for="select-template">Select Template</label>
+            <label class="template-sub-label module-label">Module</label>
+            <label class="template-sub-label category-label">Category</label>
+            <label class="template-sub-label subcategory-label">Sub Category</label>
+            <label class="template-sub-label template-label">Template</label>
+
+            <div class="template-placeholder"></div>
+            <select class="template-input module-input">
+              <option>EXAM</option>
+            </select>
+            <select class="template-input category-input">
+              <option>Exam Reminder</option>
+            </select>
+            <select class="template-input subcategory-input">
+              <option>Exam Reminder</option>
+            </select>
+            <select class="template-input template-input">
+              <option>Exam Reminder</option>
+            </select>
+          </form>
+
+          <!-- Template Details and Info Boxes -->
+          <div class="template-details-row">
+            <!-- Template Details -->
+            <div class="template-details">
+              <div class="template-details-title">Template Details</div>
+              <div *ngIf="selectedStudents.length === 0" class="template-content">
+                <pre>
+Dear {{ '{' }}student_name{{ '}' }}, {{ '{' }}course_id{{ '}' }}, {{ '{' }}semester_id{{ '}' }}
+
+This is a reminder for your upcoming {{ '{' }}exam_name{{ '}' }} scheduled on {{ '{' }}exam_date{{ '}' }}. Please be prepared.
+
+*GIIT Admin*
+                </pre>
+              </div>
+              <div *ngFor="let student of selectedStudents" class="template-content">
+                <pre>
+Dear {{ student.first_name }} {{ student.last_name }}, Course: {{ getCourseName(student.course_id) }}, Semester: {{ getSemesterName(student.semester_id) }}
+
+This is a reminder for your upcoming scheduled on Please be prepared.
+
+*GIIT Admin*
+                </pre>
+              </div>
+            </div>
+
+            <!-- Info Boxes -->
+            <div class="info-boxes">
+              <div class="info-box">
+                <span>Character Count :</span>
+                <span>{{ characterCount }}</span>
+              </div>
+              <div class="info-box alt">Total Student</div>
+              <div class="info-box">{{ selectedStudents.length }}</div>
+              <div class="info-box alt">Total Contacts</div>
+              <div class="info-box">{{ totalContacts }}</div>
+              <div class="info-box alt">WhatsApp Module</div>
+              <div class="info-box">EXAM</div>
+              <div class="info-box alt">WhatsApp Category</div>
+              <div class="info-box">Exam Reminder</div>
+              <div class="info-box alt">WhatsApp Sub Category</div>
+              <div class="info-box">Exam Reminder</div>
+              <div class="info-box alt">WhatsApp Template</div>
+              <div class="info-box">Exam Reminder</div>
+            </div>
+          </div>
+
+          <!-- Send Button -->
+          <div class="send-button-container">
+            <ion-button
+              color="success"
+              
+              (click)="sendWhatsApp()"
+            >
+              <ion-icon name="send" slot="start"></ion-icon>
+              Send
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

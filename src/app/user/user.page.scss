@@ -1,0 +1,501 @@
+/* Container for the User Management Layout */
+.filter-section {
+  margin-bottom: 15px;
+}
+.pagination-controls button {
+  margin: 0 4px;
+  padding: 4px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.pagination-controls button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.filter-row {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+.filter-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-management-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+}
+
+.user-table-section {
+  flex: 0 0 40%;
+  max-width: 80%;
+}
+
+.add-user-section {
+  flex: 0 0 60%;
+  max-width: 80%;
+  height: 600px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-list-card {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-row, .user-row {
+  text-align: center;
+  font-size: 14px;
+}
+
+.searchbar-style {
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background-color: #f1f1f1;
+}
+
+ion-card-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #3f51b5;
+  text-align: center;
+}
+
+.header-row {
+  background-color: #f1f1f1;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.user-row {
+  margin: 10px 0;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.user-row:hover {
+  background-color: #e3f2fd;
+  transform: scale(1.02);
+}
+
+/* Add New User Button Styling */
+ion-button {
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-button:hover {
+  background-color: #388e3c;
+}
+
+/* Modal Header and Footer Styling */
+ion-toolbar {
+  background-color: #2196f3;
+  color: white;
+}
+
+ion-button[color="success"] {
+  background-color: #8bc34a;
+}
+
+ion-button[color="danger"] {
+  background-color: #f44336;
+}
+
+ion-button[color="primary"] {
+  background-color: #2196f3;
+}
+
+ion-button[color="tertiary"] {
+  background-color: #607d8b;
+}
+
+ion-content.background {
+  --background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 7%, rgba(0,212,255,1) 64%);
+  --background-size: cover;
+}
+
+//  add modal  --------------------------------------------------------
+
+.modal-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #4a90e2;
+}
+
+.card-style {
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.admission-card, .personal-card, .contact-card, .address-card {
+  background-color: #f9f9f9;
+}
+
+.save-button {
+  background-color: #4a90e2;
+  color: white;
+  font-size: 16px;
+  padding: 12px 0;
+  border-radius: 6px;
+}
+
+.ion-card-header {
+  background-color: #f2f7fc;
+  border-bottom: 2px solid #e1e7f0;
+}
+
+.ion-item {
+  margin-bottom: 12px;
+}
+
+.ion-select {
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+
+.ion-input {
+  --background: #f1f1f1;
+}
+
+.ion-label {
+  color: #444;
+}
+
+.card-style input, .card-style select {
+  border-radius: 8px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+}
+
+.card-style input:focus, .card-style select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+}
+
+.ion-grid {
+  padding: 0;
+}
+
+.ion-row {
+  margin: 0;
+}
+
+.ion-col {
+  padding: 10px;
+}
+
+.ion-item input {
+  font-size: 14px;
+}
+// large modal
+.large-modal {
+  --width: 90%; /* Set the modal width */
+  --height: 90%; /* Set the modal height */
+  --border-radius: 16px;
+  --background: #fff;
+  --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.large-modal-content {
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.card-style {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.save-button {
+  margin-top: 24px;
+  border-radius: 8px;
+}
+
+.admission-card,
+.personal-card,
+.contact-card,
+.address-card {
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+
+// dropdown part
+.custom-item {
+  --inner-padding-bottom: 0; /* Remove extra padding from the item */
+  --min-height: auto; /* Adjust the item's height */
+}
+
+.custom-item ion-label {
+  font-size: 1rem; /* Adjust label font size */
+  margin-bottom: 8px; /* Add space below the label */
+}
+
+.custom-item ion-select {
+  width: 100%; /* Ensure the select spans the full width */
+  background-color: white; /* White background for the dropdown */
+  color: black; /* Text color */
+  border-radius: 8px; /* Rounded corners */
+  padding: 8px; /* Padding for better spacing */
+  --padding-start: 8px; /* Adjust padding around the select */
+}
+
+
+// background
+.background{
+  margin: 0;
+  height: 100vh;
+ 
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #800080, #00BFFF);
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+
+
+
+
+// file upload
+.image-preview-container {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.image-preview {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 1rem;
+}
+
+
+
+
+// table marksheets
+.table-grid {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.header-row {
+  background: linear-gradient(to right, #800080, #ff69b4); /* Purple to pink gradient */
+  color: white;
+  text-align: center;
+  // font-weight: bold;
+}
+
+.table-row:nth-child(odd) {
+  background-color: #fce4ec; /* Light pink for odd rows */
+}
+
+.table-row:nth-child(even) {
+  background-color: #f3e5f5; /* Light purple for even rows */
+}
+
+ion-row {
+  border-bottom: 2px solid #e1bee7; /* Purple border */
+}
+
+ion-col {
+  padding: 8px;
+  border-right: 2px solid #e1bee7; /* Purple border for columns */
+}
+
+ion-col:last-child {
+  border-right: none;
+}
+
+ion-button {
+  --background: linear-gradient(to right, #ff69b4, #800080); /* Pink to purple gradient */
+  --background-activated: #d81b60; /* Darker shade on press */
+  color: white;
+}
+
+
+// image
+
+.image-preview-container {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.image-preview {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-style {
+  padding: 15px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+}
+.profile-card {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  padding: 15px;
+  background: #f8f9fa; /* Light grey background */
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.small-card {
+  text-align: center;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.form-number {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #333;
+}
+
+.input-field {
+  background: white;
+  border: 1px solid grey;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+
+
+
+/* General Card Styling */
+.card-style {
+  margin: 20px 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: rgb(255, 255, 144);
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #3f51b5;
+  text-align: center;
+}
+
+/* Header Styling */
+.ion-card-header {
+  background-color: #f2f7fc;
+  border-bottom: 2px solid #e1e7f0;
+}
+
+/* Grid & Column Spacing */
+ion-grid {
+  margin-top: 20px;
+}
+
+ion-row {
+  margin-bottom: 20px;
+}
+
+ion-col {
+  padding: 12px;
+  border-radius: 10px;
+  background-color: white;
+  color: black;
+  border: 1px solid #e0e0e0;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Input Styling */
+ion-input {
+  --background: #f9f9f9;
+  --padding-start: 12px;
+  --padding-end: 12px;
+}
+
+/* Hover Effect for Columns */
+ion-col:hover {
+  background-color: #e3f2fd;
+  transform: scale(1.02);
+}
+
+/* Input Label Styling */
+ion-input label {
+  color: #3f51b5;
+  font-weight: bold;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  ion-col {
+    margin-bottom: 20px;
+  }
+}
+
+/* Button Styling (if added) */
+ion-button {
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-button:hover {
+  background-color: #388e3c;
+}
+// address oart
+.card-style {
+  width: 100%;
+}
+
+ion-card-title {
+  text-align: center;
+}
+
+ion-input {
+  width: 100%;
+}
+
+

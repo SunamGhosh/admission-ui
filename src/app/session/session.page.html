@@ -1,0 +1,210 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>Back
+    </ion-buttons>
+    <ion-title style="text-align: center;">Session</ion-title>
+
+    <ion-button slot="end" (click)="openModal()">Add New Session</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <!-- Main container for layout -->
+  <div class="sessions-container">
+    <!-- Search Bar with style -->
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterSessions()"
+      placeholder="Search Sessions"
+      debounce="500"
+      showClearButton="focus"
+      style="margin-bottom: 20px; width: 100%;"
+    ></ion-searchbar>
+
+    <!-- Session List Table -->
+    <ion-card class="sessions-list-card">
+      <ion-card-header>
+        <ion-card-title class="sessions-list-title">Sessions List</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+          <!-- Table headers -->
+          <ion-row class="table-header w3-purple ">
+            <ion-col size="2">
+              <strong style="color: white;">Sl.No</strong>
+            </ion-col>
+            <ion-col size="4">
+              <strong  style="color: white;">Session Name</strong>
+            </ion-col>
+            <ion-col size="4">
+              <strong style="color: white;">Short Name</strong>
+            </ion-col>
+
+            
+          </ion-row>
+
+          <!-- Display list of sessions -->
+          <ion-row *ngFor="let session of filteredSessions" class="table-row">
+            <ion-col size="2">{{session.id}}</ion-col>
+            <ion-col size="4">{{ session.session_name }}</ion-col>
+            <ion-col size="4">{{ session.session_short_name }}</ion-col>
+            <ion-col size="1" class="icon-column">
+              <ion-icon name="pencil-outline" color="danger" (click)="editSession(session)" style="font-size: 20px;"></ion-icon>
+
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Footer message when no sessions found -->
+    <ion-footer *ngIf="filteredSessions.length === 0">
+      <p class="ion-text-center">No sessions found.</p>
+    </ion-footer>
+  </div>
+
+
+  <!-- modal part -->
+   <!-- Modal Container -->
+<ion-modal [isOpen]="is_open" (didDismiss)="closeModal()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Add Session</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeModal()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-label position="floating">Session Name</ion-label>
+        <ion-input type="text" [(ngModel)]="sessionData.session_name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Short Name</ion-label>
+        <ion-input type="text" [(ngModel)]="sessionData.session_short_name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">End Year</ion-label>
+        <ion-input type="number" [(ngModel)]="sessionData.session_end_year"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">In Use (Y/N)</ion-label>
+        <ion-input type="text" [(ngModel)]="sessionData.session_in_use"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Current (Y/N)</ion-label>
+        <ion-input type="text" [(ngModel)]="sessionData.session_current"></ion-input>
+      </ion-item>
+
+    
+
+      <ion-button expand="full" (click)="addSession()">Add Session</ion-button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+
+
+<!-- Edit Session Modal -->
+<ion-modal [isOpen]="is_open_edit" (didDismiss)="closeEditModal()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Edit Session</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeEditModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <ion-input
+              fill="outline"
+              label="Session Name"
+              labelPlacement="floating"
+              [(ngModel)]="sessionData.session_name"
+              required
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="12">
+            <ion-input
+              fill="outline"
+              label="Short Name"
+              labelPlacement="floating"
+              [(ngModel)]="sessionData.session_short_name"
+              required
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6">
+            <ion-input
+              fill="outline"
+              label="End Year"
+              labelPlacement="floating"
+              [(ngModel)]="sessionData.session_end_year"
+              type="number"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="6">
+            <ion-select
+              fill="outline"
+              label="In Use"
+              labelPlacement="floating"
+              [(ngModel)]="sessionData.session_in_use"
+            >
+              <ion-select-option value="Y">Yes</ion-select-option>
+              <ion-select-option value="N">No</ion-select-option>
+            </ion-select>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6">
+            <ion-select
+              fill="outline"
+              label="Current"
+              labelPlacement="floating"
+              [(ngModel)]="sessionData.session_current"
+            >
+              <ion-select-option value="Y">Yes</ion-select-option>
+              <ion-select-option value="N">No</ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col size="6">
+            <ion-toggle [(ngModel)]="sessionData.is_active">Active</ion-toggle>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
+
+    <ion-footer>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="end">
+          <ion-button expand="full" color="success" (click)="confirmUpdate()">Save Changes</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+</ion-content>

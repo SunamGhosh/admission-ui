@@ -1,0 +1,128 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="tertiary">
+    <ion-title class="ion-text-center">Assignment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+
+  <!-- Assignment Upload Form -->
+  <ion-grid class="ion-padding w3-purple">
+    <ion-row>
+
+      <!-- Course -->
+      <ion-col size="12" size-md="2">
+        <ion-item>
+          
+          <ion-select [(ngModel)]="selectedCourse" placeholder="Select Course">
+            <ion-select-option *ngFor="let course of courses" [value]="course.id">
+              {{ course.course_name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+      <!-- Semester -->
+      <ion-col size="12" size-md="2">
+        <ion-item>
+         
+          <ion-select [(ngModel)]="selectedSemester" placeholder="Select Semester">
+            <ion-select-option *ngFor="let s of semesters" [value]="s.id">
+              {{ s.semester_name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+      <!-- Assignment Name -->
+      <ion-col size="12" size-md="2">
+        <ion-item>
+        
+          <ion-input [(ngModel)]="name" placeholder="Enter assignment name"></ion-input>
+        </ion-item>
+      </ion-col>
+
+      <!-- Subject -->
+      <ion-col size="12" size-md="2">
+        <ion-item>
+         
+          <ion-select [(ngModel)]="selectedSubject" placeholder="Select Subject">
+            <ion-select-option *ngFor="let sub of subjects" [value]="sub.id">
+              {{ sub.subject_name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+      <!-- File Upload -->
+      <ion-col size="12" size-md="2">
+        <ion-item>
+         
+          <input type="file" (change)="onFileSelect($event)" />
+        </ion-item>
+        <ion-note *ngIf="filePreview" color="success">📎 {{ filePreview }}</ion-note>
+      </ion-col>
+
+    </ion-row>
+
+    <!-- Upload Button -->
+    <ion-row>
+      <ion-col size="12">
+        <ion-button expand="full" color="primary" (click)="uploadAssignment()" 
+          [disabled]="!file || !selectedCourse || !selectedSemester || !selectedSubject || !name">
+          <!-- [disabled]="!file || !selectedCourse || !selectedSemester || !selectedSubject || !name?.trim()"> -->
+
+          Upload Assignment
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Assignment List Table -->
+  <div class="w3-container w3-margin-top">
+    <ion-row class="ion-margin-top" style="margin-left: 500px;">
+      <ion-col size="12" size-md="4">
+        <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterAssignments()" debounce="500" placeholder="Search Assignments"></ion-searchbar>
+      </ion-col>
+    </ion-row>
+    
+    <h3 class="w3-center w3-text-white">Assignment List</h3>
+
+    <table class="w3-table-all w3-card-4 w3-striped w3-hoverable">
+      <thead>
+        <tr class="w3-purple">
+          <th>Sl. No.</th>
+          <th>Assignment Name</th>
+
+          <th>File Name</th>
+          <th>Course</th>
+          <th>Semester</th>
+          <th>Subject</th>
+          <th>Download</th>
+        </tr>
+      </thead>
+      <tbody style="color: black; font-size: 12px;">
+        <tr *ngFor="let a of paginatedAssignments(); let i = index">
+          <td>{{ (currentPage - 1) * pageSize + (i + 1) }}</td>
+          <td>{{ a.name }}</td>
+          
+          <td>{{ a.file_name }}</td>
+          <td>{{ getCourseName(a.course_id) }}</td>
+          <td>{{ getSemesterName(a.semester_id) }}</td>
+          <td>{{ getSubjectName(a.subject_id) }}</td>
+          <td>
+            <a [href]="'http://localhost:3000/' + a.file_path" download target="_blank">
+              <ion-button size="small" color="success" fill="outline">Download</ion-button>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ion-col size="12" size-md="8" class="ion-text-right">
+      <ion-button (click)="prevPage()" [disabled]="currentPage === 1" color="tertiary">Previous</ion-button>
+      <ion-button (click)="nextPage()" [disabled]="currentPage * pageSize >= filteredAssignments.length" color="tertiary">Next</ion-button>
+    </ion-col>
+    
+  </div>
+
+</ion-content>

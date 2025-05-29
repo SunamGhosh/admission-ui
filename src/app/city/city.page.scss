@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .left-side {
+    flex: 1;
+    min-width: 300px;
+    padding: 10px;
+  }
+  
+  .right-side {
+    overflow-y: auto;
+    max-height: 5000px; /* Adjust as needed */
+  }
+  
+  
+  .table-container {
+    max-height: none !important;  /* Ensure it doesn't limit height */
+    overflow-y: auto !important;  /* Add scroll if needed */
+  }
+  
+  
+  .table-header, .table-row {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .table-header {
+    background-color: #f1f1f1;
+    font-weight: bold;
+  }
+  
+  .table-cell {
+    flex: 1;
+    text-align: center;
+  }
+  .pagination-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .pagination-buttons ion-button {
+    margin: 0 5px;
+  }
+ 

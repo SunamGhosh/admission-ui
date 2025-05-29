@@ -1,0 +1,66 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="tertiary">
+    <ion-title style="text-align: center;">Apply Online</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <div class="w3-container w3-purple">
+    <h2 class="w3-center w3-text-white">Student Details</h2>
+
+    <ion-row>
+      <!-- Search Inputs -->
+      <ion-col size="5">
+        <ion-item>
+          <ion-searchbar placeholder="Search Student" [(ngModel)]="searchTerm" (ionInput)="filterUsers()">
+          </ion-searchbar>
+        </ion-item>
+      </ion-col>
+      <ion-col size="5">
+        <ion-item>
+          <ion-searchbar [(ngModel)]="agentSearchTerm" (ionInput)="filterUsers()" placeholder="Search using Agent">
+          </ion-searchbar>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <table class="w3-table-all w3-card-4 w3-striped w3-hoverable">
+      <thead>
+        <tr class="w3-purple">
+          <th>Sl.No</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Mobile</th>
+          <th>Year Of Passing</th>
+          <th>10th Marks</th>
+          <th>Year of Passing 12th</th>
+          <th>12th Marks</th>
+          <th>Course</th>
+          <th>Application No</th>
+          <th>Agent</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody style="color: black; font-size: 14px;">
+        <tr *ngFor="let user of filteredUsers; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ user.full_name }}</td>
+          <td>{{ user.email || 'N/A' }}</td>
+          <td>{{ user.mobile }}</td>
+          <td>{{ user.ten_passing_year }}</td>
+          <td>{{ user.ten_marks }}</td>
+          <td>{{ user.twelve_passing_year }}</td>
+          <td>{{ user.twelve_marks }}</td>
+          <td>{{ getCourseName(user.course_id) }}</td>
+          <td>{{ user.application_no || 'N/A' }}</td>
+          <td>{{ user.agent_name || 'Application submitted by himself' }}</td>
+          <td>
+            <ion-button color="warning" size="small" (click)="sendReminder(user)">
+              Remind
+            </ion-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ion-content>

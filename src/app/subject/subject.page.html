@@ -1,0 +1,274 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>Back
+    </ion-buttons>
+    <ion-title style="text-align: center; color: #fff;">Subject</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <!-- Main Container for Professional Layout (2 Columns) -->
+  <div class="main-container">
+    
+    <!-- Left Section for Subject List -->
+    <div class="subject-list-container">
+    
+      <ion-card class="subject-list-card">
+        
+        <ion-card-header>
+          <ion-card-title class="subject-list-title">Subjects List</ion-card-title>
+        </ion-card-header>
+        <ion-grid>
+          <ion-row class="filter-row">
+            
+            <!-- Search Subject -->
+            <ion-col size="4">
+              <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterSubjects()" placeholder="Search Subjects" debounce="500" fill="outline"></ion-searchbar>
+            </ion-col>
+  
+            <!-- Select Course -->
+            <ion-col size="3">
+              <ion-select [(ngModel)]="selectedCourse" (ionChange)="filterSubjects()" placeholder="Select Course" fill="outline">
+                <ion-select-option *ngFor="let c of co" [value]="c.id">{{ c.course_name }}</ion-select-option>
+              </ion-select>
+            </ion-col>
+  
+            <!-- Select Semester -->
+            <ion-col size="3">
+              <ion-select [(ngModel)]="selectedSemester" (ionChange)="filterSubjects()" placeholder="Select Semester" fill="outline">
+                <ion-select-option *ngFor="let s of sem" [value]="s.id">{{ s.semester_name }}</ion-select-option>
+              </ion-select>
+            </ion-col>
+  
+            <!-- Select Session -->
+            <!-- <ion-col size="3">
+              <ion-select [(ngModel)]="selectedSession" (ionChange)="filterSubjects()" placeholder="Select Session">
+                <ion-select-option *ngFor="let ss of st" [value]="ss.id">{{ ss.session_name }}</ion-select-option>
+              </ion-select>
+            </ion-col> -->
+  
+          </ion-row>
+        </ion-grid>
+
+        <ion-card-content>
+          <!-- Subject Table -->
+          <div class="w3-container">
+            <!-- Table Header -->
+            <div class="w3-row w3-purple w3-padding  ">
+              <div class="w3-col m1 w3-center ">Sl. No.</div>
+              <div class="w3-col m3 w3-center ">Subject Name</div>
+              <div class="w3-col m4 w3-center">Semester Name</div>
+              <div class="w3-col m3 w3-center">Course Name</div>
+              <div class="w3-col m1 w3-center">Action</div>
+            </div>
+          
+            <!-- Dynamic Rows -->
+            <div *ngFor="let subject of filteredSubjects; index as idx" class="w3-row w3-border grid-border">
+              <div class="w3-col m1 w3-center w3-padding grid-border">{{ idx + 1 }}</div>
+              <div class="w3-col m3 w3-center w3-padding grid-border">{{ subject.subject_name }}</div>
+              <div class="w3-col m2 w3-center w3-padding grid-border">{{ getsemesterName(subject.semester_id) }}</div>
+              <div class="w3-col m3 w3-center w3-padding grid-border">{{ getCourseName(subject.course_id) }}</div>
+              <div class="w3-col m1 w3-center w3-padding grid-border">
+                <ion-icon name="pencil-outline" color="danger" style="cursor: pointer; font-size: 18px;"></ion-icon>
+              </div>
+            </div>
+          </div>
+          
+          <!-- W3.CSS Styling -->
+          <style>
+            .w3-container {
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 10px;
+            }
+           
+            .w3-row {
+              display: flex;
+              align-items: center;
+              color: black;
+            }
+          
+            .w3-border {
+              border: 1px solid black;
+            }
+          
+            .grid-border {
+              border: 1px solid black;
+            }
+          
+            .w3-padding {
+              padding: 10px;
+            }
+          
+            .w3-center {
+              text-align: center;
+            }
+          
+            .w3-purple {
+              background-color: purple;
+              color: white;
+            }
+          
+            .w3-bold {
+              font-weight: bold;
+            }
+          </style>
+          
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Right Section for Add Subject Button -->
+    <div class="add-button-container">
+      <!-- <ion-button (click)="is_modal_open()" shape="round" color="secondary" size="small" class="add-button">
+        <ion-icon name="add" slot="start"></ion-icon> Add Subject
+      </ion-button> -->
+
+
+      <ion-content >
+        <ion-grid class="ion-padding">
+          <ion-row>
+            <ion-col size="12">
+              <ion-card style="background-color: yellow;">
+                <ion-card-header>
+                  <div style="text-align: center; margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; color:white;">
+                    Subject No.: {{ newSubject.id || 'Loading...' }}
+                  </div>
+                  <ion-card-title>Add Subject Details</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <form (ngSubmit)="addSubject()">
+                    <ion-grid>
+                    
+
+                      <ion-row>
+                        <ion-col size="5">
+                          <ion-item>
+                            <ion-label>Course</ion-label>
+                            <ion-select
+                              [(ngModel)]="newSubject.course_id"
+                              name="course_id"
+                              required
+                            >
+                              <ion-select-option [value]="0" disabled>Select Course</ion-select-option>
+                              <ion-select-option *ngFor="let c of co" [value]="c.id">
+                                {{ c.course_name }}
+                              </ion-select-option>
+                            </ion-select>
+                          </ion-item>
+                        </ion-col>
+  
+                        <ion-col size="5">
+                          <ion-item>
+                            <ion-label>Semester</ion-label>
+                            <ion-select
+                              [(ngModel)]="newSubject.semester_id"
+                              name="semester_id"
+                              required
+                            >
+                              <ion-select-option [value]="0" disabled>Semester</ion-select-option>
+                              <ion-select-option *ngFor="let se of sem" [value]="se.id">
+                                {{ se.semester_name }}
+                              </ion-select-option>
+                            </ion-select>
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                      <!-- Subject Name -->
+                      <ion-row>
+                        <ion-col size="5">
+                          <ion-item>
+                            <ion-label position="floating">Subject Name</ion-label>
+                            <ion-input
+                              [(ngModel)]="newSubject.subject_name"
+                              name="subject_name"
+                              required
+                            ></ion-input>
+                          </ion-item>
+                        </ion-col>
+  
+                        <!-- Short Name -->
+                        <ion-col size="5">
+                          <ion-item>
+                            <ion-label position="floating">Short Name</ion-label>
+                            <ion-input
+                              [(ngModel)]="newSubject.subject_short_name"
+                              name="subject_short_name"
+                              required
+                            ></ion-input>
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+  
+                      <!-- Course and Semester -->
+                     
+  
+                      <!-- Subject Club ID and Elective ID -->
+                      <ion-row>
+                        <ion-col size="5">
+                          <ion-item>
+                            <ion-label position="floating">Subject Club ID</ion-label>
+                            <ion-input
+                            
+                              name="subject_club_id"
+                            ></ion-input>
+                          </ion-item>
+                        </ion-col>
+  
+                        <ion-col size="5">
+                          <ion-item>
+                            <ion-label position="floating" style="margin-top: -25px;">Subject Elective ID</ion-label>
+                            <ion-input
+                              name="subject_elective_id"
+                            ></ion-input>
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+  
+                      <!-- Submit Button -->
+                      <ion-row>
+                        <ion-col size="12">
+                          <ion-button
+                            expand="block"
+                            type="submit"
+                            color="primary"
+                            [disabled]="!newSubject.subject_name || !newSubject.subject_short_name"
+                          >
+                            Add Subject
+                          </ion-button>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </form>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </div>
+
+  </div>
+
+  <!-- Add Subject Modal -->
+  <ion-modal [isOpen]="is_open">
+    <ng-template>
+      <!-- Modal Header -->
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Add Subject</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="is_open = false" color="light">
+              <ion-icon name="close"></ion-icon> Close
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+  
+      <!-- Modal Content -->
+     
+    </ng-template>
+  </ion-modal>
+  
+</ion-content>

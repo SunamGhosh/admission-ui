@@ -1,0 +1,238 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="tertiary">
+  
+    <ion-title style="text-align: center;">OFFICE Staff</ion-title>
+    <!-- Button at the End -->
+    <ion-button color="success"  (click)="downloadOfficeExcel()" slot="end">
+      <ion-icon name="download-outline" slot="start"></ion-icon>
+      Download Excel
+    </ion-button>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <ion-grid>
+    <ion-row>
+      <!-- Office Staff Form -->
+    
+          <ion-col size-md="4" size="12">
+            <ion-card class="staff-form-card">
+             
+              <ion-card-header color="tertiary">
+                <div style="text-align: center; margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; color:white;">
+                  Form No.: {{ officeForm.get('id')?.value || 'Loading...' }}
+                 </div>
+                <ion-card-title class="form-title "color="tertiary">Add Office Staff</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <form [formGroup]="officeForm" (ngSubmit)="addOfficeStaff()">
+                  
+                  <!-- First Row -->
+                  <ion-row>
+                    <ion-col size="4">
+                      <ion-item>
+                        <ion-label position="floating">First Name</ion-label>
+                        <ion-input formControlName="first_name"></ion-input>
+                      </ion-item>
+                    </ion-col>
+      
+                    <ion-col size="4">
+                      <ion-item>
+                        <ion-label position="floating">Last Name</ion-label>
+                        <ion-input formControlName="last_name"></ion-input>
+                      </ion-item>
+                    </ion-col>
+      
+                    <ion-col size="3">
+                      <ion-item>
+                        <ion-label position="floating">Email</ion-label>
+                        <ion-input type="email" formControlName="email"></ion-input>
+                      </ion-item>
+                      <p *ngIf="officeForm.controls['email'].touched && officeForm.controls['email'].invalid" class="error-text">
+                        Invalid email address.
+                      </p>
+                    </ion-col>
+                  </ion-row>
+      
+                  <!-- Second Row -->
+                  <ion-row>
+                    <ion-col size="5">
+                      <ion-item>
+                        <ion-label position="floating">Mobile</ion-label>
+                        <ion-input type="tel" formControlName="mobile"></ion-input>
+                      </ion-item>
+                      <p *ngIf="officeForm.controls['mobile'].touched && officeForm.controls['mobile'].invalid" class="error-text">
+                        Mobile number must be 10 digits.
+                      </p>
+                    </ion-col>
+      
+                    <ion-col size="6">
+                      <ion-item>
+                        <ion-label position="floating">Date of Birth</ion-label>
+                        <ion-input type="date" formControlName="DOB"></ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+      
+                  <!-- Third Row -->
+                  <ion-row>
+                    <ion-col size="5">
+                      <ion-item>
+                        <ion-label position="floating">Aadhar No</ion-label>
+                        <ion-input formControlName="aadhar_no"></ion-input>
+                      </ion-item>
+                      <p *ngIf="officeForm.controls['aadhar_no'].touched && officeForm.controls['aadhar_no'].invalid" class="error-text">
+                        Aadhar number must be 12 digits.
+                      </p>
+                    </ion-col>
+      
+                    <ion-col size="6">
+                      <ion-item>
+                        <ion-label position="floating">Password</ion-label>
+                        <ion-input type="password" formControlName="password"></ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+      
+                  <!-- Fourth Row -->
+                  <ion-row>
+                    <ion-col size="5">
+                      <ion-item>
+                        <ion-label position="floating">Father's Name</ion-label>
+                        <ion-input formControlName="father_name"></ion-input>
+                      </ion-item>
+                    </ion-col>
+      
+                    <ion-col size="6">
+                      <ion-item>
+                        <ion-label position="floating">Mother's Name</ion-label>
+                        <ion-input formControlName="mother_name"></ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+      
+                  <ion-button expand="full" color="primary" type="submit">Add Staff</ion-button>
+                </form>
+              </ion-card-content>
+            </ion-card></ion-col>
+     
+      <!-- Staff List Table -->
+      <ion-col size-md="7" size="12">
+        <ion-row>
+          <ion-col size="4">
+            <ion-searchbar [(ngModel)]="searchTermName" (ionInput)="filterStaff()" placeholder="Search by Name" debounce="300"></ion-searchbar>
+          </ion-col>
+        
+          <ion-col size="4">
+            <ion-searchbar [(ngModel)]="searchTermEmail" (ionInput)="filterStaff()" placeholder="Search by Email" debounce="300"></ion-searchbar>
+          </ion-col>
+        
+          <ion-col size="3">
+            <ion-searchbar [(ngModel)]="searchTermMobile" (ionInput)="filterStaff()" placeholder="Search by Mobile No" debounce="300"></ion-searchbar>
+          </ion-col>
+        </ion-row>
+        
+        <ion-card class="staff-list-card ">
+          <ion-card-header>
+            <ion-card-title class="list-title w3-purple">Office Staff List</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid class="staff-table">
+              <ion-row class="table-header w3-purple">
+                <ion-col size="1" class="table-cell w3-purple">ID</ion-col>
+                <ion-col size="3" class="table-cell w3-purple">Name</ion-col>
+                <ion-col size="2" class="table-cell w3-purple">Email</ion-col>
+                <ion-col size="2" class="table-cell w3-purple">Mobile</ion-col>
+                <ion-col size="2" class="table-cell w3-purple">Aadhar No.</ion-col>
+              </ion-row>
+
+              <ion-row *ngFor="let staff of  filteredStaffList.length ? filteredStaffList : officeStaffList" class="table-row">
+                <ion-col size="1" class="table-cell">{{ staff.id }}</ion-col>
+                <ion-col size="3" class="table-cell">{{ staff.first_name }} {{ staff.last_name }}</ion-col>
+                <ion-col size="2" class="table-cell">{{ staff.email }}</ion-col>
+                <ion-col size="2" class="table-cell">{{ staff.mobile }}</ion-col>
+                <ion-col size="2" class="table-cell">{{ staff.aadhar_no }}</ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+
+<style>
+  .staff-form-card, .staff-list-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  .form-title, .list-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    
+    padding: 12px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .table-header {
+    background-color: #283593;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .table-row:hover {
+    background-color: #e8f5e9;
+    transform: scale(1.02);
+  }
+
+  ion-card, ion-item, ion-row {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .staff-list-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.list-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+ 
+  padding: 12px;
+  border-radius: 10px 10px 0 0;
+}
+
+.staff-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header, .table-cell {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-row {
+  border-bottom: 1px solid #ddd;
+  transition: 0.3s;
+}
+
+.table-row:hover {
+  background-color: #e8f5e9;
+  transform: scale(1.01);
+}
+
+</style>

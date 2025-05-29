@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+   
+    <ion-title style="text-align: center; color: #fff;"><h2>City</h2></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content><div class="container">
+  <!-- Left Side: Add City Form -->
+  <div class="w3-col l5 m6 s12 left-side">
+    <ion-card class="form-card" style="margin-top: 200px;">
+      <ion-card-header color="primary">
+        <ion-card-title class="form-title">
+          <div style="text-align: center; margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; color:white;">
+            City No.: {{ newCity.id || 'Loading...' }}
+          </div>Add City</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+
+        <ion-item class="input-item">
+          <ion-label position="stacked">Country</ion-label>
+          <ion-select [(ngModel)]="newCity.country_id" (ionChange)="getStateByCountry()">
+            <ion-select-option *ngFor="let country of countries" [value]="country.id">
+              {{ country.country_name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item class="input-item">
+          <ion-label position="stacked">State</ion-label>
+          <ion-select [(ngModel)]="newCity.state_id" (ionChange)="fetchCities(newCity.state_id)">
+            <ion-select-option *ngFor="let state of states" [value]="state.id">
+              {{ state.state_name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="stacked">City Name</ion-label>
+          <ion-input [(ngModel)]="newCity.city_name" placeholder="Enter City Name"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" class="add-button" (click)="addCity()">Add City</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Right Side: City Table -->
+    <!-- Pagination Controls -->
+   
+  <div class="w3-col l7 m6 s12 right-side">
+     <!-- Pagination Controls -->
+   
+    <style>
+      .grid-container {
+        display: grid;
+        grid-template-columns: 15% 40% 45%;
+      }
+    
+      .grid-header,
+      .grid-row {
+        display: contents;
+      }
+    
+      .grid-item {
+        padding: 8px;
+        border: 1px solid #ccc;
+        text-align: center;
+      }
+    
+      .grid-header .grid-item {
+        background-color: purple;
+        font-weight: bold;
+        color: white;
+      }
+    </style>
+  
+    <ion-searchbar type="text" [(ngModel)]="searchText" placeholder="Search City..." (input)="filterCities()" style="margin: top 7px;;"> </ion-searchbar>
+    
+    <div>
+      <div class="grid-container" >
+        <!-- Header Row -->
+        <div class="grid-header">
+          <div class="grid-item">Sl.No</div>
+          <div class="grid-item">State</div>
+          <div class="grid-item">City</div>
+        </div>
+    
+        <!-- City Rows -->
+        <div *ngFor="let city of cityData; let i = index" class="grid-row">
+          <div class="grid-item">{{ (page - 1) * pageSize + i + 1 }}</div>
+          <div class="grid-item">{{ getStateName(city.state_id) }}</div>
+          <div class="grid-item">{{ city.city_name }}</div>
+        </div>
+      </div>
+      <div class="pagination-buttons">
+        <ion-button [disabled]="page === 1" (click)="prevPage()">← Previous</ion-button>
+        <span>Page {{ page }} of {{ getTotalPages() }}</span>
+  
+        <ion-button [disabled]="(page * pageSize) >= fullCityData.length" (click)="nextPage()">Next →</ion-button>
+      </div>
+    </div>
+  </div>
+  </div>    
+   
+
+</ion-content>

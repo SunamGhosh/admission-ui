@@ -1,0 +1,328 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center; color: #fff;">Specialisation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <!-- Container for Table and Button -->
+  <div class="specialisation-management-container">
+    <!-- Table Section -->
+    <div class="specialisation-table-section">
+      <!-- Searchbar for filtering specialisations -->
+      <ion-grid>
+        <ion-row class="filter-row">
+          
+          <!-- Search Specialisation -->
+          <ion-col size="3">
+            <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterSpecialisation()" 
+                           placeholder="Search Specialisations" debounce="300" 
+                           style="--background: #f1f1f1;">
+            </ion-searchbar>
+          </ion-col>
+
+          <!-- Select Course -->
+          <ion-col size="3">
+            <ion-select [(ngModel)]="selectedCourse" (ionChange)="filterSpecialisation()" placeholder="Select Course" style="--background: #f1f1f1" fill="outline">
+              <ion-select-option *ngFor="let c of co" [value]="c.id">{{ c.course_name }}</ion-select-option>
+            </ion-select>
+          </ion-col>
+
+          <!-- Select Semester -->
+          <ion-col size="3">
+            <ion-select [(ngModel)]="selectedSemester" (ionChange)="filterSpecialisation()" placeholder="Select Semester" style="--background: #f1f1f1" fill="outline">
+              <ion-select-option *ngFor="let s of sem" [value]="s.id">{{ s.semester_name }}</ion-select-option>
+            </ion-select>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+
+
+      <!-- Specialisation List Table -->
+      <ion-card class="specialisation-list-card">
+        <ion-card-header>
+          <ion-card-title>Specialisation List</ion-card-title>
+          
+
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-grid>
+            <!-- Table headers -->
+            <ion-row class="header-row w3-purple">
+              <ion-col size="2">
+                <ion-text color="white">Sl. No</ion-text>
+              </ion-col>
+              <ion-col size="3">
+                <ion-text color="white">Specialisation Name</ion-text>
+              </ion-col>
+
+              <ion-col size="2">
+                <ion-text color="white">Course</ion-text>
+              </ion-col>
+              <ion-col size="2">
+                <ion-text color="white">Semester</ion-text>
+              </ion-col>
+            </ion-row>
+
+            <!-- Specialisation Rows -->
+            <ion-row *ngFor="let specialisation of filteredspecialisation; let i = index" class="specialisation-row">
+              <ion-col size="2">{{ i + 1 }}</ion-col>
+              <ion-col size="3">{{ specialisation.specialisation_name }}</ion-col>
+              <ion-col size="2" >
+                {{ getCourseName(specialisation.course_id) }}  <!-- Show course name -->
+              </ion-col>
+              <ion-col size="2" >
+                {{ getsemesterName(specialisation.semester_id) }}  <!-- Show course name -->
+              </ion-col>
+              <ion-col size="1" class="icon-column">
+                <ion-icon name="pencil-outline" color="danger" (click)="openUpdateModal(specialisation)" style="font-size: 20px;"></ion-icon>
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Add New Specialisation Section -->
+    <div class="add-specialisation-section">
+      <ion-content class="ion-padding">
+        <ion-card>
+          <ion-card-header color="primary">
+            <ion-card-title>  <ion-title>Add New Specialisation</ion-title></ion-card-title>
+            
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item lines="inset" style="color: black;">
+                    <ion-label position="floating">Select Course</ion-label>
+                    <ion-select
+                      [(ngModel)]="newspecialisation.course_id"
+                      required 
+                    >
+                      <ion-select-option [value]="0" disabled>Select Course</ion-select-option>
+                      <ion-select-option *ngFor="let c of co" [value]="c.id" style="color: black;">
+                        {{ c.course_name }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+  
+              <!-- Semester Dropdown -->
+              <ion-row>
+                <ion-col size="12"  style="color: black;">
+                  <ion-item >
+                    <ion-label position="floating">Select Semester</ion-label>
+                    <ion-select
+                      [(ngModel)]="newspecialisation.semester_id"
+                      required 
+                    >
+                      <ion-select-option [value]="0" disabled>Select Semester</ion-select-option>
+                      <ion-select-option *ngFor="let se of sem" [value]="se.id" style="color: black;">
+                        {{ se.semester_name }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <!-- Specialisation Name Input -->
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item lines="inset">
+                    <ion-label position="floating">Specialisation Name</ion-label>
+                    <ion-input
+                      [(ngModel)]="newspecialisation.specialisation_name"
+                    
+                      required
+                    ></ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+  
+              <!-- Course Dropdown -->
+            
+  
+              <!-- Save Button -->
+              <ion-row class="ion-margin-top">
+                <ion-col size="12">
+                  <ion-button
+                    expand="block"
+                    color="success"
+                    shape="round"
+                    (click)="addspecialisation()"
+                  >
+                    Save Specialisation
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-content>
+    </div>
+  </div>
+
+  <!-- Add New Specialisation Modal -->
+  <ion-modal [isOpen]="is_open" (didDismiss)="is_open = false">
+    <ng-template>
+      <!-- Modal Header -->
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Add New Specialisation</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="is_open = false" color="light">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+  
+      <!-- Modal Content -->
+     
+    </ng-template>
+  </ion-modal>
+
+
+
+
+
+  <!-- edit Modal -->
+  <ion-modal [isOpen]="is_open_edit" (didDismiss)="is_open_edit = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="tertiary" style="--background: linear-gradient(135deg, #42a5f5, #478ed1); color: white;">
+          <ion-title style="text-align: center; font-size: 1.4rem; font-weight: bold;">
+            Update Specialisation
+          </ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="is_open_edit = false">
+              <ion-icon name="close" slot="icon-only" style="color: white;"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+  
+      <ion-content class="ion-padding">
+        <!-- Modal Content Wrapper -->
+        <div style="padding: 1rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
+          <!-- ID Field -->
+          <ion-item class="input-item" style="--background: transparent;">
+            <ion-label position="floating">ID</ion-label>
+            <ion-input readonly [(ngModel)]="selectedSpecialisation.id" placeholder="Enter specialisation ID"></ion-input>
+          </ion-item>
+  
+          <!-- Specialisation Name -->
+          <ion-item class="input-item" style="--background: transparent; margin-top: 0.5rem;">
+            <ion-label position="floating">Specialisation Name</ion-label>
+            <ion-input [(ngModel)]="selectedSpecialisation.specialisation_name" placeholder="Enter specialisation name"></ion-input>
+          </ion-item>
+  
+       <!-- Update Button -->
+          <ion-button expand="block" color="success" style="margin-top: 1.5rem;" (click)="updateSpecialisation()">
+            Update Specialisation
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  
+  
+</ion-content>
+
+<style>
+  /* Container Layout */
+  .specialisation-management-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    flex-wrap: wrap;
+    background: linear-gradient(45deg, #f8c2c0, #ffe2e1);
+    border-radius: 10px;
+  }
+
+  .specialisation-table-section {
+    width: 70%;
+    margin-right: 20px;
+  }
+
+  .add-specialisation-section {
+    width: 26%;
+    display: flex;
+    height: 600px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #ffffff;
+    color: black;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .specialisation-list-card {
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 20px;
+    background-color: #ffffff;
+  }
+
+  ion-card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3f51b5;
+    text-align: center;
+  }
+
+  .header-row {
+    background-color: #f1f1f1;
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  .specialisation-row {
+    margin: 10px 0;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .specialisation-row:hover {
+    background-color: #e3f2fd;
+    transform: scale(1.02);
+  }
+
+  ion-button {
+    width: 100%;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  ion-content.background {
+    --background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 7%, rgba(0, 212, 255, 1) 64%);
+    --background-size: cover;
+  }
+
+  @media (max-width: 768px) {
+    .specialisation-table-section {
+      width: 100%;
+      margin-right: 0;
+    }
+
+    .add-specialisation-section {
+      width: 100%;
+      margin-top: 20px;
+    }
+  }
+</style>

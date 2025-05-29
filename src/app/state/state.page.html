@@ -1,0 +1,161 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="tertiary" style="--background: linear-gradient(135deg, #8e24aa, #7b1fa2);">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center; font-size: 1.6rem; font-weight: bold; color: #fff;">State Management</ion-title>
+ 
+
+  <ion-buttons slot="end">
+    <div class="add-user-container" style="width: 100%; max-width: 850px; display: flex; justify-content: flex-end;">
+      <ion-button 
+        (click)="openModal()" 
+      
+        class="add-user-button" 
+        style="padding: 10px 20px; font-size: 16px; border-radius: 8px; margin-top: 20px;color: white;">
+        Add State
+      </ion-button>
+    </div>
+  </ion-buttons>
+ 
+ 
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <!-- Container for Left Side (Table) and Right Side (Button) -->
+  <div class="user-management-container" style="display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 20px;">
+    
+    <!-- Left Side: User Table Section -->
+    <div class="user-table-section" style="width: 100%; max-width: 850px; margin-bottom: 20px;">
+      <!-- Search Bar for filtering users -->
+      <ion-searchbar
+        [(ngModel)]="searchTerm"
+        (ionInput)="filterUsers()"
+        placeholder="Search State"
+        debounce="300"
+        style="background-color: #f1f1f1; border-radius: 8px; padding: 8px; font-size: 16px; width: 100%; margin-bottom: 20px;"
+      ></ion-searchbar>
+
+      <!-- User List Table -->
+      <ion-card class="user-list-card" style="width: 100%; border-radius: 12px; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); background-color: #fff;">
+        <ion-card-header>
+          <ion-card-title style="text-align: center; font-size: 24px; font-weight: bold; color: white; background-color: #3f51b5; padding: 15px; border-radius: 10px 10px 0 0;">State List</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-grid>
+            <!-- Table headers -->
+            <ion-row class="w3-purple" style=" color: white; font-weight: bold; text-align: center; padding: 12px 0; border-radius: 8px;">
+              
+              <ion-col size="1">
+                <ion-text color="white">Sl.No</ion-text>
+              </ion-col>
+              <ion-col size="4">
+                <ion-text color="white">Country Name</ion-text>
+              </ion-col>
+              <ion-col size="4">
+                <ion-text color="white">State Name</ion-text>
+              </ion-col>
+              <ion-col size="2">
+                <ion-text color="white">State Short Name</ion-text>
+              </ion-col>
+            </ion-row>
+
+            <!-- User Rows -->
+            <ion-row *ngFor="let user of filteredUsers" style="background-color: #ffffff; margin: 8px 0; border-radius: 8px; transition: background-color 0.3s ease, transform 0.3s ease;">
+              <ion-col size="1" style="text-align: center; font-size: 15px; color: #333;">{{ user.id }}</ion-col>
+              <ion-col size="4" style="text-align: center; font-size: 15px; color: #333;">
+                {{ getCountryName(user.country_id) }}
+              </ion-col>
+              
+              
+              <ion-col size="4" style="text-align: center; font-size: 15px; color: #333;">{{ user.state_name }}</ion-col>
+              <ion-col size="2" style="text-align: center; font-size: 15px; color: #333;">{{ user.state_shortname || 'N/A' }}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Right Side: Add New User Button Section -->
+   
+  </div>
+
+
+        
+    
+     
+    
+     
+  
+
+    <!-- Right Side: Add New User Button (if needed) --> 
+  
+    <ion-modal [isOpen]="is_open">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar color="primary">
+            <!-- <div style="text-align: center; margin-bottom: 10px; font-size: 1.2rem; font-weight: bold; color: white;">
+              State No.: {{ newState.id || 'Loading...' }}
+            </div> -->
+            <ion-title>Add State</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="closeModal()" color="danger">
+                <ion-icon name="close"></ion-icon> Close
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+    
+        <ion-content class="ion-padding">
+          <form (ngSubmit)="addState()">
+
+            <ion-item class="input-item">
+              <ion-label position="stacked">Country</ion-label>
+              <ion-select [(ngModel)]="newState.country_id" name="country_id">
+                <ion-select-option *ngFor="let country of countries" [value]="country.id">
+                  {{ country.country_name }}
+                </ion-select-option>
+              </ion-select>
+              
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">State Name</ion-label>
+              <ion-input [(ngModel)]="newState.state_name" name="state_name" required></ion-input>
+            </ion-item>
+    
+            <ion-item>
+              <ion-label position="floating">Short Name</ion-label>
+              <ion-input [(ngModel)]="newState.state_shortname" name="state_shortname" required></ion-input>
+            </ion-item>
+    
+            <ion-button
+              expand="full"
+              type="submit"
+              color="primary"
+              [disabled]="!newState.state_name || !newState.state_shortname"
+            >
+              Add State
+            </ion-button>
+          </form>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+    
+    
+</ion-content>
+
+<!-- Add Animations and Hover Effects -->
+<style>
+  /* Hover effect for rows */
+  ion-row:hover {
+    background-color: #e8f5e9; /* Light Green */
+    transform: scale(1.02);
+  }
+
+  /* Subtle shadow effect on cards and rows */
+  ion-card, ion-searchbar, ion-row {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+</style>

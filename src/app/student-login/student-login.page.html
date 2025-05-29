@@ -1,0 +1,98 @@
+change this design <ion-header [translucent]="true">
+  <ion-toolbar color="primary" style="--background: linear-gradient(135deg, #3a7bd5, #00d2ff);">
+     <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>Back
+    </ion-buttons>
+    <ion-title class="ion-text-center" style="font-weight: bold; font-size: 1.8rem; color: white;">
+ Student Login
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" style="background: linear-gradient(135deg, #eef2f3, #8e9eab);">
+  <div class="login-container">
+    <ion-card class="login-card" style="max-width: 480px; border-radius: 16px; box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);">
+      <ion-card-header class="ion-text-center" style="background: linear-gradient(135deg, #3a7bd5, #00d2ff); padding: 20px; border-radius: 16px 16px 0 0; color: white;">
+        <ion-card-title style="font-size: 1.8rem; font-weight: bold;">Welcome Student</ion-card-title>
+        <p style="margin-top: 5px; font-size: 1rem;">Sign in to manage your dashboard</p>
+      </ion-card-header>
+
+      <ion-card-content style="padding: 35px;">
+        <!-- Admin Login Form -->
+        <ion-item class="input-item" style="margin-bottom: 20px; border-radius: 8px; background: white; box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);">
+          <ion-icon name="person-circle-outline" slot="start" style="color: #3a7bd5;"></ion-icon>
+          <ion-label position="floating" style="font-size: 1rem; color: #555;">Email</ion-label>
+          <ion-input [(ngModel)]="email" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item" style="margin-bottom: 20px; border-radius: 8px; background: white; box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);">
+          <ion-icon name="lock-closed-outline" slot="start" style="color: #3a7bd5;"></ion-icon>
+          <ion-label position="floating" style="font-size: 1rem; color: #555;">Password</ion-label>
+          <ion-input [(ngModel)]="password" type="mobile"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" (click)="login()" style="margin-top: 20px; padding: 15px; font-size: 1.1rem; font-weight: bold; background: linear-gradient(135deg, #3a7bd5, #00d2ff); border-radius: 8px;">
+          LOGIN
+        </ion-button>
+
+        <!-- Footer Links -->
+     
+          <ion-buttons class="ion-justify-content-center" style="margin-top: 20px;">
+              <ion-button fill="clear" routerLink="/register" style="color: #007BFF; font-size: 0.9rem;">
+               APPLY ONLINE? Register
+              </ion-button>
+            </ion-buttons> 
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+
+<style>
+  /* Center the card on the page */
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+  }
+
+  /* Login Card Styling */
+  .login-card {
+    background: white;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+
+  .login-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Input Styling */
+  .input-item {
+    padding: 12px 16px;
+  }
+
+  .input-item ion-label {
+    font-size: 1rem;
+    color: #555;
+  }
+
+  .input-item ion-input {
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  /* Button Hover Effect */
+  ion-button:hover {
+    filter: brightness(1.1);
+    cursor: pointer;
+  }
+
+  /* Responsive Styling */
+  @media (max-width: 768px) {
+    .login-card {
+      width: 90%;
+    }
+  }
+</style>  

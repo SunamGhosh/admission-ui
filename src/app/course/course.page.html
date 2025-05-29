@@ -1,0 +1,326 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="centered-title">Course Management</ion-title>
+
+    <!-- Dropdown to select university -->
+    <!-- <ion-item>
+      <ion-label>Select University</ion-label>
+      <ion-select
+        placeholder="Choose University"
+        [(ngModel)]="selectedUniversity"
+        (ionChange)="onUniversityChange($event)">
+        <ion-select-option *ngFor="let university of universities" [value]="university">
+          {{ university.university_name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item> -->
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content class="background">
+
+  <ion-grid>
+    <ion-row>
+      <!-- Left Column for Selected University Details -->
+      <ion-col size="12" size-md="5">
+        <div *ngIf="selectedUniversity" >
+          <h2 style="color: white;">Selected University Details</h2>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{ selectedUniversity.university_name }}</ion-card-title>
+              <ion-card-subtitle>{{ selectedUniversity.short_name }}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <!-- <img [src]="selectedUniversity.image" alt="University Image" style="width: 100%; height: auto; border-radius: 8px;" /> -->
+              <p><strong>University Link:</strong> <a [routerLink]="selectedUniversity.link">View Courses</a></p>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+ 
+  
+  <div class="main-container">
+    <!-- Left Section for Adding a Course -->
+    <div class="course-form-container">
+      <ion-card class="form-card">
+        <ion-card-header>
+          <ion-card-title class="form-title">Add Course</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <form (ngSubmit)="addCourse()" class="form-container">
+            <ion-grid>
+
+              <ion-row>
+                <ion-col size="12" size-md="5" style="background-color: white;border: 1px solid grey">
+                  <ion-select [(ngModel)]="newCourse.session_id" name="session_id" placeholder="Select Session">
+                    <ion-select-option *ngFor="let s of st" [value]="s.id">{{ s.session_name }}</ion-select-option>
+                  </ion-select>
+                  
+                </ion-col>
+                <ion-col size="12" size-md="5" style="background-color: white;border: 1px solid grey">
+                  <ion-select [(ngModel)]="newCourse.semester_id" name="semester_id" placeholder="Select Semester">
+                    <ion-select-option *ngFor="let se of sem" [value]="se.id">{{ se.semester_name }}</ion-select-option>
+                  </ion-select>
+                  
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12" size-md="5">
+                  <ion-input
+                    fill="outline"
+                    label="Course Name"
+                    labelPlacement="floating"
+                    [(ngModel)]="newCourse.course_name"
+                    name="course_name"
+                    required>
+                  </ion-input>
+                </ion-col>
+                <ion-col size="12" size-md="5">
+                  <ion-input
+                    fill="outline"
+                    label="Short Name"
+                    labelPlacement="floating"
+                    [(ngModel)]="newCourse.course_shortname"
+                    name="course_short_name"
+                    required>
+                  </ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12" size-md="5">
+                  <ion-input
+                    fill="outline"
+                    label="Start Session"
+                    labelPlacement="floating"
+                    [(ngModel)]="newCourse.course_start_session"
+                    type="date"
+                    required>
+                  </ion-input>
+                </ion-col>
+                <ion-col size="12" size-md="5">
+                  <ion-input
+                    fill="outline"
+                    label="End Session"
+                    labelPlacement="floating"
+                    [(ngModel)]="newCourse.course_end_session"
+                    type="date"
+                    required>
+                  </ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12" size-md="5">
+                  <ion-item>
+                    <ion-label>Current Course</ion-label>
+                    <ion-toggle
+                      [(ngModel)]="newCourse.course_current"
+                      name="course_current">
+                    </ion-toggle>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="12" size-md="5">
+                  <ion-item>
+                    <ion-label>In Use</ion-label>
+                    <ion-toggle
+                      [(ngModel)]="newCourse.course_in_use"
+                      name="course_in_use">
+                    </ion-toggle>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+
+              <ion-row>
+                <ion-col>
+                  <ion-button
+                    expand="block"
+                    type="submit"
+                    color="primary"
+                  >
+                    Add Course
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </form>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Right Section for Listing Courses -->
+    <div class="course-list-container">
+      <ion-card class="course-list-card">
+        <ion-card-header>
+          <ion-card-title class="course-list-title">Courses List</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="w3-row-padding">
+  
+            <!-- Search Bar -->
+            <div class="w3-col m4">
+              <ion-input fill="outline" class="w3-input w3-border" type="text" [(ngModel)]="searchTerm" (input)="filterCourses()" placeholder="Search Courses">
+              </ion-input>    </div>
+          
+            <!-- Session Dropdown -->
+            <div class="w3-col m3">
+              <ion-select [(ngModel)]="selectedSession" (ionChange)="filterCourses()" placeholder="Select Session" fill="outline">
+                <ion-select-option *ngFor="let s of st" [value]="s.id">{{ s.session_name }}</ion-select-option>
+              </ion-select>
+            </div>
+          
+            <!-- Semester Dropdown -->
+            <div class="w3-col m4">
+              <ion-select [(ngModel)]="selectedSemester" (ionChange)="filterCourses()" placeholder="Select Semester" fill="outline">
+                <ion-select-option *ngFor="let se of sem" [value]="se.id">{{ se.semester_name }}</ion-select-option>
+              </ion-select>
+            </div>
+          
+          </div>
+          
+          
+          
+          <div class="grid-container"> 
+            <!-- Header Row -->
+            <div class="grid-header">
+              <div class="grid-item">Sl. No.</div>
+              <div class="grid-item">Course Name</div>
+              <div class="grid-item">Short Name</div>
+              <div class="grid-item">Session</div>
+              <div class="grid-item">Semester</div>
+              <div class="grid-item">Action</div>
+            </div>
+          
+            <!-- Course Rows -->
+            <div *ngFor="let course of filteredCourses; index as i" class="grid-row">
+              <div class="grid-item">{{ i + 1 }}</div>
+              <div class="grid-item">{{ course.course_name }}</div>
+              <div class="grid-item">{{ course.course_shortname }}</div>
+              <div class="grid-item">{{ getSessionName(course.session_id) }}</div>
+              <div class="grid-item">{{ getsemesterName(course.semester_id) }}</div>
+              <div class="grid-item">
+                <ion-icon name="pencil-outline" color="danger" (click)="editCourse(course)" style="cursor: pointer;"></ion-icon>
+              </div>
+            </div>
+          </div>
+          
+          <style>
+            .grid-container {
+              display: grid;
+              grid-template-columns: 8% 20% 18% 18% 18% 10%;
+              gap: 2px;
+             
+              margin-top: 10px;
+              width: 100%;
+              max-width: 800px;
+              margin: auto;
+            }
+          
+            .grid-header,
+            .grid-row {
+              display: contents;
+              
+            }
+          
+            .grid-item {
+              padding: 5px;
+              border: 1px solid #ccc;
+              text-align: center;
+              font-size: 14px;
+              background-color: #fff;
+            }
+          
+            .grid-header .grid-item {
+              background-color: purple;
+              font-weight: bold;
+              color: white;
+              padding: 6px;
+            }
+          </style>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+
+
+
+<!-- edit part -->
+<ion-modal [isOpen]="is_open_edit" (didDismiss)="closeCourseModal()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Edit Course</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeCourseModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12">
+            <ion-input
+              fill="outline"
+              label="Course Name"
+              labelPlacement="floating"
+              [(ngModel)]="selectedCourse.course_name"
+              required
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <ion-input
+              fill="outline"
+              label="Course Short Name"
+              labelPlacement="floating"
+              [(ngModel)]="selectedCourse.course_shortname"
+              required
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-input
+              fill="outline"
+              label="Start Session"
+              labelPlacement="floating"
+              [(ngModel)]="selectedCourse.course_start_session"
+              type="date"
+            ></ion-input>
+          </ion-col>
+          <ion-col size="6">
+            <ion-input
+              fill="outline"
+              label="End Session"
+              labelPlacement="floating"
+              [(ngModel)]="selectedCourse.course_end_session"
+              type="date"
+            ></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
+
+    <ion-footer>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="end">
+          <ion-button expand="full" color="success" (click)="updateCourse()">Save Changes</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+  
+</ion-content>

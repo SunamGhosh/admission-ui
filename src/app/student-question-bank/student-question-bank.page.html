@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-title class="ion-text-center">Question Bank</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Semester Filter Tabs -->
+  <ion-segment [(ngModel)]="selectedSemesterId" color="secondary">
+    <ion-segment-button *ngFor="let sem of semesters" [value]="sem.id">
+      {{ sem.semester_name }}
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Display Question Bank List -->
+  <div *ngIf="getQuestionsBySemester(selectedSemesterId).length > 0" class="ion-margin-top">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">
+          {{ getSemesterName(selectedSemesterId) }}
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <table class="w3-table-all w3-card-4 w3-striped w3-hoverable bordered-table">
+          <thead>
+            <tr class="w3-purple">
+              <th>Sl. No.</th>
+              <th>Question Bank Name</th>
+              <th>Semester</th>
+              <th>Subject</th>
+              <th>File Name</th>
+              <th>Download</th>
+            </tr>
+          </thead>
+          <tbody style="color: black; font-size: 14px;">
+            <tr *ngFor="let qb of getQuestionsBySemester(selectedSemesterId); let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ qb.name }}</td>
+              <td>{{ getSemesterName(qb.semester_id) }}</td>
+              <td>{{ getSubjectName(qb.subject_id) }}</td>
+              <td>{{ qb.file_name }}</td>
+              <td>
+                <a [href]="'http://localhost:3000/' + qb.file_path" download target="_blank">
+                  <ion-button size="small" color="success" fill="outline">Download</ion-button>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- No Data Message -->
+  <ion-card *ngIf="getQuestionsBySemester(selectedSemesterId).length === 0">
+    <ion-card-content class="ion-text-center">
+      <p>No question banks available for this semester.</p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
