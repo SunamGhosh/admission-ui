@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="tertiary" style="text-align: center;">
+    <ion-title> Template Field</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <!-- Left Side: Form -->
+      <ion-col size="12" size-md="4">
+        <ion-card>
+          <ion-card-header class="w3-purple">
+            <ion-card-title class="w3-text-white">{{ isEditMode ? 'Edit' : 'Add' }} Field</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form (ngSubmit)="saveField()">
+              <ion-item>
+                <ion-label position="stacked">Module</ion-label>
+                <ion-select [(ngModel)]="formData.module_id" name="module_id" (ionChange)="onModuleChange()" interface="popover">
+                  <ion-select-option *ngFor="let mod of modules" [value]="mod.id">{{ mod.module_name }}</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="stacked">Table</ion-label>
+                <ion-select [(ngModel)]="formData.table_id" name="table_id" interface="popover">
+                  <ion-select-option *ngFor="let tab of tables" [value]="tab.id">{{ tab.table }}</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="stacked">Field Name</ion-label>
+                <ion-input type="text" [(ngModel)]="formData.field_name" name="field_name"></ion-input>
+              </ion-item>
+
+              <ion-button expand="block" type="submit" color="primary" class="ion-margin-top">
+                {{ isEditMode ? 'Update' : 'Add' }} Field
+              </ion-button>
+
+              <ion-button expand="block" fill="clear" color="medium" *ngIf="isEditMode" (click)="resetForm()">
+                Cancel
+              </ion-button>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+     <!-- Right Side: Table -->
+<ion-col size="12" size-md="7">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title  class="w3-text-white">Fields List</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid *ngIf="fields.length > 0; else noFields">
+        <ion-row class="ion-text-center ion-padding-bottom"  class="w3-purple">
+          <ion-col><strong>Field Name</strong></ion-col>
+          <ion-col><strong>Module</strong></ion-col>
+          <ion-col><strong>Table</strong></ion-col>
+          <ion-col><strong>Actions</strong></ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let field of fields" class="ion-align-items-center">
+          <ion-col>{{ field.field_name }}</ion-col>
+          <ion-col>{{ getModuleName(field.module_id) }}</ion-col>
+          <ion-col>{{ getTableName(field.table_id) }}</ion-col>
+          <ion-col>
+            <ion-button fill="clear" size="small" color="primary" (click)="editField(field)">Edit</ion-button>
+            <ion-button fill="clear" size="small" color="danger" (click)="deleteField(field.id)">Delete</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ng-template #noFields>
+        <p>No fields added yet.</p>
+      </ng-template>
+    </ion-card-content>
+  </ion-card>
+</ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>

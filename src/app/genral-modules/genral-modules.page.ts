@@ -1,81 +1,83 @@
-
-
-// @Component({
-//   selector: 'app-genral-modules',
-//   templateUrl: './genral-modules.page.html',
-//   styleUrls: ['./genral-modules.page.scss'],
-//   standalone: true,
-//   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
-// })
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { UserService } from '../services/user.service';
-import { UtilsService } from '../services/utils.service';
-import { ApiService } from '../services/api.service';
-import { Course, Semester, Session, User } from 'interface';
-import { ToastController } from '@ionic/angular';
-import { AlertController } from '@ionic/angular';
+import { Course, Semester, Session, User, Module, Category, Subcategory, Template, Course_Student } from 'interface';
 import { RouterModule } from '@angular/router';
-// Define a new type that extends User to include the selected property
+
 interface UserWithSelection extends User {
   selected: boolean;
 }
+
 @Component({
   selector: 'app-general-modules',
   templateUrl: './genral-modules.page.html',
   styleUrls: ['./genral-modules.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule,RouterModule],
 })
-
-
-
 export class GeneralModulesPage implements OnInit {
-users: UserWithSelection[] = [];
+  users: UserWithSelection[] = [];
   filteredUsers: UserWithSelection[] = [];
-  selectedStudents: UserWithSelection[] = []; // Track selected students
+  selectedStudents: UserWithSelection[] = [];
   searchTerm: string = '';
   selectedCourse: string | null = null;
   selectedSemester: string | null = null;
   selectedSession: string | null = null;
 
   co: Course[] = [];
+  cs: Course_Student[]=[]
   sem: Semester[] = [];
   st: Session[] = [];
 
-  // Contact Checkboxes
+  modules: Module[] = [];
+  categories: Category[] = [];
+  subcategories: Subcategory[] = [];
+  templates: Template[] = [];
+  selectedModuleId: number | null = null;
+  selectedCategoryId: number | null = null;
+  selectedSubcategoryId: number | null = null;
+  selectedTemplate: Template | null = null;
+
   contactMother: boolean = false;
   contactStudent: boolean = false;
   contactFather: boolean = false;
   contactAll: boolean = false;
 
-  // Table Checkbox
   selectAll: boolean = false;
-
-  // Pagination
   currentPage: number = 1;
   itemsPerPage: number = 12;
-
-  // Dynamic Info Box Values
   characterCount: number = 0;
   totalContacts: number = 0;
-  msg: string = ''; // Initialize as empty string
+  msg: string = '';
+
+  isModalOpen: boolean = false; // Control modal visibility
 
   constructor(
     private us: UserService,
-    private utils: UtilsService,
-    private api: ApiService,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.loadAllUsers();
     this.loaders();
-    this.loader();
-    this.loading();
+    this.loadModules();
+  }
+
+  get selectedModuleName(): string {
+    return this.modules.find(m => m.id === this.selectedModuleId)?.module_name || 'N/A';
+  }
+
+  get selectedCategoryName(): string {
+    return this.categories.find(c => c.id === this.selectedCategoryId)?.category_name || 'N/A';
+  }
+
+  get selectedSubcategoryName(): string {
+    if (this.selectedSubcategoryId === null) return 'N/A';
+    const subcategory = this.subcategories.find(s => s.id === this.selectedSubcategoryId);
+    return subcategory?.subcategory_name ?? 'N/A';
   }
 
   async loadAllUsers() {
@@ -86,23 +88,120 @@ users: UserWithSelection[] = [];
         this.filteredUsers = [...this.users];
       } else {
         this.users = [];
+        await this.showToast('No users found');
       }
     } catch (error) {
       console.error('Error loading users:', error);
-      this.users = [];
+      await this.showToast('Failed to load users');
     }
   }
 
-  async loading() {
-    this.co = await this.us.course_all();
+  async loadModules() {
+    try {
+      const response = await this.us.getAllModules();
+      if (response.ok && Array.isArray(response.data)) {
+        this.modules = response.data;
+      } else {
+        this.modules = [];
+        await this.showToast('No modules found');
+      }
+    } catch (error) {
+      console.error('Error loading modules:', error);
+      await this.showToast('Failed to load modules');
+    }
   }
 
-  async loader() {
-    this.st = await this.us.session_all();
+  async loadCategories() {
+    this.categories = [];
+    this.subcategories = [];
+    this.templates = [];
+    this.selectedCategoryId = null;
+    this.selectedSubcategoryId = null;
+    this.selectedTemplate = null;
+    this.msg = '';
+    if (this.selectedModuleId) {
+      try {
+        const response = await this.us.category_all(this.selectedModuleId);
+        if (response && response.ok && Array.isArray(response.data)) {
+          this.categories = response.data;
+          if (this.categories.length === 0) {
+            await this.showToast('No categories found for this module');
+          }
+        } else {
+          this.categories = [];
+          await this.showToast('No categories found');
+        }
+      } catch (error) {
+        console.error('Error loading categories:', error);
+        await this.showToast('Failed to load categories');
+      }
+    }
+    this.cdr.detectChanges();
+    this.updatePreview();
+  }
+
+  async loadSubcategories() {
+    this.subcategories = [];
+    this.templates = [];
+    this.selectedSubcategoryId = null;
+    this.selectedTemplate = null;
+    this.msg = '';
+    if (this.selectedCategoryId) {
+      try {
+        const response = await this.us.getSubcategoriesByCategory(this.selectedCategoryId);
+        if (response.ok && Array.isArray(response.data)) {
+          this.subcategories = response.data;
+        } else {
+          this.subcategories = [];
+          await this.showToast('No subcategories found');
+        }
+      } catch (error) {
+        console.error('Error loading subcategories:', error);
+        await this.showToast('Failed to load subcategories');
+      }
+    }
+    this.updatePreview();
+  }
+
+  async loadTemplates() {
+    this.templates = [];
+    this.selectedTemplate = null;
+    this.msg = '';
+    if (this.selectedSubcategoryId) {
+      try {
+        const response = await this.us.getTemplatesBySubcategory(this.selectedSubcategoryId);
+        if (response.ok && Array.isArray(response.data)) {
+          this.templates = response.data;
+          if (this.templates.length > 0) {
+            this.selectedTemplate = this.templates[0];
+            this.msg = this.selectedTemplate.template_name;
+          }
+        } else {
+          this.templates = [];
+          await this.showToast('No templates found');
+        }
+      } catch (error) {
+        console.error('Error loading templates:', error);
+        await this.showToast('Failed to load templates');
+      }
+    }
+    this.updatePreview();
   }
 
   async loaders() {
-    this.sem = await this.us.semester_all();
+    try {
+      const [courses, semesters, sessions] = await Promise.all([
+        this.us.course_all(),
+        this.us.semester_all(),
+        this.us.session_all(),
+      ]);
+      this.co = courses || [];
+      this.sem = semesters || [];
+      this.st = sessions || [];
+    } catch (error) {
+      console.error('Error loading dropdown data:', error);
+      await this.showToast('Failed to load dropdown data');
+    }
   }
 
   filterUsers() {
@@ -125,7 +224,7 @@ users: UserWithSelection[] = [];
       );
     });
     this.currentPage = 1;
-    this.updatePreview(); // Update preview after filtering
+    this.updatePreview();
   }
 
   get paginatedUsers(): UserWithSelection[] {
@@ -141,28 +240,33 @@ users: UserWithSelection[] = [];
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.updatePreview(); // Update preview when changing pages
+      this.updatePreview();
     }
   }
 
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updatePreview(); // Update preview when changing pages
+      this.updatePreview();
     }
   }
 
   prevPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.updatePreview(); // Update preview when changing pages
+      this.updatePreview();
     }
   }
+getCourseName(courseId: number): string {
+  const course = this.co.find(c => c.id === courseId);
+  return course?.course_name?.split('-')[0] ?? 'N/A';
+}
 
-  getCourseName(courseId: number): string {
-    const course = this.co.find(c => c.id === courseId);
+  getCourseStudentName(courseId: number): string {
+    const course = this.cs.find(c => c.id === courseId);
     return course?.course_name ?? 'N/A';
   }
+
 
   getSemesterName(semesterId: number): string {
     const semester = this.sem.find(s => s.id === semesterId);
@@ -183,66 +287,88 @@ users: UserWithSelection[] = [];
     }));
     this.updatePreview();
   }
-
+previewMessages: string[] = [];
   async updatePreview() {
-    // Update selected students list
-    this.selectedStudents = this.filteredUsers.filter(user => user.selected);
+  this.selectedStudents = this.filteredUsers.filter(user => user.selected);
+  let previewText = '';
 
-    // Calculate character count based on the preview content
-    let previewText = '';
-    if (this.selectedStudents.length === 0) {
-      previewText = `Dear {student_name}, {course_id}, {semester_id}\n\nThis is a reminder for your upcoming {exam_name} scheduled on {exam_date}. Please be prepared.\n\n*GIIT Admin*`;
-    } else {
-      for (const student of this.selectedStudents) {
-        // Fetch exam details for the selected student
-        let exam_name = 'N/A';
-        let exam_date = 'N/A';
-        // // try {
-        // //   const examResponse = await this.api.get(`/exams/${student.id}`); // Uncommented and fixed
-        // //   if (examResponse.ok) {
-        // //     exam_name = examResponse.data.exam_name || 'N/A';
-        // //     exam_date = examResponse.data.exam_date || 'N/A';
-        // //     // Store fetched data in the student object for use in sendWhatsApp()
-        // //     student.exam_name = exam_name;
-        // //     student.exam_date = exam_date;
-        // //   }
-        // } catch (error) {
-        //   console.error(`Error fetching exam details for user ${student.id}:`, error);
-        // }
+  if (this.selectedStudents.length === 0) {
+    previewText = this.selectedTemplate?.template_name || `{course_id} has exam on {exam_date}`; // Align with sendWhatsApp
+  } else {
+    for (const student of this.selectedStudents) {
+      let templateContent = this.selectedTemplate?.template_name || `{course_id} has exam on {exam_date}`;
+      templateContent = templateContent
+        .replace('{student_name}', `${student.first_name} ${student.last_name}`)
+        .replace('{father_name}', student.father_name || '')
+        .replace('{mother_name}', student.mother_name || '')
+        .replace('{course_id}', this.getCourseName(student.course_id))
+        .replace('{semester_id}', this.getSemesterName(student.semester_id))
+        .replace('{exam_name}', 'Sample Exam')
+        .replace('{exam_date}', '12.06.2025');
 
-        const studentPreview = `Dear ${student.first_name} ${student.last_name}, Course: ${this.getCourseName(student.course_id)}, Semester: ${this.getSemesterName(student.semester_id)}\n\nThis is a reminder for your upcoming ${exam_name} scheduled on ${exam_date}. Please be prepared.\n\n*GIIT Admin*`;
-        previewText += studentPreview + '\n\n';
-      }
+      previewText += templateContent + '\n\n';
     }
-    this.characterCount = previewText.length;
-
-    // Update total contacts
-    this.updateTotalContacts();
   }
-
+  this.characterCount = previewText.length;
+  this.msg = previewText;
+  this.previewMessages = previewText.split('\n').filter(line => line.trim() !== '');
+  this.updateTotalContacts();
+}
   updateTotalContacts() {
     let count = 0;
     if (this.contactMother) count++;
     if (this.contactStudent) count++;
     if (this.contactFather) count++;
-    if (this.contactAll) count = 3; // If "All" is checked, assume all contacts are selected
-    this.totalContacts = count;
+    if (this.contactAll) count = 3;
+    this.totalContacts = count * this.selectedStudents.length;
   }
 
-  async sendWhatsApp() {
+  async showPreview() {
+    if (this.selectedStudents.length === 0) {
+      await this.showToast('Please select at least one student.');
+      return;
+    }
+
+    if (this.totalContacts === 0) {
+      await this.showToast('Please select at least one contact type.');
+      return;
+    }
+
+    if (!this.selectedTemplate) {
+      await this.showToast('Please select a template.');
+      return;
+    }
+
+    this.isModalOpen = true; // Open the modal
+  }
+
+  dismissModal() {
+    this.isModalOpen = false; // Close the modal
+  }
+
+  onModalDismiss() {
+    this.isModalOpen = false; // Ensure the modal state is updated when dismissed
+  }
+
+  async sendFromModal() {
+    this.dismissModal(); // Close the modal
+    await this.sendWhatsApp();
+  }
+async sendWhatsApp() {
   if (this.selectedStudents.length === 0) {
-    this.showToast('Please select at least one student.');
+    await this.showToast('Please select at least one student.');
     return;
   }
 
   if (this.totalContacts === 0) {
-    this.showToast('Please select at least one contact type.');
+    await this.showToast('Please select at least one contact type.');
     return;
   }
 
-  const userIds = this.selectedStudents.map(s => s.id);
-  const message = this.msg.trim() || `Dear Student, 
-This is a reminder for your upcoming scheduled on Please be prepared.. - GIIT Admin`;
+  if (!this.selectedTemplate) {
+    await this.showToast('Please select a template.');
+    return;
+  }
 
   let recipient = '';
   if (this.contactAll) {
@@ -254,29 +380,49 @@ This is a reminder for your upcoming scheduled on Please be prepared.. - GIIT Ad
   } else if (this.contactFather && !this.contactStudent && !this.contactMother) {
     recipient = 'father';
   } else {
-    this.showToast('Please select only one contact type or "All".');
+    await this.showToast('Please select only one contact type or "All".');
     return;
   }
 
   try {
-    const response = await this.api.post('/whatsapp/send-reminder', {
-      userIds,
-      message,
-      recipient
-    });
+    for (const student of this.selectedStudents) {
+      let messageTemplate = this.selectedTemplate.template_name || `{course_id} has exam on {exam_date}`; // Remove initial "Dear" from template
+      const personalizedMessage = messageTemplate
+        .replace('{student_name}', `${student.first_name} ${student.last_name}`)
+        .replace('{father_name}', student.father_name || '')
+        .replace('{mother_name}', student.mother_name || '')
+        .replace('{course_id}', this.getCourseName(student.course_id))
+        .replace('{semester_id}', this.getSemesterName(student.semester_id))
+        // .replace('{exam_name}', 'Sample Exam') // Use actual exam name
+        // .replace('{exam_date}', '12.06.2025'); // Use actual exam date
 
-   if (response.success) {
-  this.showToast('Reminder sent successfully!');
-  this.msg = ''; // Clear message
-} else {
-  console.error('Failed to send reminder:', response);
-  this.showToast('Failed to send reminder.');
+      const payload = {
+        userIds: [student.id],
+        message: personalizedMessage,
+        recipient,
+        exam_name: 'Sample Exam',
+        exam_date: '12.06.2025'
+      };
+
+      const response = await this.us.post('/whatsapp/send-reminder', payload);
+
+      if (!response.success) {
+        console.error(`Failed to send to ${student.first_name}:`, response);
+      }
+    }
+
+    await this.showToast('All reminders sent successfully!');
+    this.msg = '';
+  } catch (error) {
+    console.error('Error sending reminders:', error);
+    await this.showToast('Error occurred while sending.');
+  }
 }
 
-  } catch (error) {
-    console.error('Error sending reminder:', error);
-    this.showToast('Error occurred while sending.');
-  }
+  loadTemplateOnly() {
+  this.msg = this.selectedTemplate?.template_name || '';
+  this.previewMessages = this.msg.split('\n').filter(line => line.trim() !== '');
+  this.characterCount = this.msg.length;
 }
 
 
@@ -287,44 +433,5 @@ This is a reminder for your upcoming scheduled on Please be prepared.. - GIIT Ad
       position: 'bottom',
     });
     await toast.present();
-  }
-
-  async downloadStudentExcel(): Promise<void> {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3000/user/students/excel", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { "Authorization": `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({
-          course: this.selectedCourse || null,
-          semester: this.selectedSemester || null,
-          session: this.selectedSession || null,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to download Excel: ${await response.text()}`);
-      }
-
-      const blob: Blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `students_${this.selectedCourse || 'All'}_${this.selectedSemester || 'All'}_${this.selectedSession || 'All'}.xlsx`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error downloading Excel:", error);
-    }
-  }
-
-  logout() {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
   }
 }

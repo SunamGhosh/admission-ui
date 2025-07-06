@@ -27,24 +27,31 @@
         Profile
         </ion-item>
 
-        
-        <ion-item *ngIf="role !== 'office' && role !== 'admin'&& role !== 'agent'" routerLink="student-assignment" routerLinkActive="active-item" style="font-size: 14px ">
+         <ion-item *ngIf="role !== 'student'" routerLink="/chapter" routerLinkActive="active-item" style="font-size: 14px; ">
+          <ion-icon name="person-circle-outline" style="margin-right: 30px; "></ion-icon>
+         chapter
+        </ion-item>
+        <ion-item *ngIf="hasAccess('student-assignment')"  routerLink="student-assignment" routerLinkActive="active-item" style="font-size: 14px ">
           <ion-icon name="briefcase-outline" style="margin-right: 30px;"></ion-icon>Assignment</ion-item>
 
           
-          <ion-item *ngIf="role !== 'office' && role !== 'admin'&& role !== 'agent'" routerLink="student-question-bank" routerLinkActive="active-item" style="font-size: 14px ">
+          <ion-item *ngIf=" hasAccess('student-question-bank')" routerLink="student-question-bank" routerLinkActive="active-item" style="font-size: 14px ">
             <ion-icon name="briefcase-outline" style="margin-right: 30px;"></ion-icon>Question Bank</ion-item>
 
             
-            <ion-item *ngIf="role !== 'office' && role !== 'admin'&& role !== 'agent'" routerLink="student-syllabus" routerLinkActive="active-item" style="font-size: 14px ">
+            <ion-item *ngIf="hasAccess('student-syllabus')" routerLink="student-syllabus" routerLinkActive="active-item" style="font-size: 14px ">
               <ion-icon name="briefcase-outline" style="margin-right: 30px;"></ion-icon>Syllabus</ion-item>
       
         
     
       
-  
+      <ion-item *ngIf="role !== 'student'&& role !== 'agent' && role !== 'office'"
+        routerLink="/access" routerLinkActive="active-item" style="font-size: 14px;">
+          <ion-icon name="desktop-outline" style="margin-right: 30px;"></ion-icon>
+        Access
+        </ion-item>
     
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'"  routerLink="/quickadmission" routerLinkActive="active-item" style="font-size: 14px ">
+        <ion-item *ngIf="hasAccess('Quick Admission')"   routerLink="/quickadmission" routerLinkActive="active-item" style="font-size: 14px ">
           <ion-icon name="add-circle-outline" style="margin-right: 30px;"></ion-icon>
         Quick Admission
         </ion-item>
@@ -56,52 +63,52 @@
 
 
 
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/docs" routerLinkActive="active-item" style="font-size: 14px; ">
+        <ion-item *ngIf="hasAccess('View Documents')"  routerLink="/docs" routerLinkActive="active-item" style="font-size: 14px; ">
           <ion-icon name="book-outline" style="margin-right: 30px;"></ion-icon>
         View Documents
         </ion-item>
 
 
 
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/admin-course-structure" routerLinkActive="active-item" style="font-size: 14px; ">
+        <ion-item *ngIf="hasAccess('Course Structure')" routerLink="/admin-course-structure" routerLinkActive="active-item" style="font-size: 14px; ">
           <ion-icon name="book-outline" style="margin-right: 30px;"></ion-icon>
         Course-structure
         </ion-item>
 
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/admin-syllabus" routerLinkActive="active-item" style="font-size: 14px ">
+        <ion-item *ngIf="hasAccess('Syllabus')" routerLink="/admin-syllabus" routerLinkActive="active-item" style="font-size: 14px ">
           <ion-icon name="book-outline" style="margin-right: 16px;"></ion-icon>
        Syllabus
         </ion-item>
         
-        <ion-item  *ngIf="role !== 'student'&& role !== 'agent'"routerLink="/admin-question-bank" routerLinkActive="active-item" style="font-size: 14px ">
+        <ion-item  *ngIf="hasAccess('admin-question-bank')"routerLink="/admin-question-bank" routerLinkActive="active-item" style="font-size: 14px ">
           <ion-icon name="caret-down-circle-outline" style="margin-right: 30px;"></ion-icon>Question Bank</ion-item>
 
 
               
-        <ion-item  *ngIf="role !== 'student'&& role !== 'agent'"routerLink="/admin-assignment" routerLinkActive="active-item" style="font-size: 14px ">
+        <ion-item  *ngIf="hasAccess('Admin-assignment')"routerLink="/admin-assignment" routerLinkActive="active-item" style="font-size: 14px ">
           <ion-icon name="cloud-upload-outline" style="margin-right: 30px;"></ion-icon>Assignment</ion-item>
-          <ion-item  *ngIf="role !== 'student'&& role !== 'agent'"routerLink="/admin-university-question" routerLinkActive="active-item" style="font-size: 14px ">
+          <ion-item  *ngIf="hasAccess('admin-university-question')" routerLink="/admin-university-question" routerLinkActive="active-item" style="font-size: 14px ">
             <ion-icon name="school-outline"style="margin-right: 30px;"></ion-icon>University-Question</ion-item>
   
 
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent' && role !== 'office'"
+        <ion-item *ngIf="hasAccess('Office-Staff')"
         routerLink="/office-staff" routerLinkActive="active-item" style="font-size: 14px;">
           <ion-icon name="desktop-outline" style="margin-right: 30px;"></ion-icon>
           Office Staff
         </ion-item>
         
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent' && role !== 'office'" routerLink="/stats" routerLinkActive="active-item" style="font-size: 14px;">
+        <ion-item *ngIf="hasAccess('Stats')" routerLink="/stats" routerLinkActive="active-item" style="font-size: 14px;">
           <ion-icon name="podium-outline" style="margin-right: 30px;"></ion-icon>
           Stats
         </ion-item>
         
-          <ion-item *ngIf="role !== 'student'&& role !== 'agent' && role !== 'office'" routerLink="/whatsapp" routerLinkActive="active-item" style="font-size: 14px;">
+          <ion-item *ngIf="hasAccess('WhatsApp Module')" routerLink="/whatsapp/genralmodules" routerLinkActive="active-item" style="font-size: 14px;">
           <ion-icon name="podium-outline" style="margin-right: 30px;"></ion-icon>
         WhatsApp Module
         </ion-item>
         
 
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/university-registration" routerLinkActive="active-item" style="font-size: 14px ">
+        <ion-item *ngIf="hasAccess('Add KU Registration No.')" routerLink="/university-registration" routerLinkActive="active-item" style="font-size: 14px ">
           <ion-icon name="people-outline" style="margin-right: 10px;"></ion-icon>
           Add KU Registration No.
         </ion-item>
@@ -116,8 +123,7 @@
 
        
       
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent' && role !== 'office'"
-        routerLink="/apply-online" routerLinkActive="active-item" style="font-size: 14px;">
+        <ion-item *ngIf="hasAccess('Apply Online')" routerLink="/apply-online" routerLinkActive="active-item" style="font-size: 14px;">
           <ion-icon name="desktop-outline" style="margin-right: 30px;"></ion-icon>
         Apply Online
         </ion-item>
@@ -129,60 +135,60 @@
 
         <!-- Add more items here -->
       
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent' && role !== 'office'"
+        <ion-item *ngIf="hasAccess('Agent')"
         routerLink="/agent" routerLinkActive="active-item" style="font-size: 14px;">
           <ion-icon name="desktop-outline" style="margin-right: 30px;"></ion-icon>
          Agent
         </ion-item>
 
                      
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/sub-agent" routerLinkActive="active-item" style="font-size: 14px  ">
+        <ion-item *ngIf="hasAccess('Sub-Agent')" routerLink="/sub-agent" routerLinkActive="active-item" style="font-size: 14px  ">
           <ion-icon name="bookmark-outline" style="margin-right: 30px;"></ion-icon>SUB-Agents</ion-item>
 
 
         <h4 *ngIf="role !== 'student'&& role !== 'agent'" style="text-align: center; margin-top: 50px;"><u><b>Master</b></u></h4><hr>
        
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/course" routerLinkActive="active-item"style="font-size: 14px  ">
+        <ion-item *ngIf="hasAccess('Course') " routerLink="/course" routerLinkActive="active-item"style="font-size: 14px  ">
           <ion-icon name="ribbon-outline" style="margin-right: 30px;"></ion-icon>
          Course
         </ion-item>
 
 
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/session" routerLinkActive="active-item" style="font-size: 14px ">
+        <ion-item *ngIf="hasAccess('Session') " routerLink="/session" routerLinkActive="active-item" style="font-size: 14px ">
           <ion-icon name="laptop-outline" style="margin-right: 30px;"></ion-icon>
         Session
         </ion-item>
         
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/subject" routerLinkActive="active-item" style="font-size: 14px">
+        <ion-item *ngIf="hasAccess('Subject') "routerLink="/subject" routerLinkActive="active-item" style="font-size: 14px">
           <ion-icon name="book-outline" style="margin-right: 30px;"></ion-icon>
          Subject
         </ion-item>
          
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/elective" routerLinkActive="active-item" style="font-size: 14px  ">
+        <ion-item *ngIf="hasAccess('Elective') " routerLink="/elective" routerLinkActive="active-item" style="font-size: 14px  ">
           <ion-icon name="bookmark-outline" style="margin-right: 30px;"></ion-icon>Elective</ion-item>
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/specialisation" routerLinkActive="active-item" style="font-size: 14px ">
+        <ion-item *ngIf="hasAccess('Specialisation') "  routerLink="/specialisation" routerLinkActive="active-item" style="font-size: 14px ">
           <ion-icon name="newspaper-outline" style="margin-right: 30px;"></ion-icon>Specialisation</ion-item>
 
-          <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/city" routerLinkActive="active-item" style="font-size: 14px">
+          <ion-item *ngIf="hasAccess('City') "  routerLink="/city" routerLinkActive="active-item" style="font-size: 14px">
             <ion-icon name="bookmark-outline" style="margin-right: 30px;"></ion-icon>
           City
           </ion-item>
 
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/semester" routerLinkActive="active-item" style="font-size: 14px">
+        <ion-item *ngIf="hasAccess('Semester') " routerLink="/semester" routerLinkActive="active-item" style="font-size: 14px">
           <ion-icon name="bookmark-outline" style="margin-right: 30px;"></ion-icon>
          Semester
         </ion-item>
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/pincode" routerLinkActive="active-item" style="font-size: 14px ">
+        <ion-item *ngIf="hasAccess('Pincode') "  routerLink="/pincode" routerLinkActive="active-item" style="font-size: 14px ">
           <ion-icon name="navigate-circle-outline" style="margin-right: 30px;"></ion-icon>Pincode</ion-item>
 
       
-        <ion-item *ngIf="role !== 'student'&& role !== 'agent'" routerLink="/country" routerLinkActive="active-item" style="font-size: 14px">
+        <ion-item *ngIf="hasAccess('Country') " routerLink="/country" routerLinkActive="active-item" style="font-size: 14px">
           <ion-icon name="flag-outline" style="margin-right: 30px;"></ion-icon>
          Country
         </ion-item>
          
     
-        <ion-item  *ngIf="role !== 'student'&& role !== 'agent'"routerLink="/state" routerLinkActive="active-item" style="font-size: 14px ">
+        <ion-item  *ngIf="hasAccess('State') "routerLink="/state" routerLinkActive="active-item" style="font-size: 14px ">
           <ion-icon name="stats-chart-outline" style="margin-right: 30px;"></ion-icon>State</ion-item>
 
 
@@ -191,7 +197,7 @@
        
   
 
-            <ion-item *ngIf="role !== 'office' && role !== 'admin'&& role !== 'agent'" routerLink="student-university-questions" routerLinkActive="active-item" style="font-size: 14px ">
+            <ion-item *ngIf="hasAccess('student-University-Question') " routerLink="student-university-questions" routerLinkActive="active-item" style="font-size: 14px ">
               <ion-icon name="briefcase-outline" style="margin-right: 30px;"></ion-icon>University Questions</ion-item>
     
           <ion-item *ngIf="role !== 'office' && role !== 'admin'&& role !== 'agent'"routerLink="/course-structure" routerLinkActive="active-item" style="font-size: 14px ">
@@ -200,7 +206,7 @@
             <ion-item *ngIf="role !== 'office' && role !== 'admin'&& role !== 'agent'"routerLink="/fees" routerLinkActive="active-item" style="font-size: 14px ">
               <ion-icon name="wallet-outline"style="margin-right: 30px;"></ion-icon>Fee</ion-item>
     
-            <ion-item *ngIf="role !== 'office' && role !== 'admin'&& role !== 'agent'" routerLinkActive="active-item" style="font-size: 14px ">
+            <ion-item *ngIf="role !== 'office' && role !== 'admin'&& role !== 'agent'" routerLink="/student-learn-english" routerLinkActive="active-item" style="font-size: 14px ">
               <ion-icon name="briefcase-outline" style="margin-right: 30px;"></ion-icon>Learn English</ion-item>
       
               <ion-item *ngIf="role !== 'office' && role !== 'admin'&& role !== 'agent'" routerLinkActive="active-item" style="font-size: 14px ">
@@ -260,7 +266,11 @@
     
   </ion-menu>
 
-  <style>
+ 
+  <!-- The content will be loaded here based on the selected route -->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-split-pane>
+ <style>
     
 ion-item:hover {
   background-color: #e0e0e0; /* Light gray background on hover */
@@ -282,7 +292,3 @@ ion-item:hover {
   
  
   </style>
-
-  <!-- The content will be loaded here based on the selected route -->
-  <ion-router-outlet id="main-content"></ion-router-outlet>
-</ion-split-pane>

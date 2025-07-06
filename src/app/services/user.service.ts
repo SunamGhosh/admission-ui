@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { Agent, Country, Course, Elective, Module, Office, Session, Specialisation, State, Subject, User } from 'interface';
+import { Agent, Category, Chapter, Country, Course, Elective, Module, Office, Session, Specialisation, State, Subcategory, Subject, Template, User } from 'interface';
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +32,14 @@ addTemplateUrl(data: { template_id: number, url_label: string, url_value: string
   return this.api.post('/template/url/add', data);
 }
 
-getTemplateVariables(template_id: number) {
-  return this.api.post('/template/variable/get', { template_id });
-}
+async getAllTemplateVariables() {
+    return await this.api.post('/template/variable/all',{});
+  }
+
+
+
+
+  
 
 getTemplateUrls(template_id: number) {
   return this.api.post('/template/url/get', { template_id });
@@ -44,93 +49,165 @@ async getTemplates(module_id?: number) {
   const response = await this.api.post("/template/get", { module_id: module_id || null });
   return response.ok ? response.data : [];
 }
+async subcategory_all() {
+    return await this.api.post('/subcategory/getall',{});
+  }
 
-async getSubcategoriesByCategory(category_id: number) {
-  const response = await this.api.post("/subcategory/get_by_category", { category_id });
-  return response.ok ? response.data : [];
+async getSubcategoriesByCategory(category_id: number): Promise<{ ok: boolean; data: Subcategory[] }> {
+  try {
+    const response = await this.api.post('/subcategory/getbycategory', { category_id });
+    if (response.ok && Array.isArray(response.data)) {
+      return { ok: true, data: response.data };
+    }
+    return { ok: false, data: [] };
+  } catch (error) {
+    console.error('Error fetching subcategories:', error);
+    return { ok: false, data: [] };
+  }
 }
 
-async add_sub_category(subcategory: { id: number | null; category_id: number; subcategory_name: string }) {
-  return await this.api.post("/subcategory/add", subcategory);
+async getTemplatesBySubcategory(subcategory_id: number): Promise<{ ok: boolean; data: Template[] }> {
+  try {
+    const response = await this.api.post('/template/get', { subcategory_id });
+    if (response.ok && Array.isArray(response.data)) {
+      return { ok: true, data: response.data };
+    }
+    return { ok: false, data: [] };
+  } catch (error) {
+    console.error('Error fetching templates:', error);
+    return { ok: false, data: [] };
+  }
 }
 
-async update_sub_category(subcategory: { id: number | null; category_id: number; subcategory_name: string }) {
-  return await this.api.post("/subcategory/update", subcategory);
-}
+  async add_sub_category(subcategory: { category_id: number; subcategory_name: string }) {
+    return await this.api.post('/subcategory/add', subcategory);
+  }
 
-async delete_sub_category(id: number) {
-  return await this.api.post("/subcategory/delete", { id });
-}
- async subcategory_all() {
-  const response = await this.api.post("/subcategory/getall", {});
-  return response.data; // Assuming you need only the data array
-}
+  async update_sub_category(subcategory: { id: number; category_id: number; subcategory_name: string }) {
+    return await this.api.post('/subcategory/update', subcategory);
+  }
 
+  async delete_sub_category(id: number) {
+    return await this.api.post('/subcategory/delete', { id });
+  }
 
-  async category_all() {
+  
+ 
+ async category_GETall() {
   const response = await this.api.post("/category/getall", {});
-  return response.data; // Assuming you need only the data array
+  return response.data; // Returns only the data array
 }
 
-async add_category(category: { id: number | null; category_name: string; category_shortname: string }) {
-  return await this.api.post("/category/add", category);
+// Categories
+async category_all(module_id?: number): Promise<{ ok: boolean; data: Category[] }> {
+  try {
+    const response = await this.api.post('/category/GETall', { module_id: module_id || null });
+    console.log('Raw category API response:', response); // Debug log
+    if (response && response.ok && Array.isArray(response.data)) {
+      const validatedData: Category[] = response.data.map((item: any) => ({
+        id: item.id,
+        category_name: item.category_name,
+        category_shortname: item.category_shortname,
+        module_id: item.module_id,
+        is_active: item.is_active,
+      }));
+      return { ok: true, data: validatedData };
+    }
+    console.warn('Invalid category response:', response);
+    return { ok: false, data: [] };
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return { ok: false, data: [] };
+  }
 }
+async add_category(category: { category_name: string; category_shortname: string; module_id: number }) {
+    return await this.api.post('/category/add', category);
+  }
 
-async update_category(category: { id: number | null; category_name: string; category_shortname: string }) {
-  return await this.api.post("/category/update", category);
-}
+  async update_category(category: { id: number; category_name: string; category_shortname: string; module_id: number }) {
+    return await this.api.post('/category/update', category);
+  }
 
-
-async delete_category(id: number) {
-  const response = await this.api.post("/category/delete", { id });
-  return response;
-}
+  async delete_category(id: number) {
+    return await this.api.post('/category/delete', { id });
+  }
 
  async getAllTables(): Promise<any[]> {
-    const response = await this.api.post("/tables/getall", {});
+    const response = await this.api.post("/table/getall", {});
     return response.ok ? response.data : [];
   }
 
   async addTable(module_id: number, table: string): Promise<any> {
-    return await this.api.post("/tables/add", { module_id, table });
+    return await this.api.post("/table/add", { module_id, table });
   }
 
 
   async updateTable(id: number, module_id: number, table: string): Promise<any> {
-    return await this.api.post("/tables/update", { id, module_id, table });
+    return await this.api.post("/table/update", { id, module_id, table });
   }
 
 
   async removeTable(id: number): Promise<any> {
-    return await this.api.post("/tables/remove", { id });
+    return await this.api.post("/table/remove", { id });
   }
 
 
   async getTablesByModule(module_id: number): Promise<any[]> {
-    const response = await this.api.post("/tables/get_by_module", { module_id });
+    const response = await this.api.post("/table/get_by_module", { module_id });
     return response.ok ? response.data : [];
   }
 
-// ✔️ Update this to return full response object
-async getAllModules(): Promise<{ ok: boolean, data: Module[] }> {
-  const response = await this.api.post("/module/getall", {});
-  return response;
-}
-
-
- 
-  async addModule(module_name: string): Promise<any> {
-    return await this.api.post("/module/add", { module_name });
-  }
-
   
-  async updateModule(id: number, module_name: string): Promise<any> {
-    return await this.api.post("/module/update", { id, module_name });
+  async getFieldsByTableId(table_id: number): Promise<any[]> {
+    const response = await this.api.post("/table/get_by_table", { table_id });
+    return response.ok ? response.data : [];
   }
 
- 
-  async removeModule(id: number): Promise<any> {
-    return await this.api.post("/module/remove", { id });
+
+// ✔️ Update this to return full response object
+// async getAllModules(): Promise<{ ok: boolean, data: Module[] }> {
+//   const response = await this.api.post("/module/getall", {});
+//   return response;
+// }
+
+
+//  / Modules
+  async getAllModules(): Promise<{ ok: boolean; data: Module[] }> {
+    try {
+      const response = await this.api.post('/module/getall', {});
+      return response;
+    } catch (error) {
+      console.error('Error fetching modules:', error);
+      return { ok: false, data: [] };
+    }
+  }
+
+  async addModule(module_name: string): Promise<{ ok: boolean; msg?: string }> {
+    try {
+      const response = await this.api.post('/module/add', { module_name });
+      return { ok: true, msg: 'Module added successfully' };
+    } catch (error: any) {
+      console.error('Error adding module:', error);
+      return { ok: false, msg: error.message || 'Error adding module' };
+    }
+  }
+
+  async updateModule(id: number, module_name: string): Promise<{ ok: boolean; msg?: string }> {
+    try {
+      const response = await this.api.post('/module/update', { id, module_name });
+      return { ok: true, msg: 'Module updated successfully' };
+    } catch (error: any) {
+      console.error('Error updating module:', error);
+      return { ok: false, msg: error.message || 'Error updating module' };
+    }
+  }async removeModule(id: number): Promise<{ ok: boolean; msg?: string }> {
+    try {
+      const response = await this.api.post('/module/remove', { id });
+      return { ok: true, msg: 'Module removed successfully' };
+    } catch (error: any) {
+      console.error('Error removing module:', error);
+      return { ok: false, msg: error.message || 'Error removing module' };
+    }
   }
 
 async sendExamReminder(message: string) {
@@ -301,6 +378,30 @@ async whatsapp_user_all(): Promise<{ ok: boolean; data?: User[]; error?: string 
     return data;
 
   }
+
+  // ✅ Add Chapter
+  async addChapter(ch: Chapter) {
+    let data = await this.api.post("/chapter/add", ch);
+    return data;
+  }
+
+  // ✅ Update Chapter
+  async updateChapter(ch: Chapter) {
+    let data = await this.api.post("/chapter/update", ch);
+    return data;
+  }
+
+  // ✅ Soft Delete Chapter
+  async deleteChapter(id: number) {
+    let data = await this.api.post("/chapter/delete", { id });
+    return data;
+  }
+// Fix: Return the full response object, not just data
+async getAllChapters(): Promise<{ ok: boolean; data?: Chapter[] }> {
+  const response = await this.api.post("/chapter/getall", {});
+  return response;
+}
+
 
   async subject_all() {
     let data = await this.api.post("/subject/getall", {});

@@ -1,62 +1,92 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Modules</ion-title>
+  <ion-toolbar color="tertiary" style="text-align: center;">
+    <ion-title>Manage Modules</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- W3.CSS container -->
   <div class="w3-row-padding">
-    <!-- Left Panel - Module Table -->
+    <!-- Left Panel: Module List -->
     <div class="w3-col l6 m12 s12">
-      <div class="w3-card-4 w3-white w3-padding">
-        <h3 class="w3-center">Modules List</h3>
+      <div class="w3-card w3-white w3-padding">
+        <h3 class="w3-text-purple w3-center">Module List</h3>
 
-        <div class="w3-row w3-margin-bottom">
-          <div class="w3-col m6">
-            <input class="w3-input w3-border" placeholder="Search Module..." [(ngModel)]="searchTerm" (input)="filterModules()" />
-          </div>
+        <!-- Search Bar -->
+        <div class="w3-margin-bottom">
+          <input
+            class="w3-input w3-border"
+            placeholder="Search modules..."
+            [(ngModel)]="searchTerm"
+            (input)="filterModules()"
+            aria-label="Search modules"
+          />
         </div>
 
-        <div style="overflow-x:auto;">
-          <table class="w3-table w3-bordered w3-striped w3-small">
-            <tr class="w3-blue">
-              <th>Sl. No</th>
-              <th>Module Name</th>
-              <th>Action</th>
-            </tr>
-            <tr *ngFor="let mod of filteredModules; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ mod.module_name }}</td>
-              <td>
-                <ion-button (click)="editModule(mod)">
-                  <ion-icon name="create-outline"></ion-icon>
-                </ion-button>
-                <ion-button (click)="deleteModule(mod.id)">
-                  <ion-icon name="trash-outline"></ion-icon>
-                </ion-button>
-              </td>
-            </tr>
+        <!-- Module Table -->
+        <div class="w3-responsive">
+          <table class="w3-table-all w3-hoverable w3-small">
+            <thead>
+              <tr class="w3-purple">
+                <th>#</th>
+                <th>Module Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let mod of filteredModules; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ mod.module_name }}</td>
+                <td>
+                  <ion-button size="small" color="primary" (click)="editModule(mod)" aria-label="Edit module">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </ion-button>
+                  <!-- <ion-button size="small" color="danger" (click)="deleteModule(mod.id)" aria-label="Delete module">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </ion-button> -->
+                </td>
+              </tr>
+              <tr *ngIf="filteredModules.length === 0">
+                <td colspan="3" class="w3-center">No modules found</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- Right Panel - Form -->
-    <div class="w3-col l5 m12 s12">
-      <div class="w3-card-4 w3-light-blue w3-padding">
-        <h3 class="w3-center">{{ editMode ? 'Edit' : 'Add' }} Module</h3>
+    <!-- Right Panel: Module Form -->
+    <div class="w3-col l5 m12 s12 w3-margin-left">
+      <div class="w3-card w3-white w3-padding">
+        <h3 class="w3-text-purple w3-center">{{ editMode ? 'Edit' : 'Add' }} Module</h3>
 
-        <label class="w3-text-white">Module Name</label>
-        <input class="w3-input w3-border w3-margin-bottom" [(ngModel)]="module_name" placeholder="Enter module name" />
+        <form (submit)="saveModule(); $event.preventDefault()">
+          <label class="w3-text-purple"><b>Module Name</b></label>
+          <input
+            class="w3-input w3-border w3-margin-bottom"
+            [(ngModel)]="module_name"
+            placeholder="Enter module name"
+            name="module_name"
+            required
+            aria-label="Module name"
+          />
 
-        <button class="w3-button w3-white w3-text-blue w3-margin-top" (click)="saveModule()" style="width: 100%;">
-          {{ editMode ? 'Update' : 'Add' }} Module
-        </button>
+          <button
+            class="w3-button w3-purple w3-block w3-margin-top"
+            type="submit"
+            [disabled]="!module_name.trim()"
+          >
+            {{ editMode ? 'Update' : 'Add' }} Module
+          </button>
 
-        <button *ngIf="editMode" class="w3-button w3-red w3-margin-top" (click)="resetForm()" style="width: 100%;">
-          Cancel Edit
-        </button>
+          <button
+            *ngIf="editMode"
+            class="w3-button w3-red w3-block w3-margin-top"
+            type="button"
+            (click)="resetForm()"
+          >
+            Cancel
+          </button>
+        </form>
       </div>
     </div>
   </div>

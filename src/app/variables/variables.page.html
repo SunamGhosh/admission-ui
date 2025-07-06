@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-toolbar color="tertiary" style="text-align: center;">
+    <ion-title>Manage Template Variables</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-grid>
+    <ion-row>
+      <!-- LEFT: Variables Table -->
+      <ion-col size="12" size-md="8">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="w3-text-white">Template Variables</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+
+           <ion-card-content>
+
+  <ion-grid *ngIf="templateVariables.length > 0; else noData">
+    <ion-row class="ion-text-center ion-text-bold" class="w3-purple">
+      <ion-col size="2">Variables</ion-col>
+      <ion-col size="2">Description</ion-col>
+      <ion-col size="2">Module</ion-col>
+      <ion-col size="2">Table</ion-col>
+      <ion-col size="2">Field</ion-col>
+      <ion-col size="1">Edit</ion-col>
+    </ion-row>
+
+  <ion-row *ngFor="let variable of templateVariables">
+  <ion-col size="2">{{ variable.variable_key }}</ion-col>
+  <ion-col size="2">{{ variable.variable_description }}</ion-col>
+  <ion-col size="2">{{ getModuleName(variable.module_id) }}</ion-col>
+  <ion-col size="2">{{ getTableName(variable.table_id) }}</ion-col>
+  <ion-col size="2">{{ getFieldName(variable.table_field_id) }}</ion-col>
+  <ion-col size="1">
+    <ion-button fill="clear" color="primary" (click)="edit(variable)">
+      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+    </ion-button>
+  </ion-col>
+</ion-row>
+
+  </ion-grid>
+
+  <ng-template #noData>
+    <ion-text color="medium">No variables found.</ion-text>
+  </ng-template>
+
+</ion-card-content>
+
+
+            <ng-template #noData>
+              <ion-text color="medium">No variables found.</ion-text>
+            </ng-template>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- RIGHT: Form -->
+      <ion-col size="12" size-md="3">
+        <ion-card >
+          <ion-card-header class="form">
+            <ion-card-title class="w3-text-white">{{ form.id === 0 ? 'Add' : 'Edit' }} Variable</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+
+            <!-- Module -->
+            <ion-item>
+              <ion-label position="floating">Select Module</ion-label>
+              <ion-select [(ngModel)]="form.module_id" (ionChange)="onModuleChange()">
+                <ion-select-option *ngFor="let mod of modules" [value]="mod.id">
+                  {{ mod.module_name }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <!-- Table -->
+            <ion-item>
+              <ion-label position="floating">Select Table</ion-label>
+              <ion-select [(ngModel)]="form.table_id" (ionChange)="onTableChange()">
+                <ion-select-option *ngFor="let tab of tables" [value]="tab.id">
+                  {{ tab.table }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <!-- Field -->
+            <ion-item>
+              <ion-label position="floating">Select Field</ion-label>
+              <ion-select [(ngModel)]="form.table_field_id">
+                <ion-select-option *ngFor="let field of fields" [value]="field.id">
+                  {{ field.field_name }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <!-- Variable Key -->
+            <ion-item>
+              <ion-label position="floating">Variable Key</ion-label>
+              <ion-input [(ngModel)]="form.variable_key"></ion-input>
+            </ion-item>
+
+            <!-- Variable Description -->
+            <ion-item>
+              <ion-label position="floating">Variable Description</ion-label>
+              <ion-textarea [(ngModel)]="form.variable_description"></ion-textarea>
+            </ion-item>
+
+            <!-- Buttons -->
+            <div class="ion-margin-top ion-text-end">
+              <ion-button color="success" (click)="save()">
+                {{ form.id === 0 ? 'Save' : 'Update' }}
+              </ion-button>
+              <ion-button color="medium" (click)="resetForm()" *ngIf="form.id !== 0">Cancel</ion-button>
+            </div>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

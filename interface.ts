@@ -1,3 +1,17 @@
+
+
+export interface Permission {
+  id?: number;
+  module_id?: number; // Links to Module interface (e.g., Course, Syllabus)
+  route?: string; // e.g., '/dashboard', '/quickadmission'
+  label: string; // e.g., 'Dashboard', 'Quick Admission'
+  icon: string; // e.g., 'person-circle-outline'
+  allowed: boolean; // Whether the user has access
+}
+
+
+
+
 export interface User{
     id?:any,
     roll_no?:any,
@@ -100,7 +114,14 @@ export interface Course{
             is_active?:boolean,
             
 }
-
+export interface Template_Field{
+  id?:number,
+   module_id?:number,
+    table_id?:number,
+     field_name?:string,
+      created_at?:any,
+       is_active?:boolean
+}
 
 export interface Session{
     id?:number,
@@ -186,8 +207,18 @@ export interface Common {
     is_active?: boolean;
     aadhar_no?:string;
     role: 'admin' | 'user'| 'student' | 'agent'; // Role to differentiate between admin and user
+    permissions?: Permission[]; // Add permissions array
   }
-  
+  export interface Chapter {
+  id?: number;
+  course_id: number;
+  semester_id: number;
+  subject_id: number;
+  chapter_no: string;
+  chapter_name: string;
+  is_active?: number;
+}
+
 
   export interface Documents{
     id?:number,
@@ -252,10 +283,42 @@ export interface Common {
   incompleteSteps?: string[];
       }
       
+// interface.ts (or wherever your interfaces are defined)
+export interface Module {
+  id?: number;
+  module_name: string;
+}
+
 export interface Category {
   id: number;
+  module_id?: number; // Optional if categories are linked to modules
   category_name: string;
-  category_shortname: string;
+  category_shortname?: string;
+}
+
+export interface Subcategory {
+  id: number;
+  category_id: number;
+  subcategory_name: string;
+}
+
+export interface Template {
+  id: number;
+  module_id: number;
+  category_id: number;
+  subcategory_id: number;
+  template_shortname: string;
+  template_name: string;
+  variables?: string;
+}
+export interface TemplateVariable {
+  id?: number;
+  module_id: number;
+  table_id:number;
+  table_field_id: number;
+  variable_key: string;
+  variable_description: string;
+  is_active?: number;
 }
 
       

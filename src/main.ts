@@ -58,6 +58,12 @@ import { AddTablesPage } from './app/add-tables/add-tables.page';
 import { CategoryPage } from './app/category/category.page';
 import { SubcategoryPage } from './app/subcategory/subcategory.page';
 import { TemplatePage } from './app/template/template.page';
+import { VariablesPage } from './app/variables/variables.page';
+import { URLPage } from './app/url/url.page';
+import { FieldPage } from './app/field/field.page';
+import { GiveAccessPage } from './app/give-access/give-access.page';
+import { StudentLearnEnglishPage } from './app/student-learn-english/student-learn-english.page';
+import { ChapterPage } from './app/chapter/chapter.page';
 
 
 const routes: Routes = [
@@ -100,7 +106,7 @@ const routes: Routes = [
       { path: 'calculator', component: CalculatorPage }, 
       { path: 'university-registration', component: UniversityRegistrationPage }, 
   { path: 'office-staff', component: OfficeStaffPage} ,
-
+ { path: 'access', component: GiveAccessPage }, 
   { path: 'stats', component: StatsPage} ,
 
       { path: 'course', component: CoursePage } ,
@@ -129,6 +135,10 @@ const routes: Routes = [
       { path: 'student-question-bank', component: StudentQuestionBankPage},
       { path: 'student-assignment', component: StudentAssignmentPage},
       { path: 'student-university-questions', component: StudentUniversityQuestionsPage},
+      { path: 'student-learn-english', component: StudentLearnEnglishPage},
+      { path: 'chapter', component: ChapterPage},
+
+
 
 
 
@@ -182,6 +192,19 @@ const routes: Routes = [
          {
           path: 'template',
           component:TemplatePage
+        },
+
+        {
+          path: 'variables',
+          component:VariablesPage
+        },
+          {
+          path: 'url',
+          component:URLPage
+        },
+          {
+          path: 'field',
+          component:FieldPage
         }
       ]
     }

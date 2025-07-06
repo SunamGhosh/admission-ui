@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-toolbar color="primary" style="text-align: center;">
+    <ion-title>Give Access</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="light" (click)="openModal()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+         Add Role
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Role Selector -->
+  <ion-segment [(ngModel)]="selectedRole" color="secondary">
+    <ion-segment-button *ngFor="let role of userRoles" [value]="role">
+      <ion-label>{{ role | titlecase }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Rename & Delete -->
+  <!-- <div *ngIf="selectedRole" class="action-buttons" style="margin-top: 15px;">
+    <ion-item>
+      <ion-label position="floating">Rename Selected Role</ion-label>
+      <ion-input [(ngModel)]="editRoleName" placeholder="New name"></ion-input>
+    </ion-item>
+    <ion-button expand="block" color="warning" (click)="renameRole(editRoleName)">
+      ✏️ Update Role Name
+    </ion-button>
+    <ion-button expand="block" color="danger" (click)="deleteRole(selectedRole)">
+      🗑️ Delete Role
+    </ion-button>
+  </div> -->
+
+  <!-- Access List -->
+<!-- Access Cards in Three Columns -->
+<div *ngIf="selectedRole" class="access-card-grid card-wrapper" style="display: flex; flex-wrap: nowrap; gap: 20px; overflow-x: auto; justify-content: center;">
+
+  <!-- First Card - Items 0 to 10 -->
+  <ion-card style="flex: 1 1 30%; max-height: 80vh; overflow-y: auto;">
+    <ion-card-content>
+      <ion-list lines="full">
+        <ion-item *ngFor="let menu of menuItems.slice(0, 11)">
+          <ion-icon [name]="menu.icon" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ menu.name }}</ion-label>
+          <ion-toggle slot="end" color="success" [(ngModel)]="accessMatrix[selectedRole][menu.name]"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Second Card - Items 11 to 21 -->
+  <ion-card style="flex: 1 1 30%; max-height: 80vh; overflow-y: auto;">
+    <ion-card-content>
+      <ion-list lines="full">
+        <ion-item *ngFor="let menu of menuItems.slice(11, 22)">
+          <ion-icon [name]="menu.icon" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ menu.name }}</ion-label>
+          <ion-toggle slot="end" color="success" [(ngModel)]="accessMatrix[selectedRole][menu.name]"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Third Card - Items 22 to 31 -->
+  <ion-card style="flex: 1 1 30%; max-height: 80vh; overflow-y: auto;">
+    <ion-card-content>
+      <ion-list lines="full">
+        <ion-item *ngFor="let menu of menuItems.slice(22)">
+          <ion-icon [name]="menu.icon" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ menu.name }}</ion-label>
+          <ion-toggle slot="end" color="success" [(ngModel)]="accessMatrix[selectedRole][menu.name]"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+</div>
+
+  <ion-button color="success"  (click)="saveAccess()" style="margin-top: -100px; margin-left: 1400px;">
+    Save Access
+  </ion-button>
+
+  <!-- Modal -->
+  <ion-modal [isOpen]="isModalOpen" (willDismiss)="newRoleName = ''">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Add New Role</ion-title>
+          <ion-buttons slot="end">
+            <ion-button color="light" (click)="closeModal()">
+              <ion-icon name="close-outline"></ion-icon> Close
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <form (ngSubmit)="submitNewRole()">
+          <ion-item>
+            <ion-label position="floating">Role Name</ion-label>
+            <ion-input [(ngModel)]="newRoleName" name="roleName" required></ion-input>
+          </ion-item>
+
+          <ion-button expand="block" color="success" type="submit" style="margin-top: 20px">
+            Add Role
+          </ion-button>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

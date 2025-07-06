@@ -226,6 +226,30 @@ export const routes: Routes = [
   {
     path: 'template',
     loadComponent: () => import('./template/template.page').then( m => m.TemplatePage)
+  },
+  {
+    path: 'variables',
+    loadComponent: () => import('./variables/variables.page').then( m => m.VariablesPage)
+  },
+  {
+    path: 'url',
+    loadComponent: () => import('./url/url.page').then( m => m.URLPage)
+  },
+  {
+    path: 'field',
+    loadComponent: () => import('./field/field.page').then( m => m.FieldPage)
+  },
+  {
+    path: 'give-access',
+    loadComponent: () => import('./give-access/give-access.page').then( m => m.GiveAccessPage)
+  },
+  {
+    path: 'student-learn-english',
+    loadComponent: () => import('./student-learn-english/student-learn-english.page').then( m => m.StudentLearnEnglishPage)
+  },
+  {
+    path: 'chapter',
+    loadComponent: () => import('./chapter/chapter.page').then( m => m.ChapterPage)
   }
 
 

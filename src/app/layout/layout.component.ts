@@ -85,16 +85,25 @@ export class LayoutComponent {
   }
 
   isAdmin: boolean = false;
-  loadUserRole() {
-    const userData = localStorage.getItem('user');
-    this.role = localStorage.getItem('role') || ''; // ✅ Set the role from localStorage
+  accessMatrix: any = {};
 
-    if (userData) {
-      this.user = JSON.parse(userData) as Common;
-      this.isStudent = this.role === 'student'; // ✅ Check if user is a student
-      this.isAdmin = this.role === 'admin'; 
-    }
+loadUserRole() {
+  const userData = localStorage.getItem('user');
+  this.role = localStorage.getItem('role') || '';
+  const access = localStorage.getItem('access_matrix');
+  this.accessMatrix = access ? JSON.parse(access) : {};
+
+  if (userData) {
+    this.user = JSON.parse(userData);
+    this.isStudent = this.role === 'student';
+    this.isAdmin = this.role === 'admin';
   }
+}
+hasAccess(moduleName: string): boolean {
+  const role = this.role;
+  return this.accessMatrix?.[role]?.[moduleName] ?? false;
+}
+
 
 
  
@@ -130,7 +139,7 @@ logout() {
   localStorage.removeItem('user'); // Clear user data
   localStorage.removeItem('admin'); // Clear admin data
   localStorage.removeItem('token'); // Clear token if stored
-  localStorage.clear();
+  // localStorage.clear();
   this.router.navigate(['/login']); // Redirect to login page
 }
 

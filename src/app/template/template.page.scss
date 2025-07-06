@@ -1,0 +1,43 @@
+ion-content {
+  --background: #f2f2f2;
+  padding: 1rem;
+}
+
+.w3-card {
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.w3-button {
+  border-radius: 4px;
+}
+
+.w3-table-all {
+  word-break: break-word;
+  font-size: 0.85rem;
+}
+
+textarea,
+select,
+input {
+  margin-bottom: 8px;
+}
+
+.w3-text-purple {
+  color: #6a1b9a !important;
+}
+
+.w3-button.w3-purple {
+  background-color: #6a1b9a !important;
+  color: white;
+}
+
+.w3-button.w3-blue {
+  background-color: #2196f3 !important;
+  color: white;
+}
+
+.w3-button.w3-red {
+  background-color: #f44336 !important;
+  color: white;
+}

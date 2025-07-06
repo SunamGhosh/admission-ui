@@ -1,23 +1,22 @@
-<!-- Header -->
-<header class="w3-container w3-purple w3-padding-16">
-  <h2 class="w3-center">Manage Categories</h2>
-</header>
+<ion-header>
+  <ion-toolbar color="tertiary" style="text-align: center;">
+    <ion-title>Template Category</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
-
   <div class="w3-row-padding">
-
     <!-- Category List (50%) -->
     <div class="w3-card w3-white w3-padding" style="width: 50%; float: left;">
       <h3 class="w3-text-purple">Category List</h3>
-
       <div class="w3-responsive">
         <table class="w3-table-all w3-hoverable w3-small">
           <thead>
             <tr class="w3-purple">
-              <th>#</th>
+              <th>Sl No.</th>
               <th>Category</th>
               <th>Short Name</th>
+              <th>Module</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -26,17 +25,18 @@
               <td>{{ i + 1 }}</td>
               <td>{{ c.category_name }}</td>
               <td>{{ c.category_shortname }}</td>
+              <td>{{ getModuleName(c.module_id) }}</td>
               <td>
                 <button class="w3-button w3-blue w3-small" (click)="editCategory(c)">
                   <ion-icon name="create-outline"></ion-icon>
                 </button>
-                <button class="w3-button w3-red w3-small" (click)="deleteCategory(c.id)">
+                <!-- <button class="w3-button w3-red w3-small" (click)="deleteCategory(c.id)">
                   <ion-icon name="trash-outline"></ion-icon>
-                </button>
+                </button> -->
               </td>
             </tr>
             <tr *ngIf="categories.length === 0">
-              <td colspan="4" class="w3-center">No categories found</td>
+              <td colspan="5" class="w3-center">No categories found</td>
             </tr>
           </tbody>
         </table>
@@ -46,24 +46,42 @@
     <!-- Add/Edit Category Form (40%) -->
     <div class="w3-card w3-white w3-padding" style="width: 40%; float: left; margin-left: 5%;">
       <h3 class="w3-text-purple">{{ category.id ? 'Edit' : 'Add' }} Category</h3>
-
       <form (submit)="addOrUpdateCategory(); $event.preventDefault()">
+        <!-- Module Select -->
+        <label class="w3-text-purple"><b>Module</b></label>
+        <select
+          class="w3-select w3-border w3-margin-bottom"
+          [(ngModel)]="category.module_id"
+          name="module_id"
+          required
+        >
+          <option value="" disabled selected>Select Module</option>
+          <option *ngFor="let module of modules" [value]="module.id">
+            {{ module.module_name }}
+          </option>
+        </select>
 
         <!-- Category Name Input -->
         <label class="w3-text-purple"><b>Category Name</b></label>
-        <input type="text" class="w3-input w3-border w3-margin-bottom"
-               [(ngModel)]="category.category_name"
-               name="category_name"
-               placeholder="Enter full name"
-               required>
+        <input
+          type="text"
+          class="w3-input w3-border w3-margin-bottom"
+          [(ngModel)]="category.category_name"
+          name="category_name"
+          placeholder="Enter full name"
+          required
+        >
 
         <!-- Short Name Input -->
         <label class="w3-text-purple"><b>Short Name</b></label>
-        <input type="text" class="w3-input w3-border w3-margin-bottom"
-               [(ngModel)]="category.category_shortname"
-               name="category_shortname"
-               placeholder="Short alias"
-               required>
+        <input
+          type="text"
+          class="w3-input w3-border w3-margin-bottom"
+          [(ngModel)]="category.category_shortname"
+          name="category_shortname"
+          placeholder="Short alias"
+          required
+        >
 
         <!-- Submit Button -->
         <button class="w3-button w3-purple w3-block w3-margin-top" type="submit">
@@ -71,14 +89,14 @@
         </button>
 
         <!-- Reset Button -->
-        <button class="w3-button w3-border w3-block w3-margin-top" type="button"
-                (click)="category = { id: null, category_name: '', category_shortname: '' }">
+        <button
+          class="w3-button w3-border w3-block w3-margin-top"
+          type="button"
+          (click)="category = { id: null, category_name: '', category_shortname: '', module_id: null }"
+        >
           Reset
         </button>
-
       </form>
     </div>
-
   </div>
-
 </ion-content>

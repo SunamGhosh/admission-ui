@@ -1,0 +1,19 @@
+.snow-bg {
+  background-image: url('/assets/snowflake.gif'); /* Optional background */
+  background-size: cover;
+  background-repeat: repeat;
+  min-height: 100%;
+}
+
+.title-red {
+  color: #f44336;
+  font-family: 'Cursive', sans-serif;
+  margin: 0;
+}
+
+.card-box {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  min-height: 100px;
+}

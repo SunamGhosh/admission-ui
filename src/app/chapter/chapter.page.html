@@ -1,0 +1,270 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center; color: #fff;">Chapter Management</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <div class="elective-management-container">
+    <!-- Chapter Table -->
+    <div class="elective-table-section">
+      <ion-grid>
+        <ion-row class="filter-row">
+          <ion-col size="4">
+            <ion-select [(ngModel)]="selectedCourse" (ionChange)="filterChapters()" placeholder="Select Course" fill="outline">
+              <ion-select-option *ngFor="let c of co" [value]="c.id">{{ c.course_name }}</ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col size="4">
+            <ion-select [(ngModel)]="selectedSemester" (ionChange)="filterChapters()" placeholder="Select Semester" fill="outline">
+              <ion-select-option *ngFor="let s of sem" [value]="s.id">{{ s.semester_name }}</ion-select-option>
+            </ion-select>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-card class="elective-list-card">
+        <ion-card-header>
+          <ion-card-title>Chapter List</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-grid>
+            <ion-row class="header-row w3-purple">
+              <ion-col size="1">SlNo.</ion-col>
+              <ion-col size="2">Chapter No</ion-col>
+              <ion-col size="2">Chapter Name</ion-col>
+              <ion-col size="2">Course</ion-col>
+
+              <ion-col size="1">Semester</ion-col>
+            
+              <ion-col size="2">Subject</ion-col>
+              <ion-col size="1">Edit</ion-col>
+            </ion-row>
+            <ion-row *ngFor="let chapter of filteredChapter; let i = index" class="elective-row">
+              <ion-col size="1">{{ i + 1 }}</ion-col>
+              <ion-col size="2">{{ chapter.chapter_no }}</ion-col>
+              <ion-col size="2">{{ chapter.chapter_name }}</ion-col>
+              
+              <ion-col size="2">{{ getCourseName(chapter.course_id) }}</ion-col>
+              <ion-col size="1">{{ getSemesterName(chapter.semester_id) }}</ion-col>
+              <ion-col size="2">{{ getSubjectName(chapter.subject_id) }}</ion-col>
+
+
+              <ion-col size="1">
+                <ion-icon name="pencil-outline" (click)="openEdit(chapter)"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Add New Chapter -->
+    <div class="add-elective-section">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Add Chapter</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="floating">Course</ion-label>
+            <ion-select [(ngModel)]="newChapter.course_id">
+              <ion-select-option *ngFor="let c of co" [value]="c.id">{{ c.course_name }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Semester</ion-label>
+            <ion-select [(ngModel)]="newChapter.semester_id">
+              <ion-select-option *ngFor="let s of sem" [value]="s.id">{{ s.semester_name }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Subject</ion-label>
+            <ion-select [(ngModel)]="newChapter.subject_id">
+              <ion-select-option *ngFor="let sb of sub" [value]="sb.id">{{ sb.subject_name }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Chapter No</ion-label>
+            <ion-input [(ngModel)]="newChapter.chapter_no"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Chapter Name</ion-label>
+            <ion-input [(ngModel)]="newChapter.chapter_name"></ion-input>
+          </ion-item>
+
+          <ion-button expand="block" (click)="addChapter()">Save Chapter</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
+
+
+  
+<style>
+  /* Container Layout */
+  .elective-management-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    flex-wrap: wrap;
+    background: linear-gradient(45deg, #f8c2c0, #ffe2e1);
+    border-radius: 10px;
+  }
+
+  .elective-table-section {
+    width: 70%;
+    margin-right: 20px;
+  }
+
+  .add-elective-section {
+    width: 26%;
+    display: flex;
+    height: 500px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .elective-list-card {
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 20px;
+    background-color: #ffffff;
+  }
+
+  ion-card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3f51b5;
+    text-align: center;
+  }
+
+  .header-row {
+    background-color: #f1f1f1;
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  .elective-row {
+    margin: 10px 0;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .elective-row:hover {
+    background-color: #e3f2fd;
+    transform: scale(1.02);
+  }
+
+  ion-button {
+    width: 100%;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  ion-content.background {
+    --background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 7%, rgba(0, 212, 255, 1) 64%);
+    --background-size: cover;
+  }
+
+
+
+
+  /* edit modal */
+  ion-modal::part(content) {
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+ion-card.edit-card {
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+ion-item.custom-input {
+  --border-radius: 10px;
+  --box-shadow: none;
+  margin-bottom: 10px;
+}
+
+ion-button {
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+  .add-elective-section ion-card {
+  width: 100%;
+}
+ion-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  background-color: #0d47a1;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+}
+ion-card-content ion-item {
+  margin-bottom: 10px;
+}
+.add-elective-section ion-card {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+.filter-row ion-col {
+  padding: 0 5px;
+}
+
+.filter-row {
+  margin-bottom: 15px;
+}
+ion-button {
+  background-color: #0d47a1;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+ion-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: #512da8;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.elective-list-card {
+  overflow-x: auto;
+}
+ion-row.header-row {
+  border-bottom: 2px solid #ccc;
+}
+
+ion-row.elective-row {
+  border-bottom: 1px solid #eee;
+}
+
+</style>

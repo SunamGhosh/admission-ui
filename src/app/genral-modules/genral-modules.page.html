@@ -1,262 +1,183 @@
 <ion-header>
-  <ion-toolbar color="tertiary">
-    <!-- WhatsApp Button -->
-    <ion-buttons slot="start">
-      <a href="https://web.whatsapp.com/" target="_blank">
-        <ion-button color="success" style="background-color: white;">
-          <ion-icon name="logo-whatsapp"></ion-icon>
-          Send WhatsApp
-        </ion-button>
-      </a>
-    </ion-buttons>
-
-    <!-- Page Title -->
-    <ion-title style="text-align: center;">General Module Dashboard</ion-title>
-
-    <!-- Navigation Buttons -->
+  <ion-toolbar color="tertiary" class="w3-center">
+    <ion-title>General Module</ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/home/dashboard">Back</ion-button>
-      <ion-button (click)="logout()">Logout</ion-button>
+      <ion-button routerLink="/dashboard">Back</ion-button>
+      <span> | </span>
+      <ion-button routerLink="/login">Logout</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="background">
-  <div class="container">
-    <!-- Main Content Area -->
-    <div class="main-content">
-      <!-- Filter Section -->
-      <div class="filter-section">
-        <form class="filter-form">
-          <label class="filter-label" for="session">Session</label>
-          <select
-            id="session"
-            class="filter-input"
-            [(ngModel)]="selectedSession"
-            (change)="filterUsers()"
-            [ngModelOptions]="{standalone: true}"
-          >
-            <option value="">-- Select Session --</option>
-            <option *ngFor="let s of st" [value]="s.id">
-              {{ s.session_name }}
-            </option>
-          </select>
+<ion-content class="w3-container" style="background-color: #f2f2f2;">
+  <h4 class="w3-text-purple" style="margin-left: 100px;">General Modules</h4>
+  <p style="margin-left: 100px;">Dashboard for Genral Whatsapp</p>
+  <div class="w3-row-padding">
 
-          <label class="filter-label" for="course">Course</label>
-          <select
-            id="course"
-            class="filter-input"
-            [(ngModel)]="selectedCourse"
-            (change)="filterUsers()"
-            [ngModelOptions]="{standalone: true}"
-          >
-            <option value="">-- Select Course --</option>
-            <option *ngFor="let c of co" [value]="c.id">
-              {{ c.course_name }}
-            </option>
-          </select>
+    <!-- Left Panel: Student List -->
+    <div class="w3-col l6 m12">
+      <div class="w3-card w3-padding w3-pale-red">
+        <div class="w3-row">
+          <div class="w3-col s3">
+            <label>Session</label>
+            <select class="w3-select w3-border" [(ngModel)]="selectedSession" (change)="filterUsers()">
+              <option value="">Select</option>
+              <option *ngFor="let s of st" [value]="s.id">{{ s.session_name }}</option>
+            </select>
+          </div>
+          <div class="w3-col s3">
+            <label>Course</label>
+            <select class="w3-select w3-border" [(ngModel)]="selectedCourse" (change)="filterUsers()">
+              <option value="">Select</option>
+              <option *ngFor="let c of co" [value]="c.id">{{ c.course_name }}</option>
+            </select>
+          </div>
+          <div class="w3-col s3">
+            <label>Sem/Year</label>
+            <select class="w3-select w3-border" [(ngModel)]="selectedSemester" (change)="filterUsers()">
+              <option value="">Select</option>
+              <option *ngFor="let se of sem" [value]="se.id">{{ se.semester_name }}</option>
+            </select>
+          </div>
+          <div class="w3-col s3">
+            <label>Roll</label>
+            <input class="w3-input w3-border" [(ngModel)]="searchTerm" placeholder="Enter Roll" />
+          </div>
+        </div>
 
-          <label class="filter-label short-label" for="semyear">Sem/Year</label>
-          <select
-            id="semyear"
-            class="filter-input short-input"
-            [(ngModel)]="selectedSemester"
-            (change)="filterUsers()"
-            [ngModelOptions]="{standalone: true}"
-          >
-            <option value="">-- Select Semester --</option>
-            <option *ngFor="let se of sem" [value]="se.id">
-              {{ se.semester_name }}
-            </option>
-          </select>
+        <!-- Student Table -->
+        <div class="w3-responsive w3-margin-top">
+          <table class="w3-table-all w3-hoverable w3-small">
+            <thead>
+              <tr class="w3-light-pink">
+                <th><input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()" /></th>
+                <th>Name</th>
+                <th>Roll</th>
+                <th>Course</th>
+                <th>Session</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of paginatedUsers; let i = index">
+                <td><input type="checkbox" [(ngModel)]="user.selected" (change)="updatePreview()" /></td>
+                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                <td>{{ user.roll_no }}</td>
+                <td>{{ getCourseName(user.course_id) }}</td>
+                <td>{{ user.session_id }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="w3-center w3-margin-top">
+  <button class="w3-button w3-light-grey w3-border" [disabled]="currentPage === 1" (click)="prevPage()">«</button>
+  <span class="w3-padding">Page {{ currentPage }} of {{ totalPages }}</span>
+  <button class="w3-button w3-light-grey w3-border" [disabled]="currentPage === totalPages" (click)="nextPage()">»</button>
+</div>
 
-          <label class="filter-label short-label" for="roll">Roll</label>
-          <input
-            id="roll"
-            type="text"
-            class="filter-input"
-            [(ngModel)]="searchTerm"
-            (input)="filterUsers()"
-            placeholder="Enter Roll"
-            [ngModelOptions]="{standalone: true}"
-          />
-        </form>
+        </div>
       </div>
+    </div>
 
-      <!-- Side-by-Side Layout for Table and Template -->
-      <div class="content-row">
-        <!-- Left Side: Table Section -->
-        <div class="table-section">
-          <div class="table-header">
-            <div class="table-title">Select Student</div>
+    <!-- Right Panel: Message and Preview -->
+    <div class="w3-col l5 m12 w3-margin-left">
+      <div class="w3-card w3-padding w3-pale-red">
+        <!-- Contact Type -->
+        <div class="w3-margin-bottom">
+          <label class="w3-text-black"><b>Select Contact</b></label><br />
+          <input type="checkbox" [(ngModel)]="contactMother" (change)="updateTotalContacts()" /> Mother
+          <input type="checkbox" [(ngModel)]="contactStudent" (change)="updateTotalContacts()" /> Student
+          <input type="checkbox" [(ngModel)]="contactFather" (change)="updateTotalContacts()" /> Father
+          <input type="checkbox" [(ngModel)]="contactAll" (change)="toggleAllContacts()" /> All
+        </div>
+
+        <!-- Template Selection -->
+        <div class="w3-row w3-margin-bottom">
+          <div class="w3-col s4">
+            <label>Module</label>
+            <select class="w3-select w3-border" [(ngModel)]="selectedModuleId" (change)="loadCategories()">
+              <option value="">Select</option>
+              <option *ngFor="let m of modules" [value]="m.id">{{ m.module_name }}</option>
+            </select>
           </div>
-          <div class="table-container">
-            <table class="student-table">
-              <thead>
-                <tr>
-                  <th class="sno-column">
-                    <input
-                      type="checkbox"
-                      [(ngModel)]="selectAll"
-                      (change)="toggleSelectAll()"
-                    />
-                    S.No
-                  </th>
-                  <th>Name</th>
-                  <th class="roll-column">Roll</th>
-                  <th class="course-column">Course</th>
-                  <th class="session-column">Session</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let user of paginatedUsers; let i = index">
-                  <td class="sno-column text-center">
-                    <input
-                      type="checkbox"
-                      [(ngModel)]="user.selected"
-                      (change)="updatePreview()"
-                    />
-                    {{ (currentPage - 1) * itemsPerPage + i + 1 }}
-                  </td>
-                  <td>{{ user.first_name }} {{ user.last_name }}</td>
-                  <td class="text-center">{{ user.roll_no }}</td>
-                  <td class="text-center">{{ getCourseName(user.course_id) }}</td>
-                  <td class="text-center">{{ user.session_id }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="w3-col s4 w3-padding-left">
+            <label>Category</label>
+            <select class="w3-select w3-border" [(ngModel)]="selectedCategoryId" (change)="loadSubcategories()">
+              <option value="">Select</option>
+              <option *ngFor="let c of categories" [value]="c.id">{{ c.category_name }}</option>
+            </select>
           </div>
-          <!-- Pagination Controls -->
-          <div class="pagination-controls">
-            <button (click)="prevPage()" [disabled]="currentPage === 1">
-              Previous
+          <div class="w3-col s4 w3-padding-left">
+            <label>Sub Category</label>
+            <select class="w3-select w3-border" [(ngModel)]="selectedSubcategoryId" (change)="loadTemplates()">
+              <option value="">Select</option>
+              <option *ngFor="let sc of subcategories" [value]="sc.id">{{ sc.subcategory_name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="w3-margin-bottom">
+          <label>Template</label>
+          <select class="w3-select w3-border" [(ngModel)]="selectedTemplate" (change)="msg = selectedTemplate?.template_name || ''; updatePreview()">
+            <option value="">Select</option>
+            <option *ngFor="let t of templates" [ngValue]="t">{{ t.template_name }}</option>
+          </select>
+        </div>
+
+     <div class="w3-row">
+         <!-- Message Preview -->
+        <div class="w3-margin-bottom w3-col l7">
+          <label>Template Details</label>
+          <textarea class="w3-input w3-border" [(ngModel)]="msg" (input)="updatePreview()" rows="5" style="padding: 50px;"></textarea>
+        </div>
+
+        <!-- Info Grid -->
+        <div class="w3-row-padding w3-small w3-light-grey w3-padding-8 w3-col l4" style="margin-left: 30px;margin-top: 35px;">
+          <div class="w3-col s6">Character Count: {{ characterCount }}</div>
+          <div class="w3-col s6">Total Student: {{ selectedStudents.length }}</div>
+          <div class="w3-col s6">Total Contacts: {{ totalContacts }}</div>
+          <div class="w3-col s6">WhatsApp Module: {{ selectedModuleName }}</div>
+          <div class="w3-col s6">WhatsApp Category: {{ selectedCategoryName }}</div>
+          <div class="w3-col s6">WhatsApp Sub Category: {{ selectedSubcategoryName }}</div>
+          <div class="w3-col s6">WhatsApp Template: {{ selectedTemplate?.template_name || 'N/A' }}</div>
+        </div>
+
+     </div>
+        <!-- Action Buttons -->
+        <div class="w3-row w3-margin-top">
+          <div class="w3-col s4 w3-padding" style="margin-right: 10px;">
+            <button ion-button class="w3-button w3-yellow w3-block" (click)="showPreview()">
+              <ion-icon name="eye" slot="start"></ion-icon> Preview
             </button>
-            <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
-              <button
-                (click)="goToPage(i + 1)"
-                [disabled]="currentPage === i + 1"
-              >
-                {{ i + 1 }}
-              </button>
-            </ng-container>
-            <button (click)="nextPage()" [disabled]="currentPage === totalPages">
-              Next
+          </div>
+          <div class="w3-col s4 w3-padding">
+            <button ion-button class="w3-button w3-green w3-block" (click)="sendWhatsApp()">
+              <ion-icon name="send" slot="start"></ion-icon> Send
             </button>
           </div>
         </div>
 
-        <!-- Right Side: Contact, Template Selection, and Template Details -->
-        <div class="template-section">
-          <!-- Contact Checkboxes -->
-          <form class="contact-form">
-            <label class="contact-label" for="select-contact">Select Contact</label>
-            <div class="contact-checkboxes">
-              <label class="checkbox-label">
-                <input type="checkbox" [(ngModel)]="contactMother" [ngModelOptions]="{standalone: true}" />
-                Mother
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" [(ngModel)]="contactStudent" [ngModelOptions]="{standalone: true}" />
-                Student
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" [(ngModel)]="contactFather" [ngModelOptions]="{standalone: true}" />
-                Father
-              </label>
-              <label class="checkbox-label">
-                <input
-                  type="checkbox"
-                  [(ngModel)]="contactAll"
-                  (change)="toggleAllContacts()"
-                  [ngModelOptions]="{standalone: true}"
-                />
-                All
-              </label>
-            </div>
-          </form>
-
-          <!-- Template Selection -->
-          <form class="template-form">
-            <label class="template-label" for="select-template">Select Template</label>
-            <label class="template-sub-label module-label">Module</label>
-            <label class="template-sub-label category-label">Category</label>
-            <label class="template-sub-label subcategory-label">Sub Category</label>
-            <label class="template-sub-label template-label">Template</label>
-
-            <div class="template-placeholder"></div>
-            <select class="template-input module-input">
-              <option>EXAM</option>
-            </select>
-            <select class="template-input category-input">
-              <option>Exam Reminder</option>
-            </select>
-            <select class="template-input subcategory-input">
-              <option>Exam Reminder</option>
-            </select>
-            <select class="template-input template-input">
-              <option>Exam Reminder</option>
-            </select>
-          </form>
-
-          <!-- Template Details and Info Boxes -->
-          <div class="template-details-row">
-            <!-- Template Details -->
-            <div class="template-details">
-              <div class="template-details-title">Template Details</div>
-              <div *ngIf="selectedStudents.length === 0" class="template-content">
-                <pre>
-Dear {{ '{' }}student_name{{ '}' }}, {{ '{' }}course_id{{ '}' }}, {{ '{' }}semester_id{{ '}' }}
-
-This is a reminder for your upcoming {{ '{' }}exam_name{{ '}' }} scheduled on {{ '{' }}exam_date{{ '}' }}. Please be prepared.
-
-*GIIT Admin*
-                </pre>
-              </div>
-              <div *ngFor="let student of selectedStudents" class="template-content">
-                <pre>
-Dear {{ student.first_name }} {{ student.last_name }}, Course: {{ getCourseName(student.course_id) }}, Semester: {{ getSemesterName(student.semester_id) }}
-
-This is a reminder for your upcoming scheduled on Please be prepared.
-
-*GIIT Admin*
-                </pre>
-              </div>
-            </div>
-
-            <!-- Info Boxes -->
-            <div class="info-boxes">
-              <div class="info-box">
-                <span>Character Count :</span>
-                <span>{{ characterCount }}</span>
-              </div>
-              <div class="info-box alt">Total Student</div>
-              <div class="info-box">{{ selectedStudents.length }}</div>
-              <div class="info-box alt">Total Contacts</div>
-              <div class="info-box">{{ totalContacts }}</div>
-              <div class="info-box alt">WhatsApp Module</div>
-              <div class="info-box">EXAM</div>
-              <div class="info-box alt">WhatsApp Category</div>
-              <div class="info-box">Exam Reminder</div>
-              <div class="info-box alt">WhatsApp Sub Category</div>
-              <div class="info-box">Exam Reminder</div>
-              <div class="info-box alt">WhatsApp Template</div>
-              <div class="info-box">Exam Reminder</div>
-            </div>
-          </div>
-
-          <!-- Send Button -->
-          <div class="send-button-container">
-            <ion-button
-              color="success"
-              
-              (click)="sendWhatsApp()"
-            >
-              <ion-icon name="send" slot="start"></ion-icon>
-              Send
-            </ion-button>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </ion-content>
+ <ion-modal [isOpen]="isModalOpen" css-class="custom-modal" (didDismiss)="onModalDismiss()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Message Preview</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="dismissModal()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+     <div *ngFor="let line of previewMessages" class="w3-padding-small w3-border w3-margin-bottom w3-white w3-round">
+  {{ line }}
+</div>
+
+        <ion-button color="success" expand="block" (click)="sendFromModal()">
+          <ion-icon name="send" slot="start"></ion-icon>
+          Send
+        </ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
