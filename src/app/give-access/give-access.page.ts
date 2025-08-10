@@ -50,10 +50,14 @@ export class GiveAccessPage implements OnInit {
 
   // Admin Modules
   { name: 'Admin Syllabus', route: '/admin-syllabus', icon: 'book-outline' },
-  { name: 'Admin Assignment', route: '/admin-assignment', icon: 'document-attach' },
+  { name: 'Admin-assignment', route: '/admin-assignment', icon: 'document-attach' },
   { name: 'Admin Question Bank', route: '/admin-question-bank', icon: 'archive' },
   { name: 'admin-university-question', route: '/admin-university-question', icon: 'archive' },
 
+  { name: 'Faculty Managment', route: '/faculty', icon: 'archive' },
+
+
+  { name: 'faculty-recognisation', route: '/faculty-recognisation', icon: 'archive' },
 
   // Documents & Registration
   { name: 'View Documents', route: '/documents', icon: 'folder-open' },

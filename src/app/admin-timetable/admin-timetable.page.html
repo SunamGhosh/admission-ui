@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Timetable</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <style>
+    .timetable-header {
+      background-color: #2196F3;
+      color: white;
+      text-align: center;
+      padding: 16px;
+      font-size: 24px;
+    }
+    .schedule-table input, .schedule-table select {
+      width: 100%;
+      padding: 6px;
+    }
+    .schedule-table th, .schedule-table td {
+      text-align: center;
+      vertical-align: middle;
+    }
+    .submit-button {
+      margin-top: 20px;
+    }
+    .label-title {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="w3-container scroll-container">
+  <div class="timetable-header w3-card-4">Create Timetable</div>
+
+  <!-- Filters -->
+  <div class="w3-card w3-padding w3-margin-top">
+    <div class="w3-row-padding">
+      <div class="w3-col l2 m6 s12">
+        <label class="label-title">Session</label>
+        <select class="w3-select" [(ngModel)]="selectedSession">
+          <option value="" disabled selected>Select Session</option>
+          <option *ngFor="let s of sessionList" [value]="s.id">{{ s.session_name }}</option>
+        </select>
+      </div>
+      <!-- Course -->
+      <div class="w3-col l2 m6 s12">
+        <label class="label-title">Course</label>
+        <select class="w3-select" [(ngModel)]="selectedCourse">
+          <option value="" disabled selected>Select Course</option>
+          <option *ngFor="let c of courseList" [value]="c.id">{{ c.course_name }}</option>
+        </select>
+      </div>
+      <div class="w3-col l2 m6 s12">
+        <label class="label-title">Semester</label>
+        <select class="w3-select" [(ngModel)]="selectedSemester">
+          <option value="" disabled selected>Select Semester</option>
+          <option *ngFor="let sem of semesterList" [value]="sem.id">{{ sem.semester_name }}</option>
+        </select>
+      </div>
+      <!-- Subject -->
+      <div class="w3-col l3 m6 s12">
+        <label class="label-title">Subject</label>
+        <select class="w3-select" [(ngModel)]="selectedSubject" (change)="onSubjectChange($event)">
+          <option value="" disabled selected>Select Subject</option>
+          <option *ngFor="let sub of subjectList" [value]="sub.id">{{ sub.subject_name }}</option>
+        </select>
+      </div>
+      <!-- Faculty Input Box -->
+      <div class="w3-col l3 m6 s12">
+        <label class="label-title">Faculty</label>
+        <input class="w3-input w3-border" [(ngModel)]="selectedFacultyName" readonly placeholder="Faculty will be auto-filled" />
+        <input type="hidden" [(ngModel)]="selectedFaculty" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Schedule Table -->
+  <div class="w3-card w3-margin-top w3-padding">
+    <h4 class="w3-center">Select Schedule</h4>
+    <table class="w3-table-all w3-hoverable w3-centered schedule-table">
+      <thead>
+        <tr class="w3-blue">
+          <th>Day</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Room</th>
+          <th>Status</th>
+          <th>Reset</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let slot of slotData">
+          <td>
+            <!-- Toggle switch -->
+            <label class="w3-switch">
+              <input type="checkbox" [(ngModel)]="slot.status">
+              <span class="w3-slider"></span>
+            </label>
+            <br />
+            {{ slot.day }}
+          </td>
+          <td><input type="time" [(ngModel)]="slot.start_time" /></td>
+          <td><input type="time" [(ngModel)]="slot.end_time" /></td>
+          <td>
+            <select class="w3-select" [(ngModel)]="slot.room_id">
+              <option [ngValue]="null" disabled selected>Select Room</option>
+              <option *ngFor="let r of infrastructureList" [ngValue]="r.id">{{ r.room_no }}</option>
+              <option [ngValue]="0">Online</option>
+            </select>
+            <!-- Show meeting fields only if room is Online -->
+            <div *ngIf="slot.room_id === 0" class="w3-margin-top">
+              <label class="label-title">Meeting ID</label>
+              <input class="w3-input w3-border" [(ngModel)]="slot.meeting_id" placeholder="Enter Meeting ID" />
+              <label class="label-title w3-margin-top">Meeting Password</label>
+              <input class="w3-input w3-border" [(ngModel)]="slot.meeting_password" placeholder="Enter Password" />
+            </div>
+          </td>
+          <td>
+            <input class="w3-check" type="checkbox" [(ngModel)]="slot.status" />
+          </td>
+          <td>
+            <button class="w3-button w3-red w3-small" (click)="slot.start_time=''; slot.end_time=''; slot.room_id=0; slot.faculty_name=null; slot.status=true;">
+              Reset
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="w3-center submit-button">
+    <button class="w3-button w3-blue w3-round-large" (click)="submitTimetable()">Save Timetable</button>
+  </div>
+
+  <!-- Timetable Entries -->
+  <div class="w3-card w3-margin-top w3-padding" *ngIf="!loading && timetableList.length">
+    <h4 class="w3-center">Timetable Entries</h4>
+    <table class="w3-table-all w3-hoverable w3-centered">
+      <thead>
+        <tr class="w3-light-grey">
+          <th>Day</th>
+          <th>Time</th>
+          <th>Room</th>
+          <th>Faculty</th>
+          <th>Subject</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of timetableList">
+          <td>{{ row.day }}</td>
+          <td>{{ row.start_time }} - {{ row.end_time }}</td>
+          <td>{{ getRoomName(row.room_id) }}</td>
+          <td>{{row.faculty_id }}</td>
+          <td>{{ getSubjectName(row.subject_id) }}</td>
+          <td>
+            <button class="w3-button w3-red w3-small" (click)="deleteRow(row.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="w3-center" *ngIf="loading">
+    <div class="w3-padding w3-large">Loading...</div>
+  </div>
+</div>
+
+</body>
+</html>

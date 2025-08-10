@@ -10,6 +10,12 @@ export interface Permission {
 }
 
 
+export interface Infrastructure {
+  id?: number;
+  room_no: string;
+  floor_no: string;
+  building_no: string;
+}
 
 
 export interface User{
@@ -133,6 +139,14 @@ export interface Session{
           is_active?:boolean
 }
 
+export interface TimetableRow {
+  session_id: string;
+  course_id: string;
+  semester_id: string;
+  subject_id: string;
+  faculty_id: string;
+  facultyList: { faculty_id: number; faculty_name: string }[]; // ✅ define faculty structure
+}
 
 export interface Subject{
     id?:any,

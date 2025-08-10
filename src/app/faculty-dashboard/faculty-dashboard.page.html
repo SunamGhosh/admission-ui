@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title style="text-align: center;">Faculty Dashboard</ion-title>
+    <ion-button (click)="logout()" slot="end" color="danger">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Logout
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <ion-grid>
+    <!-- Faculty Profile Card -->
+    <ion-row>
+      <ion-col size-md="4" offset-md="4">
+        <ion-card *ngIf="faculty" style="margin: 20px;">
+          <ion-card-header style="background-image: url(../../assets/1.jpg); background-size: cover;">
+            <ion-card-title class="ion-text-center">
+              <h1>Welcome</h1>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center" style="color: black; background-color: white;">
+            <img src="../../../assets/user.jpg" alt="Faculty" style="border-radius: 50px; height: 80px;">
+            <h1>{{ faculty.faculty_name }}</h1>
+            <p>Email: {{ faculty.faculty_email }}</p>
+            <p>Phone: {{ faculty.faculty_phone }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <!-- Other Info Cards -->
+    <ion-row>
+      <ion-col size-md="4">
+        <ion-card *ngIf="faculty" style="margin: 20px; background-color: white;">
+          <ion-card-header style="background-color: yellow;">
+            <ion-card-title class="ion-text-center" style="color: #111;">Email</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="mail-outline" style="font-size: 50px; color: blue;"></ion-icon>
+            <h2>{{ faculty.faculty_email }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-md="3">
+        <ion-card *ngIf="faculty" style="margin: 20px; background-color: white;">
+          <ion-card-header style="background-color: blue;">
+            <ion-card-title class="ion-text-center" style="color: white;">Department ID</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="business-outline" style="font-size: 50px; color: blue;"></ion-icon>
+            <h2>{{ getDepartmentName() }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-md="4">
+        <ion-card *ngIf="faculty" style="margin: 20px; background-color: white;">
+          <ion-card-header style="background-color: green;">
+            <ion-card-title class="ion-text-center" style="color: white;">Contact</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="call-outline" style="font-size: 50px; color: black;"></ion-icon>
+            <h2>{{ faculty.faculty_phone }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size-md="5" style="margin-left: 400px;">
+        <ion-card *ngIf="faculty" style="margin: 20px; background-color: white;">
+          <ion-card-header style="background-color: orange;">
+            <ion-card-title class="ion-text-center" style="color: white;">Aadhar</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="card-outline" style="font-size: 50px; color: orange;"></ion-icon>
+            <h2>{{ faculty.faculty_aadhar }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+    
+    </ion-row>
+  </ion-grid>
+</ion-content>

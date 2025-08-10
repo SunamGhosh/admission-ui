@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Schedule Management</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <style>
+    html, body {
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+    }
+    .header-blue {
+      background-color: #2196F3;
+      color: white;
+    }
+    .section-title {
+      padding: 10px;
+      font-weight: bold;
+    }
+    .input-row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .input-row select,
+    .input-row input {
+      margin: 5px;
+      width: 180px;
+    }
+    .timetable-card {
+      margin: 10px 0;
+      padding: 10px;
+      border-left: 6px solid #2196F3;
+      background-color: #f1f1f1;
+    }
+    .class-slot {
+      padding: 5px;
+      margin-bottom: 5px;
+    }
+    .time {
+      font-weight: bold;
+      color: #e91e63;
+    }
+    .room, .teacher, .subject {
+      padding-left: 15px;
+    }
+    .day-label {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    ion-modal {
+      --background: #f9f9f9;
+    }
+    ion-content {
+      --padding-start: 16px;
+      --padding-end: 16px;
+      --padding-top: 16px;
+      --padding-bottom: 16px;
+    }
+    ion-item {
+      margin-bottom: 10px;
+      --background: #ffffff;
+      --border-radius: 8px;
+    }
+    ion-select, ion-input {
+      --border: 1px solid #ccc;
+      --border-radius: 4px;
+    }
+    ion-button.w3-button {
+      margin-top: 20px;
+    }
+    ion-toolbar.header-blue {
+      --background: #2196F3;
+      --color: white;
+    }
+  </style>
+</head>
+<body class="w3-container">
+
+  <!-- Header -->
+  <div class="w3-bar header-blue w3-padding">
+    <span class="w3-bar-item w3-large">Schedule Classes</span>
+    <div class="w3-bar-item w3-right">
+      <ion-icon name="person-circle-outline"></ion-icon>
+    </div>
+  </div>
+
+  <!-- Master Schedule -->
+  <div class="w3-card w3-white w3-margin-top w3-padding">
+    <div class="section-title header-blue">Select Master Schedule</div>
+    <div class="w3-row">
+      <div class="w3-col l2 m3 s4 w3-padding-small">
+        <select class="w3-select" [(ngModel)]="selectedSession">
+          <option value="0" disabled selected>Session</option>
+          <option *ngFor="let s of sessionList" [value]="s.id">{{ s.session_name }}</option>
+        </select>
+      </div>
+      <div class="w3-col l2 m3 s4 w3-padding-small">
+        <select class="w3-select" [(ngModel)]="selectedCourse">
+          <option value="0" disabled selected>Course</option>
+          <option *ngFor="let c of courseList" [value]="c.id">{{ c.course_name }}</option>
+        </select>
+      </div>
+      <div class="w3-col l2 m3 s4 w3-padding-small">
+        <select class="w3-select" [(ngModel)]="selectedSemester">
+          <option value="0" disabled selected>Semester</option>
+          <option *ngFor="let sem of semesterList" [value]="sem.id">{{ sem.semester_name }}</option>
+        </select>
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small">
+        <select class="w3-select" [(ngModel)]="selectedSubject" (change)="onSubjectChange($event)">
+          <option value="0" disabled selected>Subject</option>
+          <option *ngFor="let sub of subjectList" [value]="sub.id">{{ sub.subject_name }}</option>
+        </select>
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small">
+        <input class="w3-input w3-border" [(ngModel)]="selectedFacultyName" readonly placeholder="Faculty will be auto-filled" />
+        <input type="hidden" [(ngModel)]="selectedFaculty" />
+      </div>
+      <div class="w3-col l2 m3 s12 w3-padding-small w3-center">
+        <button class="w3-button w3-blue w3-round-large">Toggle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Verify Schedule -->
+  <div class="w3-card w3-white w3-margin-top w3-padding">
+    <div class="section-title header-blue">Verify Schedule</div>
+    <div class="w3-row">
+      <div class="w3-col l1 m2 s4 w3-padding-small">
+        <input class="w3-input w3-border" type="text" placeholder="Day" [(ngModel)]="slotData[0].day">
+      </div>
+      <div class="w3-col l2 m2 s4 w3-padding-small">
+        <input class="w3-input w3-border" type="date">
+      </div>
+      <div class="w3-col l1 m2 s4 w3-padding-small">
+        <input class="w3-input w3-border" type="time" placeholder="Start" [(ngModel)]="slotData[0].start_time">
+      </div>
+      <div class="w3-col l1 m2 s4 w3-padding-small">
+        <input class="w3-input w3-border" type="time" placeholder="End" [(ngModel)]="slotData[0].end_time">
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small">
+        <select class="w3-select" [(ngModel)]="slotData[0].room_id">
+          <option [ngValue]="null" disabled selected>Select Room</option>
+          <option *ngFor="let r of infrastructureList" [ngValue]="r.id">{{ r.room_no }}</option>
+          <option [ngValue]="0">Online</option>
+        </select>
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small">
+        <input class="w3-input w3-border" type="text" placeholder="Event">
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small" *ngIf="slotData[0].room_id === 0">
+        <input class="w3-input w3-border" [(ngModel)]="slotData[0].meeting_id" placeholder="Meeting ID">
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small" *ngIf="slotData[0].room_id === 0">
+        <input class="w3-input w3-border" [(ngModel)]="slotData[0].meeting_password" placeholder="Meeting Pwd">
+      </div>
+      <div class="w3-col l1 m12 s12 w3-padding-small w3-center">
+        <button class="w3-button w3-green w3-round-large" (click)="submitTimetable()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timetable Section -->
+  <div class="w3-card w3-white w3-margin-top w3-padding">
+    <div class="section-title header-blue">Timetable</div>
+    <div class="w3-row">
+      <div class="w3-col l2 m3 s6 w3-padding-small">
+        <select class="w3-select" [(ngModel)]="searchFacultyId" (change)="fetchTimetable()">
+          <option value="0" disabled selected>Select Faculty</option>
+          <option *ngFor="let f of facultyList" [value]="f.id">{{ f.name }}</option>
+        </select>
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small">
+        <select class="w3-select" [(ngModel)]="searchCourseId" (change)="fetchTimetable()">
+          <option value="0" disabled selected>Select Course</option>
+          <option *ngFor="let c of courseList" [value]="c.id">{{ c.course_name }}</option>
+        </select>
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small">
+        <select class="w3-select" [(ngModel)]="searchSemesterId" (change)="fetchTimetable()">
+          <option value="0" disabled selected>Select Semester</option>
+          <option *ngFor="let s of semesterList" [value]="s.id">{{ s.semester_name }}</option>
+        </select>
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small">
+        <input class="w3-input w3-border" type="date" [(ngModel)]="searchStartDate">
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small">
+        <input class="w3-input w3-border" type="date" [(ngModel)]="searchEndDate">
+      </div>
+      <div class="w3-col l2 m3 s12 w3-padding-small w3-center">
+        <button class="w3-button w3-blue w3-round-large" (click)="fetchTimetable()">Fetch</button>
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small w3-center">
+        <button class="w3-button w3-orange w3-round-large">Repeat</button>
+      </div>
+      <div class="w3-col l2 m3 s6 w3-padding-small w3-center">
+        <button class="w3-button w3-red w3-round-large">+Holiday</button>
+      </div>
+    </div>
+
+ <!-- Timetable Cards -->
+<div class="w3-container w3-margin-top">
+  <div class="w3-row-padding">
+    <div *ngFor="let dayGroup of groupedTimetable" class="w3-col s12 m12 l12 w3-margin-bottom">
+      
+      <!-- Outer Card for Day -->
+      <div class="w3-card-4 w3-round-large">
+        
+        <!-- Day Header -->
+        <div class="w3-container header-blue w3-large w3-padding">
+          <b>{{ dayGroup.day }}</b>
+        </div>
+
+        <!-- Horizontal Time Slot Grid -->
+        <div class="w3-row w3-border-top timetable-grid-horizontal">
+          <div *ngFor="let timeSlot of dayGroup.classes" class="time-slot-container">
+            
+            <!-- Time Slot Card -->
+            <div class="w3-card w3-round-large w3-padding-small time-slot-card">
+              
+              <!-- Time Header -->
+                <div class="w3-container w3-pale-blue w3-padding-small w3-center time-label">
+                  <b>{{ timeSlot.start_time }} - {{ timeSlot.end_time }}</b>
+                </div>
+
+              <!-- Class Cards -->
+              <div class="w3-row class-card-wrapper">
+                <div *ngFor="let cls of timeSlot.classes" class="w3-col l3 m6 s12 w3-padding-small class-card">
+                  
+                  <div class="w3-card w3-round-large class-inner" [ngStyle]="{ 'background-color': getColor(cls.subject_id) }">
+                    <!-- Time -->
+                    <!-- <div class="w3-row w3-pale-red w3-center time-bar">
+                      ⏰ <b>{{ cls.start_time }} - {{ cls.end_time }}</b>
+                    </div> -->
+
+                    <!-- Details -->
+                    <div class="w3-small detail-line">
+                      👨‍🎓 <b>{{ getCourseName(cls.course_id) }}</b>
+                    </div>
+                    <div class="w3-small detail-line">
+                      {{ getSessionName(cls.session_id) }} | {{ cls.semester_name }}
+                    </div>
+                    <div class="w3-small detail-line">
+                      📘 <b>{{ getSubjectName(cls.subject_id) }}</b>
+                    </div>
+                    <div class="w3-small detail-line">
+                      👨‍🏫 {{ getFacultyName(cls.faculty_id) }}
+                    </div>
+                    <div class="w3-small detail-line">
+                      🏫 {{ getRoomName(cls.room_id) || 'Online' }}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="btn-group">
+                      <button class="w3-button w3-blue w3-round" (click)="openEditModal(cls)">
+                        <ion-icon name="create-outline"></ion-icon>
+                      </button>
+                      <button class="w3-button w3-red w3-round" (click)="deleteRow(cls.id)">
+                        <ion-icon name="trash-outline"></ion-icon>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div><!-- Edit Timetable Modal -->
+<ion-modal #modal [isOpen]="editEntry !== null" (didDismiss)="editEntry = null">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar class="header-blue">
+        <ion-title>Edit Timetable Entry</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="cancelModal()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-list>
+        <div class="w3-row-padding">
+
+          <!-- Left Column -->
+          <div class="w3-col s12 m6">
+            <ion-item>
+              <ion-label>Session</ion-label>
+              <ion-select [(ngModel)]="editEntry.session_id">
+                <ion-select-option *ngFor="let s of sessionList" [value]="s.id">{{ s.session_name }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Course</ion-label>
+              <ion-select [(ngModel)]="editEntry.course_id">
+                <ion-select-option *ngFor="let c of courseList" [value]="c.id">{{ c.course_name }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Semester</ion-label>
+              <ion-select [(ngModel)]="editEntry.semester_id">
+                <ion-select-option *ngFor="let sem of semesterList" [value]="sem.id">{{ sem.semester_name }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Subject</ion-label>
+              <ion-select [(ngModel)]="editEntry.subject_id" (ionChange)="onModalSubjectChange($event)">
+                <ion-select-option *ngFor="let sub of subjectList" [value]="sub.id">{{ sub.subject_name }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Faculty</ion-label>
+              <ion-input [(ngModel)]="modalFacultyName" readonly placeholder="Faculty will be auto-filled"></ion-input>
+              <input type="hidden" [(ngModel)]="editEntry.faculty_id" />
+            </ion-item>
+          </div>
+
+          <!-- Right Column -->
+          <div class="w3-col s12 m6">
+            <ion-item>
+              <ion-label>Day</ion-label>
+              <ion-select [(ngModel)]="editEntry.day">
+                <ion-select-option *ngFor="let day of days" [value]="day">{{ day }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Start Time</ion-label>
+              <ion-input type="time" [(ngModel)]="editEntry.start_time"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>End Time</ion-label>
+              <ion-input type="time" [(ngModel)]="editEntry.end_time"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Room</ion-label>
+              <ion-select [(ngModel)]="editEntry.room_id">
+                <ion-select-option *ngFor="let room of infrastructureList" [value]="room.id">{{ room.room_no }}</ion-select-option>
+                <ion-select-option value="0">Online</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item *ngIf="editEntry?.room_id === 0">
+              <ion-label>Meeting ID</ion-label>
+              <ion-input [(ngModel)]="editEntry.meeting_id"></ion-input>
+            </ion-item>
+
+            <ion-item *ngIf="editEntry?.room_id === 0">
+              <ion-label>Meeting Password</ion-label>
+              <ion-input [(ngModel)]="editEntry.meeting_password"></ion-input>
+            </ion-item>
+          </div>
+
+        </div>
+      </ion-list>
+
+      <div class="w3-center w3-margin-top">
+        <ion-button expand="block" class="w3-button w3-blue w3-round-large" (click)="updateTimetable()">
+          Save
+        </ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

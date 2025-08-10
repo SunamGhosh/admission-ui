@@ -1,0 +1,42 @@
+/* Faculty Page Styling */
+
+/* Make form fields spaced neatly */
+ion-item {
+  margin-bottom: 12px;
+}
+
+/* Center card headers */
+ion-card-title.w3-center {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 8px 0;
+}
+.table-header {
+  font-weight: bold;
+  background-color: #9c27b0;
+  color: white;
+  border-radius: 4px;
+  padding: 8px 0;
+}
+
+/* List rows */
+ion-row.table-header + ion-row {
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+/* Align action buttons */
+ion-col.ion-text-end ion-button {
+  margin-left: 4px;
+}
+
+/* Searchbar margin */
+ion-searchbar {
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+/* Pagination styling */
+ion-row.ion-justify-content-center {
+  margin-top: 12px;
+}

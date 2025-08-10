@@ -250,7 +250,47 @@ export const routes: Routes = [
   {
     path: 'chapter',
     loadComponent: () => import('./chapter/chapter.page').then( m => m.ChapterPage)
+  },  {
+    path: 'faculty',
+    loadComponent: () => import('./faculty/faculty.page').then( m => m.FacultyPage)
+  },
+  {
+    path: 'department-master',
+    loadComponent: () => import('./department-master/department-master.page').then( m => m.DepartmentMasterPage)
+  },
+  {
+    path: 'faculty-login',
+    loadComponent: () => import('./faculty-login/faculty-login.page').then( m => m.FacultyLoginPage)
+  },
+  {
+    path: 'faculty-master',
+    loadComponent: () => import('./faculty-master/faculty-master.page').then( m => m.FacultyMasterPage)
+  },
+  {
+    path: 'faculty-dashboard',
+    loadComponent: () => import('./faculty-dashboard/faculty-dashboard.page').then( m => m.FacultyDashboardPage)
+  },
+  {
+    path: 'admin-timetable',
+    loadComponent: () => import('./admin-timetable/admin-timetable.page').then( m => m.AdminTimetablePage)
+  },
+  {
+    path: 'infrastructure',
+    loadComponent: () => import('./infrastructure/infrastructure.page').then( m => m.InfrastructurePage)
+  },
+  {
+    path: 'faculty-recognisation',
+    loadComponent: () => import('./faculty-recognisation/faculty-recognisation.page').then( m => m.FacultyRecognisationPage)
+  },
+  {
+    path: 'admin-scheduling-timetable',
+    loadComponent: () => import('./admin-scheduling-timetable/admin-scheduling-timetable.page').then( m => m.AdminSchedulingTimetablePage)
+  },
+  {
+    path: 'group-by-slot-pipe',
+    loadComponent: () => import('./group-by-slot-pipe/group-by-slot-pipe.page').then( m => m.GroupBySlotPipePage)
   }
+
 
 
 ];

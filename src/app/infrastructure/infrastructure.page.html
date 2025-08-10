@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-title class="ion-text-center">Infrastructure</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+
+    <ion-row>
+      <!-- Left Panel: Form -->
+      <ion-col size="12" sizeMd="4">
+        <ion-card>
+          <ion-card-header color="tertiary">
+            <ion-card-title class="w3-center">{{ isEdit ? 'Edit' : 'Add' }} Room</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+
+            <!-- Room No -->
+            <ion-item>
+              <ion-label position="floating">Room No</ion-label>
+              <ion-input [(ngModel)]="formData.room_no" ></ion-input>
+            </ion-item>
+
+            <!-- Floor No -->
+            <ion-item>
+              <ion-label position="floating">Floor No</ion-label>
+              <ion-input [(ngModel)]="formData.floor_no" ></ion-input>
+            </ion-item>
+
+            <!-- Building No -->
+            <ion-item>
+              <ion-label position="floating"> Building No</ion-label>
+              <ion-input [(ngModel)]="formData.building_no"></ion-input>
+            </ion-item>
+
+            <!-- Action Buttons -->
+            <ion-row class="ion-margin-top">
+             
+              <ion-col size="4">
+                <ion-button expand="block" color="medium" (click)="resetForm()">Clear</ion-button>
+              </ion-col>
+
+               <ion-col size="6">
+                <ion-button expand="block" color="success" (click)="save()">
+                  {{ isEdit ? 'Update' : 'Add' }}
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Right Panel: Table -->
+      <ion-col size="12" sizeMd="7">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="w3-center"> Room List</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+
+            <ion-grid>
+              <!-- Table Headers -->
+              <ion-row class="table-header" style="background-color: #6a1b9a; color: white;">
+                <ion-col size="1">Sl NO.</ion-col>
+                <ion-col size="2">Room</ion-col>
+                <ion-col size="1">Floor</ion-col>
+                <ion-col size="2">Building</ion-col>
+                <ion-col size="3" class="ion-text-center">Actions</ion-col>
+              </ion-row>
+
+              <!-- Table Rows -->
+              <ion-row *ngFor="let infra of infrastructures; let i = index" class="ion-align-items-center">
+                <ion-col size="1">{{ i + 1 }}</ion-col>
+                <ion-col size="2">{{ infra.room_no }}</ion-col>
+                <ion-col size="1">{{ infra.floor_no }}</ion-col>
+                <ion-col size="2">{{ infra.building_no }}</ion-col>
+                <ion-col size="3" class="ion-text-center">
+                  <ion-button size="small" fill="clear" color="primary" (click)="edit(infra)">
+                    EDIT
+                  </ion-button>
+                  <ion-button size="small" fill="clear" color="danger" (click)="deleteItem(infra.id!)">
+                    DELETE
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+
+            </ion-grid>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,298 @@
+html, body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+}
+
+.header-blue {
+  background-color: #2196F3;
+  color: white;
+}
+
+.section-title {
+  padding: 10px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.input-row select,
+.input-row input {
+  margin: 5px;
+  width: 180px;
+  padding: 8px;
+}
+
+.w3-select, .w3-input {
+  border-radius: 4px;
+}
+
+.timetable-card {
+  margin: 10px 0;
+  padding: 15px;
+  border-left: 6px solid #2196F3;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.class-slot {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.time {
+  font-weight: bold;
+  color: #d32f2f;
+  margin-bottom: 5px;
+}
+
+.subject, .teacher, .room {
+  margin-top: 5px;
+  color: #333;
+}
+
+.day-label {
+  font-weight: bold;
+  margin-top: 10px;
+  color: #2196F3;
+}
+
+.verify-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+
+  th, td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #2196F3;
+    color: white;
+  }
+}
+
+.w3-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+ion-modal {
+  --background: #f9f9f9;
+
+  ion-content {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+  }
+
+  ion-item {
+    margin-bottom: 10px;
+    --background: #ffffff;
+    --border-radius: 8px;
+  }
+
+  ion-select, ion-input {
+    --border: 1px solid #ccc;
+    --border-radius: 4px;
+  }
+
+  ion-button.w3-button {
+    margin-top: 20px;
+  }
+
+  ion-toolbar.header-blue {
+    --background: #2196F3;
+    --color: white;
+  }
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  color: #2196F3;
+}.timetable-grid-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Increased gap for better spacing */
+    padding: 15px 0;
+    width: 100%; /* Ensure full width */
+    justify-content: flex-start; /* Align items to the start */
+}
+
+.time-slot-container {
+    flex: 0 0 auto; /* Allow dynamic width based on content */
+    width: auto; /* Adjust width dynamically */
+    margin-right: 20px; /* Space between time slots */
+}
+
+.time-slot-card {
+    margin-bottom: 15px;
+    min-width: 300px; /* Minimum width to ensure readability */
+    width: auto; /* Allow expansion */
+}
+
+.time-slot-card .w3-row {
+    padding: 15px 0;
+}
+.class-card {
+  flex: 0 0 46%;        // 2 cards per row
+  max-width: 46%;
+  padding: 10px !important;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.class-inner {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.detail-line {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.detail-line b {
+  margin-left: 5px;
+  font-weight: 600;
+  color: #222;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.time-slot-container {
+  flex: 0 0 48%;
+  max-width: 48%;
+  min-width: 300px;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.time-slot-card {
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.time-label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+
+// @media (max-width: 1023px) and (min-width: 600px) {
+//     .class-card {
+//         flex: 0 0 33.33%; /* 3 columns on medium screens */
+//         max-width: 33.33%;
+//     }
+// }
+
+// @media (max-width: 599px) {
+//     .class-card {
+//         flex: 0 0 100%; /* 1 column on small screens */
+//         max-width: 100%;
+//     }
+// }
+
+.time-slot-container {
+  flex: 0 0 100%;
+  width: 100%;
+  margin-bottom: 15px;
+}
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+
+/* Larger padding and dimensions for cards */
+.w3-padding-medium {
+    padding: 20px !important;
+}
+
+.w3-padding-large {
+    padding: 25px !important;
+}
+
+.w3-padding-small {
+    padding: 10px !important;
+}
+
+/* Ensure buttons are not cramped */
+.w3-button {
+    padding: 10px 20px;
+    margin: 5px;
+}
+
+/* Enhance card appearance */
+.w3-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.w3-card:hover {
+    transform: scale(1.02);
+}
+
+/* Responsive adjustments for time slots */
+@media (min-width: 1024px) {
+    .time-slot-container {
+        flex: 0 0 45%; /* Approximately 2 columns with space */
+    }
+}
+
+@media (max-width: 1023px) {
+    .time-slot-container {
+        flex: 0 0 100%; /* Full width on medium and small screens */
+        margin-right: 0;
+    }
+}
+
+.class-inner {
+  padding: 10px 12px;
+  min-height: auto;
+  height: auto;
+  border-radius: 12px;
+  background-color: #fff;
+
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-size: 13px;
+}

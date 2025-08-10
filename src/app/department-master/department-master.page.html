@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-title>Department Master</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <!-- Left Panel: Department Form -->
+      <ion-col size="12" sizeMd="5">
+        <ion-card class="form-card">
+          <ion-card-header color="tertiary">
+            <ion-card-title class="w3-center">Add Department</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="floating">Department Name</ion-label>
+              <ion-input [(ngModel)]="newDepartment.department_name"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Short Name</ion-label>
+              <ion-input [(ngModel)]="newDepartment.department_shortname"></ion-input>
+            </ion-item>
+
+            <ion-button expand="block" color="success" (click)="saveDepartment()">
+              {{ isEditing ? 'Update' : 'Add' }} Department
+            </ion-button>
+
+            <ion-button expand="block" fill="clear" color="medium" (click)="resetForm()" *ngIf="isEditing">
+              Cancel Edit
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Right Panel: Department List -->
+      <ion-col size="12" sizeMd="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="w3-center">Department List</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+
+            <!-- Search Bar -->
+            <ion-item style="background-color: aliceblue;">
+              <ion-input placeholder="Search..." [(ngModel)]="searchTerm" (ionInput)="onSearchChange()"></ion-input>
+            </ion-item>
+
+            <!-- Table Header -->
+            <ion-row class="table-header">
+              <ion-col size="4"><strong>Name</strong></ion-col>
+              <ion-col size="2"><strong>Short Name</strong></ion-col>
+              <ion-col size="3" class="ion-text-end"><strong>Actions</strong></ion-col>
+            </ion-row>
+
+            <!-- Table Rows -->
+            <ion-row *ngFor="let dept of filteredDepartments">
+              <ion-col size="4">{{ dept.department_name }}</ion-col>
+              <ion-col size="2">{{ dept.department_shortname }}</ion-col>
+              <ion-col size="4" class="ion-text-end">
+                <ion-button size="small" fill="clear" color="primary" (click)="editDepartment(dept)">Edit</ion-button>
+                <ion-button size="small" fill="clear" color="danger" (click)="deleteDepartment(dept.id)">Delete</ion-button>
+              </ion-col>
+            </ion-row>
+
+            <!-- Pagination Controls -->
+            <ion-row class="ion-justify-content-center ion-margin-top">
+              <ion-button fill="outline" size="small" (click)="changePage(-1)" [disabled]="currentPage === 1">Prev</ion-button>
+              <ion-label class="ion-padding-horizontal">Page {{ currentPage }} / {{ totalPages }}</ion-label>
+              <ion-button fill="outline" size="small" (click)="changePage(1)" [disabled]="currentPage === totalPages">Next</ion-button>
+            </ion-row>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

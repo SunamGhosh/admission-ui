@@ -1,0 +1,87 @@
+/* W3.CSS Inclusion */
+@import url('https://www.w3schools.com/w3css/4/w3.css');
+
+/* Custom styles to complement W3.CSS */
+.faculty-bg {
+  background: linear-gradient(to bottom, #fce4ec, #e0f7fa); /* Pink to cyan gradient */
+  min-height: 100%;
+}
+
+ion-grid.w3-responsive {
+  padding: 16px;
+}
+
+.filter-card.w3-card-4 {
+  margin-bottom: 24px;
+  padding: 20px;
+}
+
+.w3-select {
+  width: 100%;
+  max-width: 220px;
+  padding: 8px;
+  border-radius: 4px;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s ease;
+}
+
+.w3-select:focus {
+  border-color: #3f51b5; /* W3.CSS indigo */
+  outline: none;
+}
+
+.table-card.w3-card-4 {
+  margin-bottom: 24px;
+  padding: 20px;
+}
+
+.table-title {
+  padding: 12px;
+  margin-bottom: 16px;
+  font-size: 1.3em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.table-row {
+  transition: background 0.2s ease;
+}
+
+.table-row ion-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px; /* Maintain existing padding */
+  font-size: 0.95em;
+}
+
+.w3-text-red.w3-hover-text-red-dark {
+  font-size: 24px;
+  transition: transform 0.2s ease;
+}
+
+.w3-text-red.w3-hover-text-red-dark:hover {
+  transform: scale(1.2);
+}
+
+.pagination-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.submit-button {
+  max-width: 320px;
+  margin: 24px auto;
+  padding: 12px;
+  font-size: 1.1em;
+}
+
+ion-spinner {
+  display: block;
+  margin: 20px auto;
+  color: #3f51b5; /* W3.CSS indigo */
+}

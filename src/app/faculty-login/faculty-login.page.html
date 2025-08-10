@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary" style="--background: linear-gradient(135deg, #3a7bd5, #00d2ff);">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>Back
+    </ion-buttons>
+    <ion-title class="ion-text-center" style="font-weight: bold; font-size: 1.8rem; color: white;">
+      Faculty Login
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" style="background: linear-gradient(135deg, #eef2f3, #8e9eab);">
+  <div class="login-container">
+    <ion-card class="login-card" style="max-width: 480px; border-radius: 16px; box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);">
+      <ion-card-header class="ion-text-center" style="background: linear-gradient(135deg, #3a7bd5, #00d2ff); padding: 20px; border-radius: 16px 16px 0 0; color: white;">
+        <ion-card-title style="font-size: 1.8rem; font-weight: bold;">Welcome Faculty</ion-card-title>
+        <p style="margin-top: 5px; font-size: 1rem;">Sign in to access your portal</p>
+      </ion-card-header>
+
+      <ion-card-content style="padding: 35px;">
+        <!-- Faculty Login Form -->
+        <ion-item class="input-item" style="margin-bottom: 20px; border-radius: 8px; background: white; box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);">
+          <ion-icon name="person-circle-outline" slot="start" style="color: #3a7bd5;"></ion-icon>
+          <ion-label position="floating" style="font-size: 1rem; color: #555;">Email</ion-label>
+          <ion-input [(ngModel)]="facultyEmail" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item" style="margin-bottom: 20px; border-radius: 8px; background: white; box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.1);">
+          <ion-icon name="lock-closed-outline" slot="start" style="color: #3a7bd5;"></ion-icon>
+          <ion-label position="floating" style="font-size: 1rem; color: #555;">Password</ion-label>
+          <ion-input [(ngModel)]="facultyPassword" type="password"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" (click)="facultyLogin()" style="margin-top: 20px; padding: 15px; font-size: 1.1rem; font-weight: bold; background: linear-gradient(135deg, #3a7bd5, #00d2ff); border-radius: 8px;">
+          LOGIN
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

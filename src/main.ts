@@ -64,6 +64,15 @@ import { FieldPage } from './app/field/field.page';
 import { GiveAccessPage } from './app/give-access/give-access.page';
 import { StudentLearnEnglishPage } from './app/student-learn-english/student-learn-english.page';
 import { ChapterPage } from './app/chapter/chapter.page';
+import { FacultyPage } from './app/faculty/faculty.page';
+import { DepartmentMasterPage } from './app/department-master/department-master.page';
+import { FacultyLoginPage } from './app/faculty-login/faculty-login.page';
+import { FacultyDashboardPage } from './app/faculty-dashboard/faculty-dashboard.page';
+import { FacultyMasterPage } from './app/faculty-master/faculty-master.page';
+import { AdminTimetablePage } from './app/admin-timetable/admin-timetable.page';
+import { InfrastructurePage } from './app/infrastructure/infrastructure.page';
+import { FacultyRecognisationPage } from './app/faculty-recognisation/faculty-recognisation.page';
+import { AdminSchedulingTimetablePage } from './app/admin-scheduling-timetable/admin-scheduling-timetable.page';
 
 
 const routes: Routes = [
@@ -75,6 +84,12 @@ const routes: Routes = [
   { path: 'student-login', component: StudentLoginPage }, 
   { path: 'agent-login', component: AgentLoginPage }, // Redirect to UniversityPage on initial load
   // Redirect to UniversityPage on initial load
+
+  { path: 'faculty-login', component: FacultyLoginPage },
+  
+  { path: 'faculty-dashboard', component: FacultyDashboardPage }, 
+  
+
       { path: 'whatsapp', component: WhatsappPage},
 
   {path:'demo',component:DemoPage},
@@ -109,6 +124,10 @@ const routes: Routes = [
  { path: 'access', component: GiveAccessPage }, 
   { path: 'stats', component: StatsPage} ,
 
+
+    { path: 'faculty', component: FacultyPage} ,
+      { path: 'department-master', component: DepartmentMasterPage} ,
+
       { path: 'course', component: CoursePage } ,
       { path: 'semester', component: SemesterPage } ,
       { path: 'session', component: SessionPage } ,
@@ -137,6 +156,14 @@ const routes: Routes = [
       { path: 'student-university-questions', component: StudentUniversityQuestionsPage},
       { path: 'student-learn-english', component: StudentLearnEnglishPage},
       { path: 'chapter', component: ChapterPage},
+
+      { path: 'timetable', component: AdminTimetablePage},
+      { path: 'Infrastructure', component: InfrastructurePage},
+
+
+    { path: 'faculty-recognisation', component: FacultyRecognisationPage} ,
+    { path: 'admin-scheduling-timetable', component: AdminSchedulingTimetablePage} ,
+
 
 
 
@@ -207,7 +234,28 @@ const routes: Routes = [
           component:FieldPage
         }
       ]
-    }
+    },
+
+     {
+      path: 'faculty-master',
+      component: FacultyMasterPage,
+      children: [
+        {
+          path: 'faculty-dashboard',
+          component: FacultyDashboardPage
+        },
+
+
+        {
+          path: 'addmodules',
+          component: AddModulesPage
+        },
+
+          {
+          path: 'addtables',
+          component: AddTablesPage
+        },
+      ]}
 ];
 
 bootstrapApplication(AppComponent, {

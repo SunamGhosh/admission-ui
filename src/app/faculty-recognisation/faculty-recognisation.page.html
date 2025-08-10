@@ -1,0 +1,137 @@
+<ion-header class="w3-container w3-indigo">
+  <ion-toolbar color="primary">
+    <ion-title class="w3-center">Faculty Recognisation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="faculty-bg w3-container">
+  <ion-grid class="w3-responsive">
+    <!-- Filter and Add Section -->
+    <ion-row style="margin-top: -10px;">
+      <ion-col size="12">
+        <div class="filter-card w3-card-4 w3-white w3-padding">
+          <h3 class="w3-text-indigo" style="text-align: center;">Search and Add Faculty Allocations</h3>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12" sizeMd="2">
+                <ion-item class="w3-margin-bottom">
+                  <!-- <ion-label position="floating">Filter/Add Session</ion-label> -->
+                  <ion-select [(ngModel)]="filterSession" (ionChange)="applyFilter()" class="w3-select w3-border">
+                    <ion-select-option [value]="0">All Sessions</ion-select-option>
+                    <ion-select-option *ngFor="let s of sessionList" [value]="s.id">{{ s.session_name }}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" sizeMd="3">
+                <ion-item class="w3-margin-bottom">
+                  <!-- <ion-label position="floating">Filter/Add Course</ion-label> -->
+                  <ion-select [(ngModel)]="filterCourse" (ionChange)="onCourseChange($event.detail.value); applyFilter()" class="w3-select w3-border">
+                    <ion-select-option [value]="0">All Courses</ion-select-option>
+                    <ion-select-option *ngFor="let c of courseList" [value]="c.id">{{ c.course_name }}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" sizeMd="3">
+                <ion-item class="w3-margin-bottom">
+                  <!-- <ion-label position="floating">Filter/Add Semester</ion-label> -->
+                  <ion-select [(ngModel)]="filterSemester" (ionChange)="applyFilter()" class="w3-select w3-border">
+                    <ion-select-option [value]="0">All Semesters</ion-select-option>
+                    <ion-select-option *ngFor="let sm of semesterList" [value]="sm.id">{{ sm.semester_name }}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" sizeMd="3">
+                <ion-item class="w3-margin-bottom">
+                  <!-- <ion-label position="floating">Add Subject</ion-label> -->
+                  <ion-select [(ngModel)]="selectedSubject" (ionChange)="addNewAllocation()" class="w3-select w3-border">
+                    <ion-select-option [value]="0">Select Subject</ion-select-option>
+                    <ion-select-option *ngFor="let sb of subjectList" [value]="sb.id">
+                      {{ sb.subject_name }}
+                      <ion-text color="medium" *ngIf="sb.assignedFacultyName">&nbsp;- {{ sb.assignedFacultyName }}</ion-text>
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- Faculty Allocation List -->
+    <ion-row style="margin-top: -50px;">
+      <ion-col size="12">
+        <div class="table-card w3-card-4 w3-white w3-padding">
+          <h2 class="table-title w3-indigo w3-center w3-padding">Faculty Allocation List</h2>
+          <ion-grid class="w3-responsive">
+            <ion-row class="table-header w3-indigo w3-text-white">
+              <ion-col size="1">Sl No.</ion-col>
+              <ion-col size="1">Session</ion-col>
+              <ion-col size="2">Course</ion-col>
+              <ion-col size="1">Semester</ion-col>
+              <ion-col size="2">Subject</ion-col>
+              <ion-col size="2">Faculty</ion-col>
+              <ion-col size="1">Actions</ion-col>
+            </ion-row>
+
+            <ion-row *ngFor="let row of paginatedRecognisationList; let i = index" class="table-row">
+              <ion-col size="1">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</ion-col>
+              <ion-col size="1">{{ getSessionName(row.session_id) }}</ion-col>
+              <ion-col size="2">{{ getCourseName(row.course_id) }}</ion-col>
+              <ion-col size="1">{{ getSemesterName(row.semester_id) }}</ion-col>
+              <ion-col size="2">{{ getSubjectName(row.subject_id) }}</ion-col>
+              <ion-col size="2">
+                <ion-select *ngIf="row.faculty_id; else noFaculty" [(ngModel)]="row.faculty_id" (ionChange)="markForUpdate(row)" class="w3-select w3-border">
+                  <ion-select-option *ngFor="let f of facultyList" [value]="f.faculty_master_id">{{ f.faculty_name }}</ion-select-option>
+                </ion-select>
+                <ng-template #noFaculty>
+                  <ion-select [(ngModel)]="row.selectedFaculty" (ionChange)="markForAdd(row)" class="w3-select w3-border">
+                    <ion-select-option [value]="0">Select Faculty</ion-select-option>
+                    <ion-select-option *ngFor="let f of facultyList" [value]="f.faculty_master_id">{{ f.faculty_name }}</ion-select-option>
+                  </ion-select>
+                </ng-template>
+              </ion-col>
+              <ion-col size="1">
+                <ion-icon *ngIf="row.faculty_id" name="trash-outline" class="w3-text-red w3-hover-text-red-dark w3-large" (click)="delete(row.id)" style="cursor: pointer;"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <!-- Pagination Controls -->
+          <ion-row class="pagination-controls w3-center w3-margin-top">
+            <ion-col size="auto">
+              <ion-button color="medium" size="small" [disabled]="currentPage === 1" (click)="previousPage()" class="w3-button w3-round w3-light-grey w3-hover-indigo">
+                Previous
+              </ion-button>
+            </ion-col>
+            <ion-col size="auto" *ngFor="let page of pageNumbers" class="pagination-button">
+              <ion-button [color]="currentPage === page ? 'primary' : 'medium'" size="small" (click)="goToPage(page)" class="w3-button w3-round {{ currentPage === page ? 'w3-indigo' : 'w3-light-grey w3-hover-indigo' }}">
+                {{ page }}
+              </ion-button>
+            </ion-col>
+            <ion-col size="auto">
+              <ion-button color="medium" size="small" [disabled]="currentPage === totalPages" (click)="nextPage()" class="w3-button w3-round w3-light-grey w3-hover-indigo">
+                Next
+              </ion-button>
+            </ion-col>
+             <ion-col size="12" sizeMd="4" class="w3-center">
+        <ion-button expand="block" color="primary" class="submit-button w3-button w3-round-large w3-blue w3-hover-blue-dark w3-margin-top" (click)="submitChanges()" [disabled]="!hasPendingChanges()">
+          Submit Changes
+        </ion-button>
+      </ion-col>
+          </ion-row>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- Submit Button -->
+    <ion-row>
+     
+    </ion-row>
+  </ion-grid>
+
+  <!-- Spinner -->
+  <ng-template #spinner>
+    <ion-spinner name="dots" *ngIf="loading" class="w3-margin w3-center"></ion-spinner>
+  </ng-template>
+</ion-content>

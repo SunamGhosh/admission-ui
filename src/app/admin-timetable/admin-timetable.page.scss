@@ -1,0 +1,59 @@
+.table-header {
+  border-bottom: 1px solid #ccc;
+  padding: 6px 0;
+}
+
+ion-select, ion-input {
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+/* W3.CSS toggle switch style */
+.w3-switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.w3-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.w3-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 20px;
+}
+
+.w3-slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.w3-switch input:checked + .w3-slider {
+  background-color: #2196F3;
+}
+
+.w3-switch input:checked + .w3-slider:before {
+  transform: translateX(16px);
+}
+.scroll-container {
+  max-height: 90vh; /* Adjust based on how much of the screen you want to use */
+  overflow-y: auto;
+  padding-bottom: 16px;
+}
