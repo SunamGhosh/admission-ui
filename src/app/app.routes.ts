@@ -289,6 +289,10 @@ export const routes: Routes = [
   {
     path: 'group-by-slot-pipe',
     loadComponent: () => import('./group-by-slot-pipe/group-by-slot-pipe.page').then( m => m.GroupBySlotPipePage)
+  },
+  {
+    path: 'fronthomepage',
+    loadComponent: () => import('./fronthomepage/fronthomepage.page').then( m => m.FronthomepagePage)
   }
 
 

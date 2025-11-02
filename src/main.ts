@@ -73,10 +73,11 @@ import { AdminTimetablePage } from './app/admin-timetable/admin-timetable.page';
 import { InfrastructurePage } from './app/infrastructure/infrastructure.page';
 import { FacultyRecognisationPage } from './app/faculty-recognisation/faculty-recognisation.page';
 import { AdminSchedulingTimetablePage } from './app/admin-scheduling-timetable/admin-scheduling-timetable.page';
+import { FronthomepagePage } from './app/fronthomepage/fronthomepage.page';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/fronthomepage', pathMatch: 'full' },
   
 
   { path: 'login', component: LoginPage }, // Redirect to UniversityPage on initial load
@@ -97,6 +98,8 @@ const routes: Routes = [
   { path: 'user-university', component: UserUniversityPage} ,
   { path: 'student-university', component: StudentUniversityPage} ,
   { path: 'register', component: RegisterPage} ,
+  { path: 'fronthomepage', component: FronthomepagePage} ,
+
 
 //  { path: 'genralmodules', component: GenralModulesPage},
 
