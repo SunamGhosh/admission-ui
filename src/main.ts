@@ -1,6 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+import { importProvidersFrom } from '@angular/core';
 import { RouteReuseStrategy, provideRouter, withPreloading, PreloadAllModules, Routes } from '@angular/router';
-import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
+import { IonicRouteStrategy, IonicModule } from '@ionic/angular';
 import { LayoutComponent } from './app/layout/layout.component';
 import { UniversityPage } from './app/university/university.page';
 import { KolhanUniversityPage } from './app/kolhan-university/kolhan-university.page';
@@ -264,7 +265,7 @@ const routes: Routes = [
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular(),
+    importProvidersFrom(IonicModule.forRoot({})),
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 });
