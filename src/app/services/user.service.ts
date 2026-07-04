@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Agent, Category, Chapter, Country, Course, Elective, Module, Office, Session, Specialisation, State, Subcategory, Subject, Template, User } from 'interface';
 
@@ -164,7 +164,7 @@ async add_category(category: { category_name: string; category_shortname: string
   }
 
 
-// ✔️ Update this to return full response object
+// âœ”ï¸ Update this to return full response object
 // async getAllModules(): Promise<{ ok: boolean, data: Module[] }> {
 //   const response = await this.api.post("/module/getall", {});
 //   return response;
@@ -223,7 +223,7 @@ async sendExamReminder(message: string) {
 }
 
 
-  // /** ✅ Download Student Excel File */
+  // /** âœ… Download Student Excel File */
   // async downloadStudentExcel() {
   //   const data = await this.api.post("/user/students/excel", {}); // No third argument
   //   return new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -273,7 +273,7 @@ async sendExamReminder(message: string) {
     return await this.api.post("/user/authenticate", body);
   }
   
-  base = "http://localhost:3000"; // change this to your server URL
+  base = "https://admission-api-suyk.onrender.com"; // change this to your server URL
   // async post(url: string, body: any) {
   //   try {
   //     const response = await fetch(this.base + url, {
@@ -379,19 +379,19 @@ async whatsapp_user_all(): Promise<{ ok: boolean; data?: User[]; error?: string 
 
   }
 
-  // ✅ Add Chapter
+  // âœ… Add Chapter
   async addChapter(ch: Chapter) {
     let data = await this.api.post("/chapter/add", ch);
     return data;
   }
 
-  // ✅ Update Chapter
+  // âœ… Update Chapter
   async updateChapter(ch: Chapter) {
     let data = await this.api.post("/chapter/update", ch);
     return data;
   }
 
-  // ✅ Soft Delete Chapter
+  // âœ… Soft Delete Chapter
   async deleteChapter(id: number) {
     let data = await this.api.post("/chapter/delete", { id });
     return data;
@@ -603,9 +603,9 @@ async addCity(state_id: number, city_name: string) {
 
 
 
-  private baseUrl = 'http://localhost:3000'; // Replace with actual API URL
+  private baseUrl = 'https://admission-api-suyk.onrender.com'; // Replace with actual API URL
 
-// ✅ GET method
+// âœ… GET method
 async get(endpoint: string): Promise<any> {
   try {
     const response = await fetch(`${this.baseUrl}${endpoint}`);
@@ -617,7 +617,7 @@ async get(endpoint: string): Promise<any> {
   }
 }
 
-// ✅ POST method
+// âœ… POST method
 async post(endpoint: string, data: any): Promise<any> {
   try {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
@@ -701,14 +701,14 @@ async uploadCourseStructure(semesterId: string,courseId:string, file: File) {
 
 
 
-// 🔹 Get All Question Banks
+// ðŸ”¹ Get All Question Banks
 async questionBank_get_all() {
   let data = await this.api.post("/question/getall", {});
   console.log('Question Bank data:', data);
   return data.data;
 }
 
-// 🔹 Upload Question Bank
+// ðŸ”¹ Upload Question Bank
 async uploadQuestionBank(semesterId: string, subjectId: string,courseId:string,name:string, file: File) {
   const formData = new FormData();
   formData.append('file', file);
@@ -716,12 +716,12 @@ async uploadQuestionBank(semesterId: string, subjectId: string,courseId:string,n
   formData.append('subject_id', subjectId);
   formData.append('course_id',courseId);
 
-  formData.append('name', name);  // ✅ Add assignment name here
+  formData.append('name', name);  // âœ… Add assignment name here
   let data = await this.api.uploadFile('/question/upload-question-bank', formData);
   return data;
 }
 
-// 🔹 Get Question Bank by Subject
+// ðŸ”¹ Get Question Bank by Subject
 async getQuestionBankBySubject(subjectId: string) {
   let data = await this.api.post("/question/get-question-bank-by-subject", {
     subject_id: subjectId,
@@ -732,28 +732,28 @@ async getQuestionBankBySubject(subjectId: string) {
 
 
 
-// 🔹 Get All University Questions
+// ðŸ”¹ Get All University Questions
 async universityQuestion_get_all() {
   let data = await this.api.post("/universityquestion/getall", {});
   console.log('University Question data:', data);
   return data.data;
 }
 
-// 🔹 Upload University Question
+// ðŸ”¹ Upload University Question
 async uploadUniversityQuestion(semesterId: string, subjectId: string, courseId:string,name:string, file: File) {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('semester_id', semesterId);
   formData.append('subject_id', subjectId);
   formData.append('course_id', courseId);
-  formData.append('name', name);  // ✅ Add assignment name here
+  formData.append('name', name);  // âœ… Add assignment name here
 
 
   let data = await this.api.uploadFile('/universityquestion/upload-university-question', formData);
   return data;
 }
 
-// 🔹 Get University Questions by Subject
+// ðŸ”¹ Get University Questions by Subject
 async getUniversityQuestionBySubject(subjectId: string) {
   let data = await this.api.post("/universityquestion/get-university-question-by-subject", {
     subject_id: subjectId,
@@ -762,28 +762,28 @@ async getUniversityQuestionBySubject(subjectId: string) {
 }
 
 
-// 🔹 Get All Assignments
+// ðŸ”¹ Get All Assignments
 async assignment_get_all() {
   let data = await this.api.post("/assignment/getall", {});
   console.log('Assignment data:', data);
   return data.data;
 }
 
-// 🔹 Upload Assignment
+// ðŸ”¹ Upload Assignment
 async uploadAssignment(semesterId: string, subjectId: string,courseId:string,name: string, file: File) {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('semester_id', semesterId);
   formData.append('subject_id', subjectId);
   formData.append('course_id', courseId);
-  formData.append('name', name);  // ✅ Add assignment name here
+  formData.append('name', name);  // âœ… Add assignment name here
 
 
   let data = await this.api.uploadFile('/assignment/upload-assignment', formData);
   return data;
 }
 
-// 🔹 Get Assignments by Subject
+// ðŸ”¹ Get Assignments by Subject
 async getAssignmentBySubject(subjectId: string) {
   let data = await this.api.post("/assignment/get-assignment-by-subject", {
     subject_id: subjectId,

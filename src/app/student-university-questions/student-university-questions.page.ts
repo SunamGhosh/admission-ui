@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
@@ -19,7 +19,7 @@ export class StudentUniversityQuestionsPage implements OnInit {
   courses: Course[] = [];
   semesters: Semester[] = [];
   subjects: any[] = [];
-  selectedSemesterId: number = 0; // 🌟 This controls the selected tab
+  selectedSemesterId: number = 0; // ðŸŒŸ This controls the selected tab
 
   constructor(private us: UserService, private sanitizer: DomSanitizer) {}
 
@@ -69,7 +69,7 @@ export class StudentUniversityQuestionsPage implements OnInit {
   }
 
   getSafeUrl(filePath: string): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost:3000/' + filePath);
+    return this.sanitizer.bypassSecurityTrustResourceUrl('https://admission-api-suyk.onrender.com/' + filePath);
   }
 }
 

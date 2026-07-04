@@ -1,4 +1,4 @@
-<ion-header>
+﻿<ion-header>
   <ion-toolbar color="tertiary">
   
     <ion-title style="text-align: center;">View Documents</ion-title>
@@ -95,7 +95,7 @@
           <ion-label>{{ doc.file_name }}</ion-label>
           <ion-label>{{ doc.updated_at }}</ion-label>
 
-          <a [href]="'http://localhost:3000/' + doc.file_path" download target="_blank">
+          <a [href]="'https://admission-api-suyk.onrender.com/' + doc.file_path" download target="_blank">
           <ion-button  color="success">
             Download
           </ion-button>

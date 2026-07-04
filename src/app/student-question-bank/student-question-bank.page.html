@@ -1,4 +1,4 @@
-<ion-header>
+﻿<ion-header>
   <ion-toolbar color="tertiary">
     <ion-title class="ion-text-center">Question Bank</ion-title>
   </ion-toolbar>
@@ -42,7 +42,7 @@
               <td>{{ getSubjectName(qb.subject_id) }}</td>
               <td>{{ qb.file_name }}</td>
               <td>
-                <a [href]="'http://localhost:3000/' + qb.file_path" download target="_blank">
+                <a [href]="'https://admission-api-suyk.onrender.com/' + qb.file_path" download target="_blank">
                   <ion-button size="small" color="success" fill="outline">Download</ion-button>
                 </a>
               </td>

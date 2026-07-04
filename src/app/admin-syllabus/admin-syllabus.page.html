@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+﻿<ion-header [translucent]="true">
   <ion-toolbar color="tertiary">
     <ion-title style="text-align: center;"> Syllabus</ion-title>
   </ion-toolbar>
@@ -82,7 +82,7 @@
           <th>File Name</th>
           <th>Semester</th>
           <th>Course</th>
-          <th>Download</th> <!-- ✅ New Column -->
+          <th>Download</th> <!-- âœ… New Column -->
          
         </tr>
       </thead>
@@ -94,7 +94,7 @@
           <td>{{ getSemesterName(syllabus.semester_id) }}</td>
           <td>{{ getCourseName(syllabus.course_id) }}</td>
           <td>
-            <a [href]="'http://localhost:3000/' + syllabus.file_path" download target="_blank">
+            <a [href]="'https://admission-api-suyk.onrender.com/' + syllabus.file_path" download target="_blank">
 
               <ion-button fill="outline" size="small" color="success">
                 Download

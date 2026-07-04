@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+﻿<ion-header [translucent]="true">
   <ion-toolbar color="tertiary">
     <ion-title class="ion-text-center">Assignment</ion-title>
   </ion-toolbar>
@@ -60,7 +60,7 @@
          
           <input type="file" (change)="onFileSelect($event)" />
         </ion-item>
-        <ion-note *ngIf="filePreview" color="success">📎 {{ filePreview }}</ion-note>
+        <ion-note *ngIf="filePreview" color="success">ðŸ“Ž {{ filePreview }}</ion-note>
       </ion-col>
 
     </ion-row>
@@ -111,7 +111,7 @@
           <td>{{ getSemesterName(a.semester_id) }}</td>
           <td>{{ getSubjectName(a.subject_id) }}</td>
           <td>
-            <a [href]="'http://localhost:3000/' + a.file_path" download target="_blank">
+            <a [href]="'https://admission-api-suyk.onrender.com/' + a.file_path" download target="_blank">
               <ion-button size="small" color="success" fill="outline">Download</ion-button>
             </a>
           </td>

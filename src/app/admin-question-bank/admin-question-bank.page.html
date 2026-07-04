@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+﻿<ion-header [translucent]="true">
   <ion-toolbar color="tertiary">
     <ion-title class="ion-text-center"> Question Bank</ion-title>
   </ion-toolbar>
@@ -61,7 +61,7 @@
      
       <!-- Show selected file name -->
       <ion-col size="12" *ngIf="filePreview">
-        <ion-label class="ion-text-wrap w3-text-white">✅ Selected File: {{ filePreview }}</ion-label>
+        <ion-label class="ion-text-wrap w3-text-white">âœ… Selected File: {{ filePreview }}</ion-label>
       </ion-col>
     </ion-row>
 
@@ -110,7 +110,7 @@
           <td>{{ getSemesterName(qb.semester_id) }}</td>
           <td>{{ getSubjectName(qb.subject_id) }}</td>
           <td>
-            <a [href]="'http://localhost:3000/' + qb.file_path" download target="_blank">
+            <a [href]="'https://admission-api-suyk.onrender.com/' + qb.file_path" download target="_blank">
               <ion-button fill="outline" size="small" color="success">
                 Download
               </ion-button>

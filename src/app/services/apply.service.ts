@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { ApplyOnline } from 'interface';
 
@@ -14,7 +14,7 @@ export class ApplyService {
     console.log("Submitting Application Data:", JSON.stringify(aon));
   
     try {
-        let response = await fetch("http://localhost:3000/apply/add", {
+        let response = await fetch("https://admission-api-suyk.onrender.com/apply/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -33,14 +33,14 @@ export class ApplyService {
 
     async next_application_no() {
       let data = await this.api.post("/apply/application-no", {}); 
-      console.log("API Response:", data); // ✅ Check API response
-      return data.nextApplicationNo; // ✅ Correctly returning nextApplicationNo
+      console.log("API Response:", data); // âœ… Check API response
+      return data.nextApplicationNo; // âœ… Correctly returning nextApplicationNo
   }
   
-// ✅ New method to check incomplete fields and send WhatsApp reminder
+// âœ… New method to check incomplete fields and send WhatsApp reminder
   async checkIncompleteFieldsAndRemind(id: number) {
     try {
-      const response = await fetch("http://localhost:3000/apply/check-incomplete-fields-and-remind", {
+      const response = await fetch("https://admission-api-suyk.onrender.com/apply/check-incomplete-fields-and-remind", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

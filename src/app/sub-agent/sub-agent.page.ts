@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
@@ -58,12 +58,12 @@ interface SubAgent {
 export class SubAgentPage implements OnInit {
   agents: Agent[] = [];
   subagent: Partial<SubAgent> = {}; // Holds form data
-  subagents: SubAgent[] = [];  // ✅ Added this to store sub-agents list
+  subagents: SubAgent[] = [];  // âœ… Added this to store sub-agents list
   constructor(private api: ApiService, private alertCtrl: AlertController) {}
 
   ngOnInit() {
     this.loadAgents();
-    this.loadSubAgents();  // ✅ Call this function to load sub-agents
+    this.loadSubAgents();  // âœ… Call this function to load sub-agents
     this.getNextSubAgentId()
   }
 
@@ -72,7 +72,7 @@ export class SubAgentPage implements OnInit {
       const token = localStorage.getItem("token");
   
       // API request to download Agent Excel
-      const response = await fetch("http://localhost:3000/sub-agent/excel", {
+      const response = await fetch("https://admission-api-suyk.onrender.com/sub-agent/excel", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -106,11 +106,11 @@ export class SubAgentPage implements OnInit {
     } catch (error) {
       console.error('Error fetching agents:', error);
     }
-  } // ✅ Function to load sub-agents
+  } // âœ… Function to load sub-agents
   async loadSubAgents() {
     try {
       let response = await this.api.post('/sub-agent/getall', {}); 
-      this.subagents = response.data || [];  // ✅ Update sub-agent list
+      this.subagents = response.data || [];  // âœ… Update sub-agent list
     } catch (error) {
       console.error('Error fetching sub-agents:', error);
     }
@@ -155,7 +155,7 @@ export class SubAgentPage implements OnInit {
       console.log('API Response:', response); // Debugging
   
       if (response.ok) {
-        this.subagent.id = response.nextId; // ✅ Store next ID in the `subagent` object
+        this.subagent.id = response.nextId; // âœ… Store next ID in the `subagent` object
       } else {
         console.error('Error fetching next ID:', response.msg);
         this.showAlert('Error', 'Failed to fetch the next Sub-Agent ID.');
@@ -167,16 +167,16 @@ export class SubAgentPage implements OnInit {
   }
   
 
-  // ✅ Method to get Agent Name by agent_id
+  // âœ… Method to get Agent Name by agent_id
   getAgentName(agent_id: number): string {
     const agent = this.agents.find(a => a.id=== agent_id);
     return agent ? agent.agent_name : 'Unknown Agent';
   }
-  filteredSubAgents: SubAgent[] = []; // ✅ This will hold the filtered sub-agents
+  filteredSubAgents: SubAgent[] = []; // âœ… This will hold the filtered sub-agents
   searchAgentName: string = '';
   searchSubAgentName: string = '';
   searchEmailOrMobile: string = '';
- // ✅ Apply Filter Logic
+ // âœ… Apply Filter Logic
  applyFilter() {
   this.filteredSubAgents = this.subagents.filter(subAgent => {
     const agentName = this.getAgentName(subAgent.agent_id).toLowerCase();

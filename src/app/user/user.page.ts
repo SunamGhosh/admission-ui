@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -35,8 +35,8 @@ export class UserPage implements OnInit {
     locality: '',
     area: '',
     pin: '',
-    state: 0,  // ✅ Add this property
-    city: '',  // ✅ Add this property
+    state: 0,  // âœ… Add this property
+    city: '',  // âœ… Add this property
   };
 
   permanentAddress = {
@@ -44,8 +44,8 @@ export class UserPage implements OnInit {
     locality: '',
     area: '',
     pin: '',
-    state: 0,  // ✅ Add this property
-    city: '',  // ✅ Add this property
+    state: 0,  // âœ… Add this property
+    city: '',  // âœ… Add this property
   };
 
   copyAddress() {
@@ -155,7 +155,7 @@ export class UserPage implements OnInit {
   //   }
   
   //   const fileName = this.misFilePath.split('/').pop(); // Extract filename
-  //   const downloadUrl = `http://localhost:3000/download-mis/${fileName}`; // Example
+  //   const downloadUrl = `https://admission-api-suyk.onrender.com/download-mis/${fileName}`; // Example
 
     
   //   window.open(downloadUrl, '_blank');
@@ -186,7 +186,7 @@ export class UserPage implements OnInit {
   //     const token = localStorage.getItem("token");
   
   //     // API request to download the Excel file
-  //     const response = await fetch("http://localhost:3000/user/students/excel", {
+  //     const response = await fetch("https://admission-api-suyk.onrender.com/user/students/excel", {
   //       method: "POST",
   //       headers: token ? { "Authorization": `Bearer ${token}` } : {}, // Include token if available
   //     });
@@ -234,7 +234,7 @@ export class UserPage implements OnInit {
       const selectedSession = this.selectedSession || null; // **Fix: Use correct session variable**
   
       // API request to download filtered Excel
-      const response = await fetch("http://localhost:3000/user/students/excel", {
+      const response = await fetch("https://admission-api-suyk.onrender.com/user/students/excel", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -713,7 +713,7 @@ async fetchPincodeData() {
     const response = await this.pincodeService.getPincodes();
     if (response.ok) {
       this.pincodeData = response.data;
-      console.log("Pincode Data Loaded:", this.pincodeData); // ✅ Debugging
+      console.log("Pincode Data Loaded:", this.pincodeData); // âœ… Debugging
     } else {
       console.error("Failed to fetch pincode data from API.");
       this.pincodeData = [];
@@ -768,7 +768,7 @@ async loadStates() {
   try {
     const response = await this.us.state_all(); // Fetch from API
     if (response.ok) {
-      this.sta = response.data;  // ✅ Store states in `sta`
+      this.sta = response.data;  // âœ… Store states in `sta`
       console.log("Loaded states:", this.sta);
     } else {
       console.error("Failed to load states");

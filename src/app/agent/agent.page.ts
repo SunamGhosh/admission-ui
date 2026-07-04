@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
@@ -26,7 +26,7 @@ export class AgentPage implements OnInit {
       const token = localStorage.getItem("token");
   
       // API request to download Agent Excel
-      const response = await fetch("http://localhost:3000/agent/agents/excel", {
+      const response = await fetch("https://admission-api-suyk.onrender.com/agent/agents/excel", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export class AgentPage implements OnInit {
       console.log('API Response:', response); // Debugging
   
       if (response.ok) {
-        this.agent.id = response.nextId; // ✅ Store next ID in the `agent` object
+        this.agent.id = response.nextId; // âœ… Store next ID in the `agent` object
       } else {
         console.error('Error fetching next ID:', response.msg);
         this.showAlert('Error', 'Failed to fetch the next ID.');

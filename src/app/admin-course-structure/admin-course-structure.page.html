@@ -1,4 +1,4 @@
-<ion-header translucent="true">
+﻿<ion-header translucent="true">
   <ion-toolbar color="tertiary">
     <ion-title class="ion-text-center">Course Structure</ion-title>
   </ion-toolbar>
@@ -68,7 +68,7 @@
           <td>{{ getSemesterName(cs.semester_id) }}</td>
           <td>{{ cs.file_name }}</td>
           <td>
-            <a [href]="'http://localhost:3000/' + cs.file_path" download target="_blank">
+            <a [href]="'https://admission-api-suyk.onrender.com/' + cs.file_path" download target="_blank">
               <ion-button color="success" size="small">Download</ion-button>
             </a>
           </td>

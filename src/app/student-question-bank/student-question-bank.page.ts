@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
@@ -68,6 +68,6 @@ export class StudentQuestionBankPage implements OnInit {
   }
 
   getSafeUrl(filePath: string): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost:3000/' + filePath);
+    return this.sanitizer.bypassSecurityTrustResourceUrl('https://admission-api-suyk.onrender.com/' + filePath);
   }
 }

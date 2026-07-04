@@ -1,4 +1,4 @@
-<ion-header>
+﻿<ion-header>
   <ion-toolbar color="tertiary">
     <ion-title class="ion-text-center">Assignment</ion-title>
   </ion-toolbar>
@@ -33,7 +33,7 @@
             <td>{{ a.file_name }}</td>
             <td>{{ getSubjectName(a.subject_id) }}</td>
             <td>
-              <a [href]="'http://localhost:3000/' + a.file_path" download target="_blank">
+              <a [href]="'https://admission-api-suyk.onrender.com/' + a.file_path" download target="_blank">
                 <ion-button fill="outline" size="small" color="success">
                   Download
                 </ion-button>

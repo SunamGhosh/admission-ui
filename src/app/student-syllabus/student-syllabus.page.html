@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+﻿<ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-title class="ion-text-center">Syllabus</ion-title>
   </ion-toolbar>
@@ -34,7 +34,7 @@
       <!-- Image Preview -->
       <ion-img
         *ngIf="isImage(syllabus.file_path)"
-        [src]="'http://localhost:3000/' + syllabus.file_path"
+        [src]="'https://admission-api-suyk.onrender.com/' + syllabus.file_path"
         alt="Syllabus"
         class="ion-margin-vertical">
       </ion-img>
@@ -44,7 +44,7 @@
         expand="block"
         fill="outline"
         color="success"
-        [href]="'http://localhost:3000/' + syllabus.file_path"
+        [href]="'https://admission-api-suyk.onrender.com/' + syllabus.file_path"
         download>
         Download File
       </ion-button>

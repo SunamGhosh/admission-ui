@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
@@ -21,13 +21,13 @@ export class OfficeStaffPage implements OnInit {
 
   constructor(private api: ApiService, private fb: FormBuilder,private utils:UtilsService) {
     this.officeForm = this.fb.group({
-      id: [{ value: '', disabled: true }],  // ✅ Add this line
+      id: [{ value: '', disabled: true }],  // âœ… Add this line
         first_name: ['', [Validators.required, Validators.minLength(2)]],
         last_name: ['', [Validators.required, Validators.minLength(2)]],
-        email: ['', [Validators.required, Validators.email]], // ✅ Fix Email Validation
-        mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], // ✅ Exactly 10 digits
+        email: ['', [Validators.required, Validators.email]], // âœ… Fix Email Validation
+        mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]], // âœ… Exactly 10 digits
         DOB: [null], 
-        aadhar_no: ['', [Validators.required, Validators.pattern('^[0-9]{12}$')]], // ✅ Exactly 12 digits
+        aadhar_no: ['', [Validators.required, Validators.pattern('^[0-9]{12}$')]], // âœ… Exactly 12 digits
         password: ['', [Validators.required, Validators.minLength(6)]],
         father_name: ['', Validators.required],
         mother_name: ['', Validators.required]
@@ -93,8 +93,8 @@ export class OfficeStaffPage implements OnInit {
       console.log('API Response:', response); // Debugging
   
       if (response.ok && response.nextId) {
-        this.officeForm.patchValue({ id: response.nextId }); // ✅ Correctly update form
-        this.officeForm.updateValueAndValidity(); // ✅ Force Angular to detect changes
+        this.officeForm.patchValue({ id: response.nextId }); // âœ… Correctly update form
+        this.officeForm.updateValueAndValidity(); // âœ… Force Angular to detect changes
       } else {
         console.error('Error fetching next ID:', response.msg);
         this.utils.toast('Failed to fetch the next ID.');
@@ -128,7 +128,7 @@ export class OfficeStaffPage implements OnInit {
       const token = localStorage.getItem("token");
 
       // API request to download Office Staff Excel
-      const response = await fetch("http://localhost:3000/office/excel", {
+      const response = await fetch("https://admission-api-suyk.onrender.com/office/excel", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

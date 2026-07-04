@@ -1,4 +1,4 @@
-<ion-header>
+﻿<ion-header>
   <ion-toolbar color="tertiary">
     <ion-title class="ion-text-center">University Questions</ion-title>
   </ion-toolbar>
@@ -44,7 +44,7 @@
               <td>{{ uq.file_name }}</td>
               <td>{{ uq.updated_at | date: 'short' }}</td>
               <td>
-                <a [href]="'http://localhost:3000/' + uq.file_path" download target="_blank">
+                <a [href]="'https://admission-api-suyk.onrender.com/' + uq.file_path" download target="_blank">
                   <ion-button size="small" color="success" fill="outline">Download</ion-button>
                 </a>
               </td>

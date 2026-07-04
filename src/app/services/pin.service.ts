@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PinService {
 
-//   private apiUrl = 'http://localhost:3000/api/pincodes'; // Change as per your backend
+//   private apiUrl = 'https://admission-api-suyk.onrender.com/api/pincodes'; // Change as per your backend
 
 //   constructor() {}
 
@@ -26,9 +26,9 @@ export class PinService {
 //   }
 
 //   removePincode(id: number): Promise<any> {
-//     return fetch(`http://localhost:3000/api/pincodes/delete/${id}`, {
+//     return fetch(`https://admission-api-suyk.onrender.com/api/pincodes/delete/${id}`, {
 //       method: "DELETE",
-//     }).then(response => response.json()); // ✅ JSON is already parsed here
+//     }).then(response => response.json()); // âœ… JSON is already parsed here
 //   }
 
 
@@ -44,19 +44,19 @@ export class PinService {
 // }  
 
 
-private apiUrl = 'http://localhost:3000/api/pincodes'; 
-private stateUrl = 'http://localhost:3000/api/states';  
-private countryUrl = 'http://localhost:3000/api/countries';  
+private apiUrl = 'https://admission-api-suyk.onrender.com/api/pincodes'; 
+private stateUrl = 'https://admission-api-suyk.onrender.com/api/states';  
+private countryUrl = 'https://admission-api-suyk.onrender.com/api/countries';  
 
 constructor() {}
 
-// ✅ Fetch all Pincodes
+// âœ… Fetch all Pincodes
 async getPincodes() {
   const response = await fetch(`${this.apiUrl}/getall`);
   return response.json();
 }
 
-// ✅ Add new Pincode
+// âœ… Add new Pincode
 async addPincode(pincode: any) {
   const response = await fetch(`${this.apiUrl}/add`, {
     method: 'POST',
@@ -66,7 +66,7 @@ async addPincode(pincode: any) {
   return response.json();
 }
 
-// ✅ Remove Pincode
+// âœ… Remove Pincode
 async removePincode(id: number) {
   const response = await fetch(`${this.apiUrl}/delete/${id}`, {
     method: 'DELETE'
@@ -74,7 +74,7 @@ async removePincode(id: number) {
   return response.json();
 }
 
-// ✅ Update Pincode
+// âœ… Update Pincode
 async updatePincode(id: number, pincode: any) {
   const response = await fetch(`${this.apiUrl}/edit/${id}`, {
     method: 'PUT',
@@ -84,13 +84,13 @@ async updatePincode(id: number, pincode: any) {
   return response.json();
 }
 
-// ✅ Fetch all States from MySQL
+// âœ… Fetch all States from MySQL
 async getStates() {
   const response = await fetch(this.stateUrl);
   return response.json();
 }
 
-// ✅ Fetch all Countries from MySQL
+// âœ… Fetch all Countries from MySQL
 async getCountries() {
   const response = await fetch(this.countryUrl);
   return response.json();
